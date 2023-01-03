@@ -40,7 +40,7 @@ io.use((socket, next) => {
 });
 initSocket();
 
-const port = process.env.PORT || 5432;
+const port = process.env.PORT || 3000;
 server.listen(port, () => {
     console.log(`listening on :${port}`);
 });
