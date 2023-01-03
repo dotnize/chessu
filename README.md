@@ -1,5 +1,7 @@
 # chessu
 
+> This project is still in the early stages of development and should be considered highly unstable. Expect bugs, weird behavior, and bad code. (see #1)
+
 Online 2-player chess. Live demo at [ches.su](https://ches.su)
 
 - React 18
@@ -12,26 +14,19 @@ Online 2-player chess. Live demo at [ches.su](https://ches.su)
 
 ## Development
 
-Root directory
+This repository is used for production deployments. You will need to make changes to the configuration to get this running locally.
 
 ```sh
 npm install # install all dependencies
 
-npm run dev # concurrently run frontend and backend test servers
-
-npm run build # build frontend and backend for production (see dist/ folders)
+npm run dev # concurrently run frontend and backend dev servers
 
 npm run react-dev # run frontend server only
 ```
 
 ### Environment variables
 
-Client: `APIURL`
+Client: `APIURL` (or just change `apiUrl` in `/client/src/config/config.ts`)
 
 Server: `SESSION_SECRET`, `PGUSER`, `PGPASSWORD`, `PGHOST`, `PGDATABASE`, `PGPORT`
-
-## To-do (move this to issues):
-
-- [] real-time games with chat & observer support
-- [] user authentication with oauth2 support (optional)
-- [] RESTful API for non-real-time games like daily chess
+(also see server cors config and session middleware for local development)
