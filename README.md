@@ -28,5 +28,5 @@ npm run react-dev # run frontend server only
 
 Client: `APIURL` (or just change `apiUrl` in `/client/src/config/config.ts`)
 
-Server: `SESSION_SECRET`, `PGUSER`, `PGPASSWORD`, `PGHOST`, `PGDATABASE`, `PGPORT`
+Server: `PORT`, `SESSION_SECRET`, `PGUSER`, `PGPASSWORD`, `PGHOST`, `PGDATABASE`, `PGPORT`
 (also see server cors config and session middleware for local development)
