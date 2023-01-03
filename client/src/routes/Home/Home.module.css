@@ -1,0 +1,117 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.gameNotFound {
+  position: absolute;
+  color: var(--blue11);
+}
+.name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 2em;
+}
+
+.label {
+  line-height: 2em;
+  user-select: none;
+}
+
+.input {
+  height: 2em;
+  width: 50%;
+  flex-grow: 0;
+  padding: 0 0.5em;
+  background-color: var(--blue3);
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--blue6);
+  color: var(--blue12);
+}
+
+.input:focus,
+.select:focus {
+  box-shadow: 0 0 0 1px var(--blue8);
+}
+
+.tabs,
+.tabContent {
+  width: 70%;
+}
+
+.tabContent {
+  height: 10em;
+  padding: 1.5em 0.5em 0.5em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.select {
+  width: 50%;
+  height: 2em;
+  padding: 0 0.5em;
+  background-color: var(--blue3);
+  box-shadow: 0 0 0 1px var(--blue6);
+  color: var(--blue12);
+}
+
+.submit {
+  cursor: pointer;
+  margin-top: 1em;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.4em 0;
+  flex-basis: 50%;
+  color: var(--blue1);
+  background-color: var(--blue10);
+}
+
+.submit:hover,
+.submit:focus {
+  background-color: var(--blue11);
+}
+
+.tabContent .input {
+  width: 45%;
+  background-color: var(--blue4);
+}
+
+.tabContent {
+  font-size: 0.9em;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.tabLeft {
+  border-top-left-radius: 8px;
+}
+
+.tabRight {
+  border-top-right-radius: 8px;
+}
+
+.tab {
+  border: 2px solid var(--blue3);
+  padding: 4px 0;
+  background-color: var(--blue3);
+  color: var(--blue12);
+  width: 50%;
+}
+
+.tabActive,
+.tabContent {
+  background-color: var(--blue5);
+}
+@media only screen and (max-width: 550px) {
+  .tabs,
+  .tabContent {
+    width: 75%;
+  }
+}

@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/blueDark.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+body {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--blue1);
+  color: var(--blue12);
+}
+
+main {
+  margin-top: 1em;
+  min-height: 300px;
+  padding: 1.5em;
+  border-radius: 0.5em;
+  background-color: var(--blue2);
+  margin: auto;
+  display: inline-block;
+  min-width: 450px;
+  max-width: 900px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 550px) {
+  main {
+    min-width: 90%;
+  }
+}

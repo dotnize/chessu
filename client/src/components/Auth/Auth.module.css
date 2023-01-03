@@ -1,0 +1,125 @@
+.authBox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  position: relative;
+}
+
+.orRegister {
+  font-size: 70%;
+}
+
+.orRegister a {
+  color: var(--blue11);
+  text-decoration: underline;
+}
+
+.authBox h3 {
+  margin-bottom: 1em;
+}
+
+.section {
+  flex: 1;
+  width: 50%;
+  min-width: 250px;
+  padding: 20px;
+  position: relative;
+}
+
+.sectionDisabled {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  backdrop-filter: blur(1px);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.sectionLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /*border-right: 1px solid #eee;*/
+}
+
+.sectionRight {
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.formLabel {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.formInput {
+  background-color: var(--blue4);
+  box-shadow: 0 0 0 1px var(--blue6);
+  color: var(--blue12);
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.formInput:focus {
+  box-shadow: 0 0 0 1px var(--blue8);
+}
+
+.formButton {
+  border-radius: 4px;
+  background-color: var(--blue10);
+  color: var(--blue1);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.formButton:focus,
+.formButton:hover {
+  background-color: var(--blue11);
+}
+
+.oauth {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.oauthButton {
+  width: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.oauthButton img {
+  width: 100%;
+}

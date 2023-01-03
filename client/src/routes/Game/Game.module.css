@@ -1,0 +1,121 @@
+.game {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5em;
+}
+
+.boardContainer {
+  text-align: left;
+}
+
+.playerNameTop {
+  margin-bottom: 0.5em;
+}
+.playerNameBottom {
+  margin-top: 0.5em;
+}
+.playButton {
+  padding: 0.5em;
+  margin: 0.5em 0;
+  cursor: pointer;
+  background-color: var(--blue10);
+  color: var(--blue1);
+  font-weight: bold;
+  font-size: 1em;
+}
+.playButton:hover,
+.playButton:focus {
+  background-color: var(--blue11);
+}
+
+.sidebar {
+  text-align: left;
+  font-size: 0.9em;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2em;
+}
+
+.invite {
+  text-align: right;
+}
+
+.copy {
+  font-size: 0.8em;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  background-color: var(--blue4);
+}
+
+.lobby {
+  height: 6em;
+  width: 260px;
+}
+.lobbyUsers {
+  font-size: 0.8em;
+  overflow: wrap;
+}
+
+.chatbox {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  background-color: var(--blue3);
+  border-radius: 10px;
+  width: 260px;
+  height: 280px;
+}
+
+.chatList {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  height: 100%;
+}
+.chatList::-webkit-scrollbar {
+  width: 0.4em;
+}
+.chatList::-webkit-scrollbar-thumb {
+  background-color: var(--blue6);
+  border-radius: 2px;
+}
+
+.author {
+  font-weight: bold;
+}
+.player {
+  font-weight: bold;
+  color: var(--blue9);
+}
+.server {
+  color: var(--blue11);
+}
+.gameOver {
+  background-color: var(--blue12);
+  color: var(--blue1);
+  font-weight: bold;
+  padding: 0.4em;
+}
+
+.chatInput {
+  display: block;
+  height: 2em;
+  padding: 0 0.5em;
+  border-radius: 6px;
+  width: 228px;
+  margin-top: auto;
+  flex-shrink: 0;
+  background-color: var(--blue5);
+  box-shadow: 0 0 0 1px var(--blue6);
+  color: var(--blue12);
+}
+
+.chatInput:hover,
+.chatInput:focus {
+  box-shadow: 0 0 0 1px var(--blue7);
+}
