@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, useReducer } from "react";
-import { Chess, Move } from "chess.js";
-import { Chessboard, Square, Pieces } from "react-chessboard";
+import { Chess, Move, Square } from "chess.js";
+import { Chessboard } from "react-chessboard";
 import { SocketContext } from "../../context/socket";
 import { SessionContext } from "../../context/session";
 import type { Game } from "@types";
@@ -92,7 +92,7 @@ const Board = () => {
     return result;
   }
 
-  function isDraggablePiece({ piece }: { piece: Pieces }) {
+  function isDraggablePiece({ piece }: { piece: string }) {
     if (side === "s") return true;
     return piece.startsWith(side);
   }
@@ -139,7 +139,7 @@ const Board = () => {
     setOptionSquares(newSquares);
   }
 
-  function onPieceDragBegin(_piece: Pieces, sourceSquare: Square) {
+  function onPieceDragBegin(_piece: string, sourceSquare: Square) {
     if (side !== game.turn()) return;
 
     getMoveOptions(sourceSquare);
