@@ -21,7 +21,6 @@ export const setGuestSession = async (name: string) => {
         },
         body: JSON.stringify({ name })
     });
-    console.log(res);
     if (res.status === 201) {
         const user: User = await res.json();
         return user;
