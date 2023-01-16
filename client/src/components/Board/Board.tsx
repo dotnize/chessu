@@ -39,10 +39,8 @@ const Board = () => {
 
     socket.on("receivedLatestGame", (latestGame: Game) => {
       if (latestGame.pgn) {
-        const loadSuccess = game.loadPgn(latestGame.pgn);
-        if (loadSuccess) {
-          forceUpdate();
-        }
+        game.loadPgn(latestGame.pgn);
+        forceUpdate();
       }
       if (latestGame.black?.id === session?.user.id) {
         if (side !== "b") setSide("b");
@@ -80,16 +78,21 @@ const Board = () => {
   }
 
   function makeMove(m: { from: string; to: string; promotion?: string }) {
-    const result = game.move({ from: m.from, to: m.to });
-    if (result) {
-      setOptionSquares({
-        [m.from]: { background: "rgba(255, 255, 0, 0.4)" },
-        [m.to]: { background: "rgba(255, 255, 0, 0.4)" }
-      });
-    } else {
+    try {
+      const result = game.move(m);
+      if (result) {
+        setOptionSquares({
+          [m.from]: { background: "rgba(255, 255, 0, 0.4)" },
+          [m.to]: { background: "rgba(255, 255, 0, 0.4)" }
+        });
+        return result;
+      } else {
+        throw new Error("invalid move");
+      }
+    } catch (e) {
       setOptionSquares({});
+      return false;
     }
-    return result;
   }
 
   function isDraggablePiece({ piece }: { piece: string }) {
@@ -100,13 +103,15 @@ const Board = () => {
   function onDrop(sourceSquare: Square, targetSquare: Square) {
     if (side !== game.turn()) return false;
 
-    const move = makeMove({
+    const moveDetails = {
       from: sourceSquare,
       to: targetSquare,
       promotion: "q"
-    });
-    if (move === null) return false; // illegal move
-    socket?.emit("sendMove", { from: move.from, to: move.to });
+    };
+
+    const move = makeMove(moveDetails);
+    if (!move) return false; // illegal move
+    socket?.emit("sendMove", moveDetails);
     return true;
   }
 
@@ -163,16 +168,18 @@ const Board = () => {
       return;
     }
 
-    const move = makeMove({
+    const moveDetails = {
       from: moveFrom as Square,
       to: square,
       promotion: "q"
-    });
-    if (move === null) {
+    };
+
+    const move = makeMove(moveDetails);
+    if (!move) {
       resetFirstMove(square);
     } else {
       setMoveFrom("");
-      socket?.emit("sendMove", { from: move.from, to: move.to });
+      socket?.emit("sendMove", moveDetails);
     }
   }
 

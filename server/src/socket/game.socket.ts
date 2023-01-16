@@ -127,7 +127,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
         this.emit("receivedLatestGame", game);
     } else {
         game.pgn = chess.pgn();
-        this.to(game.code as string).emit("receivedMove", { from: m.from, to: m.to });
+        this.to(game.code as string).emit("receivedMove", m);
     }
 }
 
