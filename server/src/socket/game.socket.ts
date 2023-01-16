@@ -20,6 +20,11 @@ export async function joinLobby(this: Socket, gameCode: string) {
         await leaveLobby.call(this);
     }
 
+    if (game.timeout) {
+        clearTimeout(game.timeout);
+        game.timeout = undefined;
+    }
+
     await this.join(gameCode);
     this.emit("receivedLatestGame", game);
     io.to(game.code as string).emit("receivedLatestLobby", game);
@@ -27,63 +32,47 @@ export async function joinLobby(this: Socket, gameCode: string) {
 }
 
 export async function leaveLobby(this: Socket, code?: string) {
-    if (this.rooms.size === 2) {
-        const game = activeGames.find((g) => g.code === (code || Array.from(this.rooms)[1]));
-        if (game) {
-            const user = game.observers?.find((o) => o.id === this.request.session.id);
-            let name = "";
-            if (user) {
-                name = user.name as string;
-                game.observers?.splice(game.observers?.indexOf(user), 1);
-            }
-            if (game.black?.id === this.request.session.id) {
-                name = game.black?.name as string;
-                game.black = undefined;
-            }
-            if (game.white?.id === this.request.session.id) {
-                name = game.white?.name as string;
-                game.white = undefined;
-            }
-
-            if (!game.white && !game.black && !game.observers) {
-                // TODO
-                //activeGames.splice(activeGames.indexOf(game), 1); // remove game if empty
-            } else {
-                this.to(game.code as string).emit("userLeft", name);
-                this.to(game.code as string).emit("receivedLatestLobby", game);
-            }
-        }
-        await this.leave(code || Array.from(this.rooms)[1]);
-    } else if (this.rooms.size >= 3) {
+    if (this.rooms.size >= 3 && !code) {
         console.log(`[WARNING] leaveLobby: room size is ${this.rooms.size}, aborting...`);
-    } else {
-        // try to find a game with this user
-        const game = activeGames.find(
-            (g) =>
-                g.code === code ||
-                g.black?.id === this.request.session.id ||
-                g.white?.id === this.request.session.id ||
-                g.observers?.find((o) => this.request.session.id === o.id)
-        );
-        if (game) {
-            const user = game.observers?.find((o) => this.request.session.id === o.id);
-            let name = "";
-            if (user) {
-                name = user.name as string;
-                game.observers?.splice(game.observers?.indexOf(user), 1);
-            }
-            if (game.black?.id === this.request.session.id) {
-                name = game.black?.name as string;
-                game.black = undefined;
-            }
-            if (game.white?.id === this.request.session.id) {
-                name = game.white?.name as string;
-                game.white = undefined;
-            }
+        return;
+    }
+    const game = activeGames.find(
+        (g) =>
+            g.code === (code || this.rooms.size === 2 ? Array.from(this.rooms)[1] : 0) ||
+            g.black?.id === this.request.session.id ||
+            g.white?.id === this.request.session.id ||
+            g.observers?.find((o) => this.request.session.id === o.id)
+    );
+
+    if (game) {
+        const user = game.observers?.find((o) => o.id === this.request.session.id);
+        let name = "";
+        if (user) {
+            name = user.name as string;
+            game.observers?.splice(game.observers?.indexOf(user), 1);
+        }
+        if (game.black?.id === this.request.session.id) {
+            name = game.black?.name as string;
+            game.black = undefined;
+        }
+        if (game.white?.id === this.request.session.id) {
+            name = game.white?.name as string;
+            game.white = undefined;
+        }
+
+        if (!game.white && !game.black && (!game.observers || game.observers.length === 0)) {
+            if (game.timeout) clearTimeout(game.timeout);
+            game.timeout = Number(
+                setTimeout(() => {
+                    activeGames.splice(activeGames.indexOf(game), 1);
+                }, 1000 * 60 * 30) // 30 minutes
+            );
+        } else {
             this.to(game.code as string).emit("userLeft", name);
             this.to(game.code as string).emit("receivedLatestLobby", game);
         }
     }
+    await this.leave(code || Array.from(this.rooms)[1]);
 }
 
 export async function getLatestGame(this: Socket) {

@@ -7,6 +7,7 @@ export interface Game {
     host?: User;
     code?: string;
     open?: boolean;
+    timeout?: number;
     observers?: User[];
 }
 
