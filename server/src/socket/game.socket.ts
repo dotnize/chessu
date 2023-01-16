@@ -87,36 +87,50 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
     if (game.pgn) {
         chess.loadPgn(game.pgn);
     }
-    const prevTurn = chess.turn();
-    const newMove = chess.move(m);
-    if (chess.isGameOver()) {
-        let reason = "";
-        if (chess.isCheckmate()) reason = "checkmate";
-        else if (chess.isStalemate()) reason = "stalemate";
-        else if (chess.isThreefoldRepetition()) reason = "repetition";
-        else if (chess.isInsufficientMaterial()) reason = "insufficient";
-        else if (chess.isDraw()) reason = "draw";
 
-        const winnerSide =
-            reason === "checkmate" ? (prevTurn === "w" ? "white" : "black") : undefined;
-        const winnerName =
-            reason === "checkmate"
-                ? winnerSide === "white"
-                    ? game.white?.name
-                    : game.black?.name
-                : undefined;
-        if (reason === "checkmate") {
-            game.winner = winnerSide;
-        } else {
-            game.winner = "draw";
+    try {
+        const prevTurn = chess.turn();
+
+        if (
+            (prevTurn === "b" && this.request.session.id !== game.black?.id) ||
+            (prevTurn === "w" && this.request.session.id !== game.white?.id)
+        ) {
+            throw new Error("not turn to move");
         }
-        io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide });
-    }
-    if (newMove === null) {
+
+        const newMove = chess.move(m);
+        if (chess.isGameOver()) {
+            let reason = "";
+            if (chess.isCheckmate()) reason = "checkmate";
+            else if (chess.isStalemate()) reason = "stalemate";
+            else if (chess.isThreefoldRepetition()) reason = "repetition";
+            else if (chess.isInsufficientMaterial()) reason = "insufficient";
+            else if (chess.isDraw()) reason = "draw";
+
+            const winnerSide =
+                reason === "checkmate" ? (prevTurn === "w" ? "white" : "black") : undefined;
+            const winnerName =
+                reason === "checkmate"
+                    ? winnerSide === "white"
+                        ? game.white?.name
+                        : game.black?.name
+                    : undefined;
+            if (reason === "checkmate") {
+                game.winner = winnerSide;
+            } else {
+                game.winner = "draw";
+            }
+            io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide });
+        }
+        if (newMove) {
+            game.pgn = chess.pgn();
+            this.to(game.code as string).emit("receivedMove", m);
+        } else {
+            throw new Error("invalid move");
+        }
+    } catch (e) {
+        console.log("sendMove error: " + e);
         this.emit("receivedLatestGame", game);
-    } else {
-        game.pgn = chess.pgn();
-        this.to(game.code as string).emit("receivedMove", m);
     }
 }
 
