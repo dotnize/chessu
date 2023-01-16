@@ -11,11 +11,11 @@
     "dependencies": {
         "@radix-ui/colors": "^0.1.8",
         "@radix-ui/react-icons": "^1.1.1",
-        "chess.js": "^1.0.0-alpha.0",
+        "chess.js": "^1.0.0-beta.1",
         "react": "^18.2.0",
-        "react-chessboard": "^2.0.7",
+        "react-chessboard": "^2.0.8",
         "react-dom": "^18.2.0",
-        "react-router-dom": "^6.6.1",
+        "react-router-dom": "^6.6.2",
         "socket.io-client": "^4.5.4"
     },
     "devDependencies": {
