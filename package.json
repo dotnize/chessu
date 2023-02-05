@@ -1,27 +1,28 @@
 {
     "name": "chessu",
+    "private": "true",
     "author": "nizewn",
     "license": "MIT",
+    "workspaces": [
+        "client",
+        "server",
+        "types"
+    ],
     "scripts": {
-        "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
-        "react-dev": "cd client && npm run dev",
-        "install": "(cd client && npm install) & (cd server && npm install)",
-        "build:client": "cd client && npm run build",
-        "build:server": "cd server && npm run build",
-        "server": "cd server && npm start",
+        "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
-        "format:check": "prettier --check .",
-        "format:write": "prettier --write ."
+        "format": "prettier --write ."
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^5.48.1",
-        "@typescript-eslint/parser": "^5.48.1",
+        "@remix-run/eslint-config": "^1.12.0",
         "concurrently": "^7.6.0",
-        "eslint": "^8.32.0",
+        "eslint": "^8.33.0",
         "eslint-config-prettier": "^8.6.0",
-        "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-react": "^7.32.0",
-        "prettier": "^2.8.3"
+        "prettier": "^2.8.3",
+        "prettier-plugin-tailwindcss": "^0.2.2"
+    },
+    "engines": {
+        "node": ">=18"
     }
 }

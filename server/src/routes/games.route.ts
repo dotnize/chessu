@@ -1,7 +1,7 @@
 import { Router } from "express";
-const router = Router();
+import * as controller from "../controllers/games.controller.js";
 
-import * as controller from "../controllers/games.controller";
+const router = Router();
 
 router.route("/").get(controller.getActiveGames).post(controller.createGame);
 

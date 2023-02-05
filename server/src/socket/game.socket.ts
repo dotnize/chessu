@@ -1,7 +1,7 @@
-import { activeGames } from "../db/models/game.model";
+import { activeGames } from "../db/models/game.model.js";
 import type { Socket } from "socket.io";
 import { Chess } from "chess.js";
-import { io } from "../server";
+import { io } from "../server.js";
 
 export async function joinLobby(this: Socket, gameCode: string) {
     const game = activeGames.find((g) => g.code === gameCode);

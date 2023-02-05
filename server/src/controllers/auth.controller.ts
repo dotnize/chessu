@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { User } from "@types";
+import type { User } from "@chessu/types";
 import xss from "xss";
 
 export const getCurrentSession = async (req: Request, res: Response) => {

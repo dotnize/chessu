@@ -6,7 +6,7 @@ export interface Game {
     winner?: "white" | "black" | "draw";
     host?: User;
     code?: string;
-    open?: boolean;
+    unlisted?: boolean;
     timeout?: number;
     observers?: User[];
 }

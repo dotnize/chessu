@@ -1,15 +1,15 @@
 import "dotenv/config";
 import cors from "cors";
-const corsConfig = { origin: "https://ches.su", credentials: true };
-
-import express, { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
+import express from "express";
 import { createServer } from "http";
-import session from "./middleware/session";
+import session from "./middleware/session.js";
 import { Server } from "socket.io";
-import { init as initSocket } from "./socket";
-import { db } from "./db";
+import { init as initSocket } from "./socket/index.js";
+import { db } from "./db/index.js";
+import routes from "./routes/index.js";
 
-import routes from "./routes";
+const corsConfig = { origin: "https://ches.su", credentials: true };
 
 const app = express();
 const server = createServer(app);
