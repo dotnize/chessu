@@ -9,7 +9,10 @@ import { init as initSocket } from "./socket/index.js";
 import { db } from "./db/index.js";
 import routes from "./routes/index.js";
 
-const corsConfig = { origin: "https://ches.su", credentials: true };
+const corsConfig = {
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    credentials: true
+};
 
 const app = express();
 const server = createServer(app);
@@ -40,7 +43,7 @@ io.use((socket, next) => {
 });
 initSocket();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 server.listen(port, () => {
     console.log(`listening on :${port}`);
 });

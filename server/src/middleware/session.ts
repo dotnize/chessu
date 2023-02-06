@@ -20,10 +20,7 @@ declare module "http" {
     }
 }
 const sessionMiddleware = session({
-    store: new PGSession({
-        pool: db,
-        createTableIfMissing: true
-    }),
+    store: new PGSession({ pool: db, createTableIfMissing: true }),
     secret: process.env.SESSION_SECRET || "whatever this is",
     resave: false,
     saveUninitialized: false,
@@ -31,9 +28,9 @@ const sessionMiddleware = session({
     proxy: true,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-        secure: true,
+        secure: process.env.NODE_ENV === "production" ? true : false,
         httpOnly: true,
-        sameSite: "none"
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     },
     genid: function () {
         return nanoid(21);
