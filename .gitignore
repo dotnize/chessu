@@ -12,6 +12,7 @@ dist
 build
 dist-ssr
 *.local
+package-lock.json
 
 .env
 .env.test
