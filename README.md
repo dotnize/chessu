@@ -1,6 +1,6 @@
 # chessu
 
-> ❗ This project is still in the early stages of development and should be considered unstable. Expect bugs and weird behavior. (see [#1](https://github.com/nizewn/chessu/issues/1))
+> ❗ This project is currently undergoing a major refactor in the `dev` branch. (see [#4](https://github.com/nizewn/chessu/pull/4))
 
 Online 2-player chess. Live demo at [ches.su](https://ches.su)
 
