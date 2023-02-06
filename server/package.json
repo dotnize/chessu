@@ -6,7 +6,7 @@
         "dev": "ts-node-dev src/server.ts"
     },
     "dependencies": {
-        "chess.js": "^1.0.0-beta.1",
+        "chess.js": "1.0.0-beta.2",
         "connect-pg-simple": "^8.0.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
