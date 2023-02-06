@@ -1,7 +1,7 @@
 {
     "name": "@chessu/server",
     "private": true,
-    "main": "./dist/server/src/server.js",
+    "main": "./dist/server.js",
     "type": "module",
     "scripts": {
         "start": "node ./dist/server.js",
