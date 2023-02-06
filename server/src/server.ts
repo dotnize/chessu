@@ -1,6 +1,5 @@
 import "dotenv/config";
 import cors from "cors";
-const corsConfig = { origin: "https://ches.su", credentials: true };
 
 import express, { Request, Response, NextFunction } from "express";
 import { createServer } from "http";
@@ -10,6 +9,11 @@ import { init as initSocket } from "./socket";
 import { db } from "./db";
 
 import routes from "./routes";
+
+const corsConfig = {
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    credentials: true
+};
 
 const app = express();
 const server = createServer(app);
@@ -40,7 +44,7 @@ io.use((socket, next) => {
 });
 initSocket();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 server.listen(port, () => {
     console.log(`listening on :${port}`);
 });
