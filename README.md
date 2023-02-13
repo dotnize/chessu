@@ -4,8 +4,8 @@
 
 Online 2-player chess. Live demo at [ches.su](https://ches.su)
 
-- React (Remix)
-- Tailwind CSS
+- React (Next.js)
+- Tailwind CSS + daisyUI
 - [react-chessboard](https://github.com/Clariity/react-chessboard)
 - [chess.js](https://github.com/jhlywa/chess.js)
 - Express.js

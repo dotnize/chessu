@@ -15,11 +15,11 @@
         "format": "prettier --write ."
     },
     "devDependencies": {
-        "@remix-run/eslint-config": "^1.12.0",
         "concurrently": "^7.6.0",
-        "eslint": "^8.33.0",
+        "eslint": "^8.34.0",
+        "eslint-config-next": "13.1.6",
         "eslint-config-prettier": "^8.6.0",
-        "prettier": "^2.8.3",
+        "prettier": "^2.8.4",
         "prettier-plugin-tailwindcss": "^0.2.2"
     },
     "engines": {
