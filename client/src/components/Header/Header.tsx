@@ -29,18 +29,27 @@ const Header = () => {
   }
 
   return (
-    <header className={styles.header}>
-      <Link to="/" className={styles.title}>
-        chessu
-      </Link>
-      <button
-        className={styles.themeToggle}
-        type="button"
-        onClick={() => changeTheme(darkTheme ? "light" : "dark")}
-      >
-        {darkTheme ? <SunIcon /> : <MoonIcon />}
-      </button>
-    </header>
+    <>
+      <div className={styles.note}>
+        This project is currently undergoing a major refactor & redesign. (
+        <a href="https://github.com/nizewn/chessu/pull/4" target="_blank" rel="noreferrer">
+          #4
+        </a>
+        )
+      </div>
+      <header className={styles.header}>
+        <Link to="/" className={styles.title}>
+          chessu
+        </Link>
+        <button
+          className={styles.themeToggle}
+          type="button"
+          onClick={() => changeTheme(darkTheme ? "light" : "dark")}
+        >
+          {darkTheme ? <SunIcon /> : <MoonIcon />}
+        </button>
+      </header>
+    </>
   );
 };
 

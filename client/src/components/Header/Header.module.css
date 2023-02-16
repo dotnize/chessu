@@ -13,3 +13,17 @@
   background: transparent;
   color: var(--blue12);
 }
+
+.note {
+  text-align: center;
+  background-color: var(--blue2);
+  padding: 0.9em 0;
+  font-size: 0.7em;
+  width: 100%;
+  color: var(--blue12);
+}
+
+.note a {
+  color: var(--blue11);
+  text-decoration: underline;
+}
