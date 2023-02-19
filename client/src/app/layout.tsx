@@ -1,55 +1,75 @@
 import "./globals.css";
+import { IconUser, IconSun, IconMoon, IconBrandGithub } from "@tabler/icons-react";
+import Link from "next/link";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <head />
       <body>
-        <div className="drawer drawer-mobile">
-          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content">
-            <label
-              htmlFor="my-drawer-2"
-              className="btn btn-circle btn-ghost drawer-button fixed right-1 top-1 lg:hidden"
+        <header className="navbar mx-1 w-auto justify-center drop-shadow-sm md:mx-16 lg:mx-40">
+          <div className="flex-1">
+            <Link
+              href="/"
+              className="btn btn-ghost no-animation gap-1 text-xl normal-case hover:bg-transparent"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M12 18h8"
-                />
-              </svg>
-            </label>
-            {children}
+              chessu
+              <span className="badge badge-sm">alpha</span>
+            </Link>
           </div>
-          <nav className="drawer-side">
-            <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-            <ul className="menu text-base-content bg-base-300 w-80 p-4 lg:w-60">
-              <h1 className="btn btn-ghost btn-block no-animation btn-square hover:bg-transparent">
-                chessu
-              </h1>
-              <li>
-                <a>Play</a>
-              </li>
-              <li>
-                <a>Login</a>
-              </li>
-              <li>
-                <a>Register</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <footer className="footer footer-center bg-base-300 text-base-content p-4">
-          <div>
-            <p>Copyright &copy; 2023 nize - GitHub</p>
+          <div className="flex-none">
+            <div className="btn btn-ghost btn-circle">
+              <IconSun className="m-auto block h-full" />
+            </div>
+            <div className="dropdown dropdown-end">
+              {/* ^ wrap this in client component too */}
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <IconUser className="m-auto block h-full" />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-compact dropdown-content rounded-box bg-base-100 w-52 p-2 shadow"
+              >
+                <li>
+                  <a>Change guest name</a>
+                </li>
+                <li>
+                  <a className="pointer-events-none justify-between">
+                    Sign in
+                    <span className="badge">WIP</span>
+                  </a>
+                </li>
+                <li>
+                  <a className="pointer-events-none">Register</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+        <main className="bg-base-200 mx-1 my-8 flex min-h-[70vh] justify-center rounded-3xl shadow-md md:mx-16 lg:mx-40">
+          {children}
+        </main>
+        <footer className="footer text-base-content mx-1 mt-4 w-auto grid-flow-col items-center justify-between p-4 md:mx-16 lg:mx-40">
+          <div className="items-center">
+            <p>
+              &copy; 2023{" "}
+              <a href="https://nize.ph" target="_blank" rel="noreferrer" className="link-hover">
+                nize
+              </a>
+            </p>
+          </div>
+          <div className="items-center">
+            <a
+              href="https://github.com/nizewn/chessu"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-ghost btn-sm gap-1 normal-case"
+            >
+              <IconBrandGithub className="inline-block" size={16} />
+              GitHub
+            </a>
           </div>
         </footer>
       </body>
