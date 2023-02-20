@@ -6,10 +6,10 @@ Yet another Chess web app. Live demo at [ches.su](https://ches.su).
 
 - play against other users in real-time
 - spectate and chat in ongoing games with other users
-- _optional_ user accounts for tracking stats and game history
+- _optional_ user accounts for tracking stats and game history (wip)
 - mobile-friendly (wip)
 
-Built with Next.js 13, Tailwind CSS + daisyUI, [react-chessboard](https://github.com/Clariity/react-chessboard), [chess.js](https://github.com/jhlywa/chess.js), Express.js, socket.io and PostgreSQL.
+Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
 
 ## Configuration
 
