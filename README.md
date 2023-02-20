@@ -49,7 +49,7 @@ You may create a `.env` file in each package directory to set their environment 
 client:
 
 ```env
-API_URL=http://localhost:3001 # replace with backend URL
+NEXT_PUBLIC_API_URL=http://localhost:3001 # replace with backend URL
 ```
 
 server:
