@@ -10,7 +10,7 @@ export default function Navbar() {
           className="btn btn-ghost no-animation gap-1 text-xl normal-case hover:bg-transparent"
         >
           chessu
-          <span className="badge badge-sm">alpha</span>
+          <span className="badge badge-sm mt-1">alpha</span>
         </Link>
       </div>
       <div className="flex-none">
