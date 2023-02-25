@@ -1,4 +1,4 @@
-import PublicGames from "./PublicGames";
+import PublicGames from "@/components/PublicGames";
 
 export default function Home() {
   return (
