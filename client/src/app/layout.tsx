@@ -3,10 +3,14 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+export const metadata = {
+  title: "chessu",
+  description: "Play Chess online."
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html>
-      <head />
+    <html lang="en">
       <body>
         <Navbar />
 
