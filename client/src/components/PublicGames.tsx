@@ -10,39 +10,39 @@ export default function PublicGames() {
         </div>
       </h2>
 
-      <div className="flex max-h-80 overflow-y-auto rounded-xl p-4">
+      <div className="bg-base-100 h-80 max-h-80 overflow-y-auto">
         <table className="table-compact lg:table-normal table rounded-none">
           <thead>
             <tr>
-              <th>Host</th>
-              <th>Opponent</th>
-              <th></th>
+              <th className="w-48">Host</th>
+              <th className="w-48">Opponent</th>
+              <th className="w-24"></th>
             </tr>
           </thead>
           <tbody>
-            {/* <tr>
-                <td>(empty)</td>
-                <td></td>
-                <td></td>
-              </tr> */}
-            <tr className="group">
-              <td>sample user</td>
+            <tr>
+              <td>(empty)</td>
+              <td></td>
+              <td></td>
+            </tr>
+            {/* <tr className="group">
+              <td>nize</td>
               <td>nize</td>
               <th>
                 <button className="btn btn-ghost btn-xs focus:opacity-100 lg:opacity-0 lg:group-hover:opacity-100">
                   Join
                 </button>
               </th>
-            </tr>
-
-            {/* invisible last row to set max column widths */}
-            <tr aria-hidden="true" className="pointer-events-none opacity-0">
+            </tr> */}
+            {/* <tr className="group">
               <td>WPlaceholder_Text</td>
               <td>WPlaceholder_Text</td>
               <th>
-                <button className="btn btn-xs">Join</button>
+                <button className="btn btn-ghost btn-xs focus:opacity-100 lg:opacity-0 lg:group-hover:opacity-100">
+                  Join
+                </button>
               </th>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>
