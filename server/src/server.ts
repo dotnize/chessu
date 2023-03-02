@@ -28,7 +28,7 @@ app.use(session);
 app.use("/v1", routes);
 
 // socket.io
-export const io = new Server(server, { cors: corsConfig });
+export const io = new Server(server, { cors: corsConfig, pingInterval: 30000, pingTimeout: 50000 });
 io.use((socket, next) => {
     session(socket.request as Request, {} as Response, next as NextFunction);
 });
