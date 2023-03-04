@@ -3,26 +3,32 @@ import { activeGames } from "../db/models/game.model.js";
 import type { Game, User } from "@chessu/types";
 import { nanoid } from "nanoid";
 
-export const getActiveGames = async (req: Request, res: Response) => {
+export const getActivePublicGames = async (req: Request, res: Response) => {
     try {
-        //if (!req.query || !req.query.code) {
         res.status(200).json(activeGames.filter((g) => !g.unlisted));
-        //}
+    } catch (err: unknown) {
+        console.log(err);
+        res.status(500).end();
+    }
+};
 
-        // const code =
-        //     (req.query.code as string).startsWith("http") ||
-        //     (req.query.code as string).startsWith("ches.su")
-        //         ? path.posix.basename(url.parse(req.query.code as string).pathname as string)
-        //         : req.query.code;
+export const getActiveGame = async (req: Request, res: Response) => {
+    try {
+        if (!req.params || !req.params.code) {
+            res.status(400).end();
+            return;
+        }
 
-        // console.log(code);
-        // const game = activeGames.find((g) => g.code === code);
+        const code = req.params.code;
 
-        // if (!game) {
-        //     res.status(404).end();
-        // } else {
-        //     res.status(200).json(game);
-        // }
+        console.log(code);
+        const game = activeGames.find((g) => g.code === code);
+
+        if (!game) {
+            res.status(404).end();
+        } else {
+            res.status(200).json(game);
+        }
     } catch (err: unknown) {
         console.log(err);
         res.status(500).end();
@@ -64,10 +70,3 @@ export const createGame = async (req: Request, res: Response) => {
         res.status(500).end();
     }
 };
-
-// use sockets for joining games
-/*
-export const joinGame = async (req: Request, res: Response) => {
-    console.log("joining game!");
-};
-*/
