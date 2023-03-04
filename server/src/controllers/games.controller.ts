@@ -19,10 +19,7 @@ export const getActiveGame = async (req: Request, res: Response) => {
             return;
         }
 
-        const code = req.params.code;
-
-        console.log(code);
-        const game = activeGames.find((g) => g.code === code);
+        const game = activeGames.find((g) => g.code === req.params.code);
 
         if (!game) {
             res.status(404).end();
