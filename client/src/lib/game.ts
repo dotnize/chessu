@@ -34,3 +34,16 @@ export const getGame = async (code: string) => {
         console.error(err);
     }
 };
+
+export const getPublicGames = async () => {
+    try {
+        const res = await fetch(`${API_URL}/v1/games`, { cache: "no-store" });
+
+        if (res && res.status === 200) {
+            const games: Game[] = await res.json();
+            return games;
+        }
+    } catch (err) {
+        console.error(err);
+    }
+};

@@ -1,10 +1,11 @@
-import PublicGames from "@/components/home/PublicGames";
+import PublicGames from "@/components/home/PublicGames/PublicGames";
 import JoinGame from "@/components/home/JoinGame";
 import CreateGame from "@/components/home/CreateGame";
 
 export default function Home() {
   return (
     <div className="bg-base-200 flex w-full flex-wrap items-center justify-evenly gap-4 rounded-xl px-4 py-10 shadow-md lg:gap-0">
+      {/* @ts-expect-error Server Component */}
       <PublicGames />
 
       <div className="flex flex-col items-center gap-4">
