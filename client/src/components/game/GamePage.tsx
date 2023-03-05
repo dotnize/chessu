@@ -308,6 +308,31 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     socket.emit("joinAsPlayer");
   }
 
+  function getPlayerHtml(side: "top" | "bottom") {
+    const blackHtml = (
+      <div className="flex w-full flex-col justify-center">
+        <span className={lobby.black?.name ? "font-bold" : ""}>
+          {lobby.black?.name || "(no one)"}
+        </span>
+        <span className="text-xs">black</span>
+      </div>
+    );
+    const whiteHtml = (
+      <div className="flex w-full flex-col justify-center">
+        <span className={lobby.white?.name ? "font-bold" : ""}>
+          {lobby.white?.name || "(no one)"}
+        </span>
+        <span className="text-xs">white</span>
+      </div>
+    );
+
+    if (lobby.black?.id === session?.user?.id) {
+      return side === "top" ? whiteHtml : blackHtml;
+    } else {
+      return side === "top" ? blackHtml : whiteHtml;
+    }
+  }
+
   return (
     <div className="flex w-full flex-wrap justify-center gap-6 px-4 py-4 lg:gap-10 2xl:gap-16">
       <div className="relative h-min">
@@ -352,17 +377,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
       <div className="flex max-w-lg flex-1 flex-col items-center justify-center gap-4">
         <div className="mb-auto flex w-full">
           <div className="flex flex-1 flex-col items-center justify-between">
-            <div className="flex w-full items-center gap-1">
-              {session?.user?.id === lobby.black?.id
-                ? lobby.white?.name || "(no one)"
-                : lobby.black?.name || "(no one)"}
-            </div>
+            {getPlayerHtml("top")}
             <div className="my-auto w-full text-sm">vs</div>
-            <div className="flex w-full items-center gap-1">
-              {session?.user?.id === lobby.black?.id
-                ? lobby.black?.name || "(no one)"
-                : lobby.white?.name || "(no one)"}
-            </div>
+            {getPlayerHtml("bottom")}
           </div>
 
           <div className="flex flex-1 flex-col gap-1">
