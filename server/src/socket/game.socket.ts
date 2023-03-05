@@ -9,9 +9,12 @@ export async function joinLobby(this: Socket, gameCode: string) {
         console.log(`joinLobby: Game code ${gameCode} not found.`);
         return;
     }
-    if (
-        !(game.white?.id === this.request.session.id || game.black?.id === this.request.session.id)
-    ) {
+
+    if (game.white?.id === this.request.session.id) {
+        game.white.connected = true;
+    } else if (game.black?.id === this.request.session.id) {
+        game.black.connected = true;
+    } else {
         if (game.observers === undefined) game.observers = [];
         game.observers?.push(this.request.session.user);
     }
@@ -26,9 +29,7 @@ export async function joinLobby(this: Socket, gameCode: string) {
     }
 
     await this.join(gameCode);
-    this.emit("receivedLatestGame", game);
-    io.to(game.code as string).emit("receivedLatestLobby", game);
-    io.to(game.code as string).emit("userJoined", this.request.session.user.name);
+    io.to(game.code as string).emit("receivedLatestGame", game);
 }
 
 export async function leaveLobby(this: Socket, code?: string) {
@@ -46,21 +47,19 @@ export async function leaveLobby(this: Socket, code?: string) {
 
     if (game) {
         const user = game.observers?.find((o) => o.id === this.request.session.id);
-        let name = "";
         if (user) {
-            name = user.name as string;
             game.observers?.splice(game.observers?.indexOf(user), 1);
         }
         if (game.black?.id === this.request.session.id) {
-            name = game.black?.name as string;
-            game.black = undefined;
-        }
-        if (game.white?.id === this.request.session.id) {
-            name = game.white?.name as string;
-            game.white = undefined;
+            game.black.connected = false;
+        } else if (game.white?.id === this.request.session.id) {
+            game.white.connected = false;
         }
 
-        if (!game.white && !game.black && (!game.observers || game.observers.length === 0)) {
+        // count sockets
+        const sockets = await io.in(game.code as string).fetchSockets();
+
+        if (sockets.length <= 1) {
             if (game.timeout) clearTimeout(game.timeout);
             game.timeout = Number(
                 setTimeout(() => {
@@ -68,8 +67,7 @@ export async function leaveLobby(this: Socket, code?: string) {
                 }, 1000 * 60 * 30) // 30 minutes
             );
         } else {
-            this.to(game.code as string).emit("userLeft", name);
-            this.to(game.code as string).emit("receivedLatestLobby", game);
+            this.to(game.code as string).emit("receivedLatestGame", game);
         }
     }
     await this.leave(code || Array.from(this.rooms)[1]);
@@ -140,6 +138,7 @@ export async function joinAsPlayer(this: Socket) {
     const user = game.observers?.find((o) => o.id === this.request.session.id);
     if (!game.white) {
         game.white = this.request.session.user;
+        game.white.connected = true;
         if (user) game.observers?.splice(game.observers?.indexOf(user), 1);
         io.to(game.code as string).emit("userJoinedAsPlayer", {
             name: this.request.session.user.name,
@@ -147,6 +146,7 @@ export async function joinAsPlayer(this: Socket) {
         });
     } else if (!game.black) {
         game.black = this.request.session.user;
+        game.black.connected = true;
         if (user) game.observers?.splice(game.observers?.indexOf(user), 1);
         io.to(game.code as string).emit("userJoinedAsPlayer", {
             name: this.request.session.user.name,
@@ -156,7 +156,6 @@ export async function joinAsPlayer(this: Socket) {
         console.log("[WARNING] attempted to join a game with already 2 players");
     }
     io.to(game.code as string).emit("receivedLatestGame", game);
-    io.to(game.code as string).emit("receivedLatestLobby", game);
 }
 
 export async function chat(this: Socket, message: string) {
