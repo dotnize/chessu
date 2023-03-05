@@ -318,7 +318,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
               Waiting for opponent.
               {session?.user?.id !== lobby.white?.id && session?.user?.id !== lobby.black?.id && (
                 <button
-                  className={"btn btn-secondary" + (playBtnLoading ? " loading" : "")}
+                  className={"btn btn-secondary" + (playBtnLoading ? " btn-disabled" : "")}
                   onClick={clickPlay}
                 >
                   Play as {lobby.white?.id ? "black" : "white"}
