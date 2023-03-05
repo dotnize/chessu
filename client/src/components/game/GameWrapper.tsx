@@ -1,22 +1,90 @@
 "use client";
-// all of this in a client component for now to easily handle socket events
+// TODO: restructure?
 
 import { Chessboard } from "react-chessboard";
 import { IconCopy } from "@tabler/icons-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { Game } from "@chessu/types";
 
 import { io } from "socket.io-client";
 import { API_URL } from "@/config";
+import { SessionContext } from "@/context/session";
+import { Chess } from "chess.js";
 
-const socket = io(API_URL, { withCredentials: true, autoConnect: true });
-
-const pgn = "1. e4 e5 2. f3 Nf6 3. d4 exd4 4. Qxd4 Nxe4 5. Qxe4+ Qe7 6. Qxe7+";
+const socket = io(API_URL, { withCredentials: true, autoConnect: false });
 
 export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
+  const session = useContext(SessionContext);
+
+  // TODO: useReducer
   const [lobbyData, setLobbyData] = useState(initialLobby);
-  // TODO
+  const [game, setGame] = useState(new Chess());
+  const [side, setSide] = useState<"b" | "w" | "s">("s");
+
+  const [boardWidth, setBoardWidth] = useState(480);
+
+  useEffect(() => {
+    if (!session?.user || !session.user?.id) return;
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    if (game.pgn() !== lobbyData.pgn) {
+      const gameCopy = { ...game } as Chess;
+      gameCopy.loadPgn(lobbyData.pgn as string);
+      setGame(gameCopy);
+    }
+
+    if (lobbyData.black?.id === session?.user?.id) {
+      if (side !== "b") setSide("b");
+    } else if (lobbyData.white?.id === session?.user?.id) {
+      if (side !== "w") setSide("w");
+    } else if (side !== "s") {
+      setSide("s");
+    }
+
+    socket.on("connect", () => {
+      socket.emit("joinLobby", initialLobby.code);
+    });
+    // TODO: handle disconnect
+
+    socket.on("receivedLatestLobby", (latestLobby: Game) => {
+      setLobbyData(latestLobby);
+
+      if (latestLobby.pgn && latestLobby.pgn !== game.pgn()) {
+        const gameCopy = { ...game } as Chess;
+        gameCopy.loadPgn(lobbyData.pgn as string);
+        setGame(gameCopy);
+      }
+
+      if (latestLobby.black?.id === session?.user?.id) {
+        if (side !== "b") setSide("b");
+      } else if (latestLobby.white?.id === session?.user?.id) {
+        if (side !== "w") setSide("w");
+      } else if (side !== "s") {
+        setSide("s");
+      }
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("receivedLatestLobby");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user]);
+
+  function handleResize() {
+    if (window.innerWidth >= 1920) {
+      setBoardWidth(580);
+    } else if (window.innerWidth >= 1536) {
+      setBoardWidth(540);
+    } else if (window.innerWidth >= 768) {
+      setBoardWidth(480);
+    } else {
+      setBoardWidth(350);
+    }
+  }
 
   return (
     <div className="flex w-full flex-wrap justify-center gap-6 px-4 py-4 lg:gap-10 2xl:gap-16">
@@ -30,10 +98,11 @@ export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
         </div>
 
         <Chessboard
-          boardWidth={480}
+          boardWidth={boardWidth}
           /* 350 for mobile, 480 for md up (^768px screen), 540 for 2xl up (^1536px), 580 for ^1920px  */
           customDarkSquareStyle={{ backgroundColor: "#4b7399" }}
           customLightSquareStyle={{ backgroundColor: "#eae9d2" }}
+          position={game.fen()}
         />
       </div>
 
@@ -70,7 +139,7 @@ export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
             <div className="h-36 w-full overflow-y-scroll">
               <table className="table-compact table w-full ">
                 <tbody>
-                  {pgn
+                  {(lobbyData.pgn as string)
                     .split(/\d+\./)
                     .filter((move) => move.trim() !== "")
                     .map((moveSet, i) => {

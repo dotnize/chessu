@@ -1,4 +1,4 @@
-import Game from "@/components/game/Game";
+import GameWrapper from "@/components/game/GameWrapper";
 import { getGame } from "@/lib/game";
 import { notFound } from "next/navigation";
 
@@ -8,5 +8,5 @@ export default async function GamePage({ params }: { params: { code: string } })
     notFound();
   }
 
-  return <Game initialLobby={game} />;
+  return <GameWrapper initialLobby={game} />;
 }
