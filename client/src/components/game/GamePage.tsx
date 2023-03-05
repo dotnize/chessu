@@ -12,9 +12,9 @@ import { API_URL } from "@/config";
 import { SessionContext } from "@/context/session";
 import { Chess } from "chess.js";
 
-const socket = io(API_URL, { withCredentials: true, autoConnect: false });
+const socket = io(API_URL, { withCredentials: true, autoConnect: true });
 
-export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
+export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const session = useContext(SessionContext);
 
   // TODO: useReducer
@@ -30,7 +30,7 @@ export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
     window.addEventListener("resize", handleResize);
     handleResize();
 
-    if (game.pgn() !== lobbyData.pgn) {
+    if (lobbyData.pgn && game.pgn() !== lobbyData.pgn) {
       const gameCopy = { ...game } as Chess;
       gameCopy.loadPgn(lobbyData.pgn as string);
       setGame(gameCopy);
@@ -72,7 +72,7 @@ export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
       socket.off("receivedLatestLobby");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session?.user]);
+  }, []);
 
   function handleResize() {
     if (window.innerWidth >= 1920) {
@@ -99,7 +99,6 @@ export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
 
         <Chessboard
           boardWidth={boardWidth}
-          /* 350 for mobile, 480 for md up (^768px screen), 540 for 2xl up (^1536px), 580 for ^1920px  */
           customDarkSquareStyle={{ backgroundColor: "#4b7399" }}
           customLightSquareStyle={{ backgroundColor: "#eae9d2" }}
           position={game.fen()}
@@ -139,7 +138,7 @@ export default function GameWrapper({ initialLobby }: { initialLobby: Game }) {
             <div className="h-36 w-full overflow-y-scroll">
               <table className="table-compact table w-full ">
                 <tbody>
-                  {(lobbyData.pgn as string)
+                  {(lobbyData.pgn || "")
                     .split(/\d+\./)
                     .filter((move) => move.trim() !== "")
                     .map((moveSet, i) => {
