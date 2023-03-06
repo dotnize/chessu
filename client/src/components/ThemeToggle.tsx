@@ -7,11 +7,15 @@ export default function ThemeToggle() {
   const [darkTheme, setDarkTheme] = useState(false);
 
   useEffect(() => {
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) => changeTheme(e.matches ? "dark" : "light"));
+    const onChange = (e: MediaQueryListEvent) => changeTheme(e.matches ? "dark" : "light");
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", onChange);
 
     changeTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+    return () => {
+      window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", onChange);
+    };
   }, []);
 
   function changeTheme(theme: "dark" | "light") {
