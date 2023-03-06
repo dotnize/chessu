@@ -13,7 +13,7 @@ module.exports = {
                     primary: "#047AFF",
                     secondary: "#463AA2",
                     accent: "#C148AC",
-                    neutral: "#021431",
+                    neutral: "#9ab3d9",
                     "base-100": "#FFFFFF",
                     "base-200": "#F2F7FF",
                     "base-300": "#E3E9F4",
@@ -35,7 +35,6 @@ module.exports = {
                     error: "#FB7085"
                 }
             }
-        ],
-        darkTheme: "chessuDark"
+        ]
     }
 };
