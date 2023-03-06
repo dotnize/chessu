@@ -1,6 +1,6 @@
 # chessu
 
-> ❗ This project is currently undergoing a major refactor in the `dev` branch. (see [#4](https://github.com/nizewn/chessu/pull/4))
+> ❗ This is an old version of the project. For the latest version, see the [main](https://github.com/nizewn/chessu/tree/main) branch.
 
 Online 2-player chess. Live demo at [ches.su](https://ches.su)
 
