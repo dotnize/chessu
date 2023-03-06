@@ -48,7 +48,8 @@ export const createGame = async (req: Request, res: Response) => {
         const game: Game = {
             code: nanoid(6),
             unlisted,
-            host: user
+            host: user,
+            pgn: ""
         };
         if (req.body.side === "white") {
             game.white = user;
