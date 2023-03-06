@@ -1,0 +1,17 @@
+@tailwind base;
+
+* {
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-slate-500;
+  border-radius: 2px;
+}
+
+@tailwind components;
+@tailwind utilities;

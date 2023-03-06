@@ -1,29 +1,22 @@
-import { PropsWithChildren, useEffect, useState } from "react";
-import type { User } from "@types";
+"use client";
 
-import { SocketContext, socket } from "./socket";
+import type { User } from "@chessu/types";
+
+import { useState, useEffect } from "react";
 import { SessionContext } from "./session";
+import { fetchSession } from "@/lib/auth";
 
-import { fetchSession } from "../utils/auth";
-
-const ContextProvider = (props: PropsWithChildren) => {
-  const [user, setUser] = useState<User>({});
+export default function ContextProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>({});
 
   async function getSession() {
     const user = await fetchSession();
-    if (user) {
-      setUser(user);
-    }
+    setUser(user || null);
   }
 
   useEffect(() => {
     getSession();
   }, []);
 
-  return (
-    <SocketContext.Provider value={socket}>
-      <SessionContext.Provider value={{ user, setUser }}>{props.children}</SessionContext.Provider>
-    </SocketContext.Provider>
-  );
-};
-export default ContextProvider;
+  return <SessionContext.Provider value={{ user, setUser }}>{children}</SessionContext.Provider>;
+}

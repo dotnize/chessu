@@ -1,14 +1,13 @@
 import "dotenv/config";
 import cors from "cors";
-
-import express, { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
+import express from "express";
 import { createServer } from "http";
-import session from "./middleware/session";
+import session from "./middleware/session.js";
 import { Server } from "socket.io";
-import { init as initSocket } from "./socket";
-import { db } from "./db";
-
-import routes from "./routes";
+import { init as initSocket } from "./socket/index.js";
+import { db } from "./db/index.js";
+import routes from "./routes/index.js";
 
 const corsConfig = {
     origin: process.env.CORS_ORIGIN || "http://localhost:3000",

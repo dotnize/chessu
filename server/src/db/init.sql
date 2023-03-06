@@ -12,5 +12,4 @@ CREATE TABLE "game" (
     pgn TEXT,
     white_id INT REFERENCES "user",
     black_id INT REFERENCES "user",
-    winner CHAR(5)
 );

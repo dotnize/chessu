@@ -1,12 +1,10 @@
 import { Router } from "express";
+import * as controller from "../controllers/games.controller.js";
+
 const router = Router();
 
-import * as controller from "../controllers/games.controller";
+router.route("/").get(controller.getActivePublicGames).post(controller.createGame);
 
-router.route("/").get(controller.getActiveGames).post(controller.createGame);
-
-//router.route("/:id").put(controller.joinGame);
-
-// todo: api for updating games/moves requiring authentication
+router.route("/:code").get(controller.getActiveGame);
 
 export default router;

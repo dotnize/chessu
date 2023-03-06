@@ -1,5 +1,5 @@
-import { db } from "..";
-import { Game } from "@types";
+import { db } from "../index.js";
+import type { Game } from "@chessu/types";
 
 export const activeGames: Array<Game> = [];
 

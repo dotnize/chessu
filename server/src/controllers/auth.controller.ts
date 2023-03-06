@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { User } from "@types";
+import type { User } from "@chessu/types";
 import xss from "xss";
 
 export const getCurrentSession = async (req: Request, res: Response) => {
@@ -18,6 +18,13 @@ export const getCurrentSession = async (req: Request, res: Response) => {
 export const guestSession = async (req: Request, res: Response) => {
     try {
         const name = xss(req.body.name);
+
+        const pattern = /^[A-Za-z0-9_]+$/;
+
+        if (!pattern.test(name)) {
+            res.status(400).end();
+            return;
+        }
 
         if (!req.session.user || !req.session.user?.id) {
             // create guest session

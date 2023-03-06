@@ -1,11 +1,12 @@
 import { nanoid } from "nanoid";
-
-import session, { Session } from "express-session";
+import type { Session } from "express-session";
+import session from "express-session";
 import PGSimple from "connect-pg-simple";
-import { db } from "../db";
+import { db } from "../db/index.js";
+import type { User } from "@chessu/types";
+
 const PGSession = PGSimple(session);
 
-import type { User } from "@types";
 declare module "express-session" {
     interface SessionData {
         user: User;
