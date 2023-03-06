@@ -40,6 +40,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const [boardWidth, setBoardWidth] = useState(480);
 
   const [playBtnLoading, setPlayBtnLoading] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const chatlistRef = useRef<HTMLUListElement>(null);
 
@@ -360,6 +361,19 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     }
   }
 
+  function copyInvite() {
+    const text = `https://ches.su/game/${initialLobby.code}`;
+    if ("clipboard" in navigator) {
+      navigator.clipboard.writeText(text);
+    } else {
+      document.execCommand("copy", true, text);
+    }
+    setCopiedLink(true);
+    setTimeout(() => {
+      setCopiedLink(false);
+    }, 5000);
+  }
+
   return (
     <div className="flex w-full flex-wrap justify-center gap-6 px-4 py-4 lg:gap-10 2xl:gap-16">
       <div className="relative h-min">
@@ -402,7 +416,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
       </div>
 
       <div className="flex max-w-lg flex-1 flex-col items-center justify-center gap-4">
-        <div className="mb-auto flex w-full">
+        <div className="mb-auto flex w-full p-2">
           <div className="flex flex-1 flex-col items-center justify-between">
             {getPlayerHtml("top")}
             <div className="my-auto w-full text-sm">vs</div>
@@ -412,9 +426,22 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           <div className="flex flex-1 flex-col gap-1">
             <div className="mb-2 flex w-full flex-col items-end gap-1">
               Invite friends:
-              <div className="badge badge-md bg-base-300 text-base-content h-8 gap-1 font-mono text-xs sm:h-5 sm:text-sm">
-                <IconCopy size={16} />
-                ches.su/game/{initialLobby.code} {/* TODO */}
+              <div
+                className={
+                  "dropdown dropdown-top dropdown-end" + (copiedLink ? " dropdown-open" : "")
+                }
+              >
+                <label
+                  tabIndex={0}
+                  className="badge badge-md bg-base-300 text-base-content h-8 gap-1 font-mono text-xs sm:h-5 sm:text-sm"
+                  onClick={copyInvite}
+                >
+                  <IconCopy size={16} />
+                  ches.su/game/{initialLobby.code}
+                </label>
+                <div tabIndex={0} className="dropdown-content badge badge-md badge-primary shadow">
+                  copied to clipboard
+                </div>
               </div>
             </div>
             <div className="h-36 w-full overflow-y-scroll">
