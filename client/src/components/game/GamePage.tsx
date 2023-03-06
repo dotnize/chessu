@@ -418,7 +418,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
               </div>
             </div>
             <div className="h-36 w-full overflow-y-scroll">
-              <table className="table-compact table w-full ">
+              <table className="table-compact table w-full">
                 <tbody>
                   {(lobby.actualGame.pgn() || "")
                     .split(/\d+\./)
@@ -442,7 +442,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         <div className="h-60 w-full min-w-fit">
           <div className="bg-base-300 flex h-full w-full min-w-[64px] flex-col rounded-lg p-4 shadow-sm">
             <ul
-              className="mb-4 flex flex-col gap-1 overflow-y-scroll break-words"
+              className="mb-4 flex h-full flex-col gap-1 overflow-y-scroll break-words"
               ref={chatlistRef}
             >
               {chatMessages.map((m, i) => (
