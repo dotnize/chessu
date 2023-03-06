@@ -99,7 +99,6 @@ export function initSocket(
 
     socket.on("receivedMove", (m: { from: string; to: string; promotion?: string }) => {
         const success = actions.makeMove(m);
-        console.log(success);
         if (!success) {
             socket.emit("getLatestGame");
         }
