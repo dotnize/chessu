@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 
 export const getActivePublicGames = async (req: Request, res: Response) => {
     try {
-        res.status(200).json(activeGames.filter((g) => !g.unlisted));
+        res.status(200).json(activeGames.filter((g) => !g.unlisted && !g.winner));
     } catch (err: unknown) {
         console.log(err);
         res.status(500).end();
