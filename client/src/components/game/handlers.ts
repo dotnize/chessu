@@ -49,14 +49,10 @@ export function initSocket(
     });
 
     socket.on("receivedLatestGame", (latestGame: Game) => {
-        actions.updateLobby({ type: "updateLobby", payload: latestGame });
-
         if (latestGame.pgn && latestGame.pgn !== lobby.actualGame.pgn()) {
-            const gameCopy = new Chess();
-            gameCopy.loadPgn(latestGame.pgn as string);
-            actions.updateLobby({ type: "setGame", payload: gameCopy });
+            lobby.actualGame.loadPgn(latestGame.pgn as string);
 
-            const lastMove = gameCopy.history({ verbose: true }).pop();
+            const lastMove = lobby.actualGame.history({ verbose: true }).pop();
 
             let lastMoveSquares = undefined;
             let kingSquare = undefined;
@@ -66,11 +62,13 @@ export function initSocket(
                     [lastMove.to]: { background: "rgba(255, 255, 0, 0.4)" }
                 };
             }
-            if (gameCopy.inCheck()) {
-                const kingPos = gameCopy.board().reduce((acc, row, index) => {
+            if (lobby.actualGame.inCheck()) {
+                const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
                     const squareIndex = row.findIndex(
                         (square) =>
-                            square && square.type === "k" && square.color === gameCopy.turn()
+                            square &&
+                            square.type === "k" &&
+                            square.color === lobby.actualGame.turn()
                     );
                     return squareIndex >= 0
                         ? `${String.fromCharCode(squareIndex + 97)}${8 - index}`
@@ -88,6 +86,7 @@ export function initSocket(
                 check: kingSquare
             });
         }
+        actions.updateLobby({ type: "updateLobby", payload: latestGame });
 
         if (latestGame.black?.id === user?.id) {
             if (lobby.side !== "b") actions.updateLobby({ type: "setSide", payload: "b" });
@@ -100,6 +99,7 @@ export function initSocket(
 
     socket.on("receivedMove", (m: { from: string; to: string; promotion?: string }) => {
         const success = actions.makeMove(m);
+        console.log(success);
         if (!success) {
             socket.emit("getLatestGame");
         }

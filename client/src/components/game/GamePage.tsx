@@ -51,11 +51,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     handleResize();
 
     if (lobby.pgn && lobby.actualGame.pgn() !== lobby.pgn) {
-      const gameCopy = new Chess();
-      gameCopy.loadPgn(lobby.pgn as string);
-      updateLobby({ type: "setGame", payload: gameCopy });
+      lobby.actualGame.loadPgn(lobby.pgn as string);
 
-      const lastMove = gameCopy.history({ verbose: true }).pop();
+      const lastMove = lobby.actualGame.history({ verbose: true }).pop();
 
       let lastMoveSquares = undefined;
       let kingSquare = undefined;
@@ -65,10 +63,10 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           [lastMove.to]: { background: "rgba(255, 255, 0, 0.4)" }
         };
       }
-      if (gameCopy.inCheck()) {
-        const kingPos = gameCopy.board().reduce((acc, row, index) => {
+      if (lobby.actualGame.inCheck()) {
+        const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
           const squareIndex = row.findIndex(
-            (square) => square && square.type === "k" && square.color === gameCopy.turn()
+            (square) => square && square.type === "k" && square.color === lobby.actualGame.turn()
           );
           return squareIndex >= 0 ? `${String.fromCharCode(squareIndex + 97)}${8 - index}` : acc;
         }, "");
@@ -114,6 +112,21 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     if (!chatlist) return;
     chatlist.scrollTop = chatlist.scrollHeight;
   }, [chatMessages]);
+
+  useEffect(() => {
+    updateTurnTitle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lobby]);
+
+  function updateTurnTitle() {
+    if (lobby.side === "s" || !lobby.white?.id || !lobby.black?.id) return;
+
+    if (lobby.side === lobby.actualGame.turn()) {
+      document.title = "(your turn) chessu";
+    } else {
+      document.title = "chessu";
+    }
+  }
 
   function handleResize() {
     if (window.innerWidth >= 1920) {
@@ -161,7 +174,13 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   function makeMove(m: { from: string; to: string; promotion?: string }) {
     try {
       const result = lobby.actualGame.move(m);
+
       if (result) {
+        updateLobby({
+          type: "updateLobby",
+          payload: { pgn: lobby.actualGame.pgn() }
+        });
+        updateTurnTitle();
         let kingSquare = undefined;
         if (lobby.actualGame.inCheck()) {
           const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
