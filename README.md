@@ -16,7 +16,7 @@ Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Expre
 This project is structured as a monorepo using npm workspaces, separated into three packages:
 
 - `client` - Next.js application for the front-end, deployed to [ches.su](https://ches.su).
-- `server` - Node/Express.js application for the back-end, deployed to [api.ches.su](https://api.ches.su).
+- `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su).
 - `types` - Shared type definitions for the client and server.
 
 ### Scripts
