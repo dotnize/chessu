@@ -6,7 +6,7 @@ export default function Navbar() {
       <div className="flex-1">
         <span className="btn btn-ghost no-animation cursor-default gap-1 text-xl normal-case hover:bg-transparent">
           chessu
-          <div className="dropdown">
+          <div className="dropdown hover:dropdown-open">
             <label tabIndex={0} className="badge badge-sm mt-1 cursor-help">
               alpha
             </label>
