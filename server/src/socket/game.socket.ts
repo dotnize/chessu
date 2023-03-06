@@ -1,5 +1,5 @@
 import { activeGames } from "../db/models/game.model.js";
-import type { Socket } from "socket.io";
+import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
 import { io } from "../server.js";
 
@@ -10,9 +10,9 @@ export async function joinLobby(this: Socket, gameCode: string) {
         return;
     }
 
-    if (game.white?.id === this.request.session.id) {
+    if (game.white && game.white?.id === this.request.session.user.id) {
         game.white.connected = true;
-    } else if (game.black?.id === this.request.session.id) {
+    } else if (game.black && game.black?.id === this.request.session.user.id) {
         game.black.connected = true;
     } else {
         if (game.observers === undefined) game.observers = [];
@@ -32,7 +32,7 @@ export async function joinLobby(this: Socket, gameCode: string) {
     io.to(game.code as string).emit("receivedLatestGame", game);
 }
 
-export async function leaveLobby(this: Socket, code?: string) {
+export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?: string) {
     if (this.rooms.size >= 3 && !code) {
         console.log(`[WARNING] leaveLobby: room size is ${this.rooms.size}, aborting...`);
         return;
@@ -40,26 +40,26 @@ export async function leaveLobby(this: Socket, code?: string) {
     const game = activeGames.find(
         (g) =>
             g.code === (code || this.rooms.size === 2 ? Array.from(this.rooms)[1] : 0) ||
-            g.black?.id === this.request.session.id ||
-            g.white?.id === this.request.session.id ||
-            g.observers?.find((o) => this.request.session.id === o.id)
+            g.black?.id === this.request.session.user.id ||
+            g.white?.id === this.request.session.user.id ||
+            g.observers?.find((o) => this.request.session.user.id === o.id)
     );
 
     if (game) {
-        const user = game.observers?.find((o) => o.id === this.request.session.id);
+        const user = game.observers?.find((o) => o.id === this.request.session.user.id);
         if (user) {
             game.observers?.splice(game.observers?.indexOf(user), 1);
         }
-        if (game.black?.id === this.request.session.id) {
+        if (game.black && game.black?.id === this.request.session.user.id) {
             game.black.connected = false;
-        } else if (game.white?.id === this.request.session.id) {
+        } else if (game.white && game.white?.id === this.request.session.user.id) {
             game.white.connected = false;
         }
 
         // count sockets
         const sockets = await io.in(game.code as string).fetchSockets();
 
-        if (sockets.length <= 1) {
+        if (sockets.length <= 0 || (reason === undefined && sockets.length <= 1)) {
             if (game.timeout) clearTimeout(game.timeout);
             game.timeout = Number(
                 setTimeout(() => {
@@ -90,8 +90,8 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
         const prevTurn = chess.turn();
 
         if (
-            (prevTurn === "b" && this.request.session.id !== game.black?.id) ||
-            (prevTurn === "w" && this.request.session.id !== game.white?.id)
+            (prevTurn === "b" && this.request.session.user.id !== game.black?.id) ||
+            (prevTurn === "w" && this.request.session.user.id !== game.white?.id)
         ) {
             throw new Error("not turn to move");
         }
@@ -135,7 +135,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
 export async function joinAsPlayer(this: Socket) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
     if (!game) return;
-    const user = game.observers?.find((o) => o.id === this.request.session.id);
+    const user = game.observers?.find((o) => o.id === this.request.session.user.id);
     if (!game.white) {
         game.white = this.request.session.user;
         game.white.connected = true;
