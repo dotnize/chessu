@@ -1,5 +1,6 @@
-import { IconUser, IconSun, IconMoon } from "@tabler/icons-react";
+import { IconUser } from "@tabler/icons-react";
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   return (
@@ -37,9 +38,7 @@ export default function Navbar() {
         </div>
       </div>
       <div className="flex-none">
-        <div className="btn btn-ghost btn-circle">
-          <IconSun className="m-auto block h-full" />
-        </div>
+        <ThemeToggle />
         <label tabIndex={0} htmlFor="auth-modal" className="btn btn-ghost btn-circle avatar">
           <div className="w-10 rounded-full">
             <IconUser className="m-auto block h-full" />
