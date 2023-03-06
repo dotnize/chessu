@@ -40,7 +40,10 @@ export const createGame = async (req: Request, res: Response) => {
             res.status(401).end();
             return;
         }
-        const user: User = req.session.user;
+        const user: User = {
+            ...req.session.user,
+            connected: false
+        };
         const unlisted: boolean = req.body.unlisted ?? false;
         const game: Game = {
             code: nanoid(6),

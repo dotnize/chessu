@@ -314,7 +314,12 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         <span className={lobby.black?.name ? "font-bold" : ""}>
           {lobby.black?.name || "(no one)"}
         </span>
-        <span className="text-xs">black</span>
+        <span className="flex items-center gap-1 text-xs">
+          black
+          {lobby.black?.connected === false && (
+            <span className="badge badge-xs badge-error">disconnected</span>
+          )}
+        </span>
       </div>
     );
     const whiteHtml = (
@@ -322,7 +327,12 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         <span className={lobby.white?.name ? "font-bold" : ""}>
           {lobby.white?.name || "(no one)"}
         </span>
-        <span className="text-xs">white</span>
+        <span className="flex items-center gap-1 text-xs">
+          white
+          {lobby.white?.connected === false && (
+            <span className="badge badge-xs badge-error">disconnected</span>
+          )}
+        </span>
       </div>
     );
 
