@@ -4,7 +4,7 @@ import CreateGame from "@/components/home/CreateGame";
 
 export default function Home() {
   return (
-    <div className="bg-base-200 flex w-full flex-wrap items-center justify-evenly gap-4 rounded-xl px-4 py-10 shadow-md lg:gap-0">
+    <div className="flex w-full flex-wrap items-center justify-center gap-8 px-4 py-10 lg:gap-16 ">
       {/* @ts-expect-error Server Component */}
       <PublicGames />
 

@@ -11,8 +11,8 @@ export default async function PublicGames() {
         Public games <RefreshButton />
       </h2>
 
-      <div className="bg-base-100 h-80 max-h-80 overflow-y-auto">
-        <table className="table-compact lg:table-normal table rounded-none">
+      <div className="bg-base-200 h-80 max-h-80 overflow-y-auto rounded-xl">
+        <table className="table-compact lg:table-normal table-zebra table rounded-none">
           <thead>
             <tr>
               <th className="w-48">Host</th>
