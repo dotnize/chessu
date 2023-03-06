@@ -34,7 +34,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     check: {}
   });
 
-  const [moveFrom, setMoveFrom] = useState<string | Square>("");
+  const [moveFrom, setMoveFrom] = useState<string | Square | null>(null);
 
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [boardWidth, setBoardWidth] = useState(480);
@@ -193,8 +193,6 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
       updateCustomSquares({
         options: {}
       });
-      console.log(m);
-      console.log(err);
       return false;
     }
   }
@@ -268,7 +266,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     }
 
     // from square
-    if (!moveFrom) {
+    if (moveFrom === null) {
       resetFirstMove(square);
       return;
     }
@@ -283,7 +281,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     if (!move) {
       resetFirstMove(square);
     } else {
-      setMoveFrom("");
+      setMoveFrom(null);
       socket.emit("sendMove", moveDetails);
     }
   }
