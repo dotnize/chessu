@@ -27,13 +27,10 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={() => changeTheme(darkTheme ? "light" : "dark")}
-      className="btn btn-ghost btn-circle"
+      className={"btn btn-ghost btn-circle swap swap-rotate" + (darkTheme ? " swap-active" : "")}
     >
-      {darkTheme ? (
-        <IconSun className="m-auto block h-full" />
-      ) : (
-        <IconMoon className="m-auto block h-full" />
-      )}
+      <IconSun className="swap-on m-auto block h-full" />
+      <IconMoon className="swap-off m-auto block h-full" />
     </button>
   );
 }
