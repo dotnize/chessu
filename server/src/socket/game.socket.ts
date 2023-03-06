@@ -40,8 +40,8 @@ export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?:
     const game = activeGames.find(
         (g) =>
             g.code === (code || this.rooms.size === 2 ? Array.from(this.rooms)[1] : 0) ||
-            g.black?.id === this.request.session.user.id ||
-            g.white?.id === this.request.session.user.id ||
+            (g.black?.connected && g.black?.id === this.request.session.user.id) ||
+            (g.white?.connected && g.white?.id === this.request.session.user.id) ||
             g.observers?.find((o) => this.request.session.user.id === o.id)
     );
 
