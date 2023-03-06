@@ -59,12 +59,11 @@ CORS_ORIGIN=http://localhost:3000 # replace with frontend URL
 PORT=3001
 SESSION_SECRET=randomstring # replace for security
 
-# PostgreSQL connection info
+# PostgreSQL connection info (required)
 PGHOST=db.example.com
 PGUSER=exampleuser
 PGPASSWORD=examplepassword
 PGDATABASE=chessu
-
 # or use a connection string instead
 DATABASE_URL=postgres://...
 ```
