@@ -123,11 +123,11 @@ export function initSocket(
             winnerSide?: string;
         }) => {
             const m = {
-                author: { name: "game" }
+                author: { name: "server" }
             } as Message;
 
             if (reason === "checkmate") {
-                m.message = `${winnerName}(${winnerSide}) has won by checkmate.`;
+                m.message = `${winnerName} (${winnerSide}) has won by checkmate.`;
             } else {
                 let message = "The game has ended in a draw";
                 if (reason === "repetition") {

@@ -447,7 +447,22 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
             >
               {chatMessages.map((m, i) => (
                 <li className="max-w-[30rem]" key={i}>
-                  {m.author.name}: {m.message}
+                  <span
+                    className={
+                      !m.author.id && m.author.name === "server" ? "bg-base-content p-2" : ""
+                    }
+                  >
+                    {m.author.id && (
+                      <span>
+                        <span className="font-bold">{m.author.name}</span>:{" "}
+                      </span>
+                    )}
+                    <span
+                      className={!m.author.id && m.author.name === "server" ? "text-base-300" : ""}
+                    >
+                      {m.message}
+                    </span>
+                  </span>
                 </li>
               ))}
             </ul>
