@@ -35,6 +35,7 @@ module.exports = {
                     error: "#FB7085"
                 }
             }
-        ]
+        ],
+        darkTheme: "chessuDark"
     }
 };
