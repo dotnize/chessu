@@ -64,7 +64,7 @@ export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?:
             game.timeout = Number(
                 setTimeout(() => {
                     activeGames.splice(activeGames.indexOf(game), 1);
-                }, 1000 * 60 * 15) // 15 minutes
+                }, 1000 * 60 * 10) // 10 minutes
             );
         } else {
             this.to(game.code as string).emit("receivedLatestGame", game);
