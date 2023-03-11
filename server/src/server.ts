@@ -45,5 +45,5 @@ initSocket();
 
 const port = process.env.PORT || 3001;
 server.listen(port, () => {
-    console.log(`listening on :${port}`);
+    console.log(`chessu api server listening on :${port}`);
 });
