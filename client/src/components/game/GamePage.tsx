@@ -218,12 +218,14 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function isDraggablePiece({ piece }: { piece: string }) {
-    if (lobby.side === "s") return true;
     return piece.startsWith(lobby.side);
   }
 
   function onDrop(sourceSquare: Square, targetSquare: Square) {
-    if (lobby.side !== lobby.actualGame.turn()) return false;
+    if (lobby.side === "s") return false;
+
+    // premove
+    if (lobby.side !== lobby.actualGame.turn()) return true;
 
     const moveDetails = {
       from: sourceSquare,
@@ -406,6 +408,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           onPieceDrop={onDrop}
           onSquareClick={onSquareClick}
           onSquareRightClick={onSquareRightClick}
+          arePremovesAllowed={true}
           customSquareStyles={{
             ...customSquares.lastMove,
             ...customSquares.check,
