@@ -56,7 +56,12 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   const [playBtnLoading, setPlayBtnLoading] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
-  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  const [chatMessages, setChatMessages] = useState<Message[]>([
+    {
+      author: {},
+      message: `Welcome! You can invite friends to watch or play by sharing the link above. Have fun!`
+    }
+  ]);
   const chatListRef = useRef<HTMLUListElement>(null);
   const moveListRef = useRef<HTMLDivElement>(null);
 
@@ -578,22 +583,22 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
               ref={chatListRef}
             >
               {chatMessages.map((m, i) => (
-                <li className="max-w-[30rem]" key={i}>
-                  <span
-                    className={
-                      !m.author.id && m.author.name === "server" ? "bg-base-content p-2" : ""
-                    }
-                  >
+                <li
+                  className={
+                    "max-w-[30rem]" +
+                    (!m.author.id && m.author.name === "server"
+                      ? " bg-base-content text-base-300 p-2"
+                      : "")
+                  }
+                  key={i}
+                >
+                  <span>
                     {m.author.id && (
                       <span>
                         <span className="font-bold">{m.author.name}</span>:{" "}
                       </span>
                     )}
-                    <span
-                      className={!m.author.id && m.author.name === "server" ? "text-base-300" : ""}
-                    >
-                      {m.message}
-                    </span>
+                    <span>{m.message}</span>
                   </span>
                 </li>
               ))}
