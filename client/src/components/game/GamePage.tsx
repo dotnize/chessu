@@ -1,20 +1,26 @@
 "use client";
 // TODO: restructure
 
-import { Chessboard } from "react-chessboard";
 import { IconCopy } from "@tabler/icons-react";
-import { useState, useEffect, useContext, useReducer, useRef } from "react";
-import type { KeyboardEvent, FormEvent } from "react";
-//import Image from "next/image";
-import type { Game } from "@chessu/types";
-import type { Message } from "@/types";
 
-import { io } from "socket.io-client";
-import { API_URL } from "@/config";
+import type { FormEvent, KeyboardEvent } from "react";
+
 import { SessionContext } from "@/context/session";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
+
+import type { Message } from "@/types";
+import type { Game } from "@chessu/types";
+
+import type { Move, Square } from "chess.js";
 import { Chess } from "chess.js";
-import type { Square, Move } from "chess.js";
-import { initSocket, lobbyReducer, squareReducer } from "./handlers";
+import { Chessboard } from "react-chessboard";
+
+import { API_URL } from "@/config";
+import { io } from "socket.io-client";
+
+import { lobbyReducer, squareReducer } from "./reducers";
+import { initSocket } from "./socketEvents";
+import { syncPgn, syncSide } from "./utils";
 
 const socket = io(API_URL, { withCredentials: true, autoConnect: false });
 
@@ -52,45 +58,10 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     handleResize();
 
     if (lobby.pgn && lobby.actualGame.pgn() !== lobby.pgn) {
-      lobby.actualGame.loadPgn(lobby.pgn as string);
-
-      const lastMove = lobby.actualGame.history({ verbose: true }).pop();
-
-      let lastMoveSquares = undefined;
-      let kingSquare = undefined;
-      if (lastMove) {
-        lastMoveSquares = {
-          [lastMove.from]: { background: "rgba(255, 255, 0, 0.4)" },
-          [lastMove.to]: { background: "rgba(255, 255, 0, 0.4)" }
-        };
-      }
-      if (lobby.actualGame.inCheck()) {
-        const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
-          const squareIndex = row.findIndex(
-            (square) => square && square.type === "k" && square.color === lobby.actualGame.turn()
-          );
-          return squareIndex >= 0 ? `${String.fromCharCode(squareIndex + 97)}${8 - index}` : acc;
-        }, "");
-        kingSquare = {
-          [kingPos]: {
-            background: "radial-gradient(red, rgba(255,0,0,.4), transparent 70%)",
-            borderRadius: "50%"
-          }
-        };
-      }
-      updateCustomSquares({
-        lastMove: lastMoveSquares,
-        check: kingSquare
-      });
+      syncPgn(lobby.pgn, lobby, { updateCustomSquares });
     }
 
-    if (lobby.black?.id === session?.user?.id) {
-      if (lobby.side !== "b") updateLobby({ type: "setSide", payload: "b" });
-    } else if (lobby.white?.id === session?.user?.id) {
-      if (lobby.side !== "w") updateLobby({ type: "setSide", payload: "w" });
-    } else if (lobby.side !== "s") {
-      updateLobby({ type: "setSide", payload: "s" });
-    }
+    syncSide(session.user, undefined, lobby, { updateLobby });
 
     initSocket(session.user, socket, lobby, {
       updateLobby,
