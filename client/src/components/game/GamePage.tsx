@@ -106,7 +106,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   useEffect(() => {
     const activeMoveEl = document.getElementById("activeNavMove");
     if (!activeMoveEl) return;
-    activeMoveEl.scrollIntoView();
+    activeMoveEl.scrollIntoView({ inline: "nearest", block: "nearest" });
   });
 
   useEffect(() => {
