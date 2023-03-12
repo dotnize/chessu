@@ -1,7 +1,13 @@
 "use client";
-// TODO: restructure
+// TODO: restructure, i could use some help with this :>
 
-import { IconCopy } from "@tabler/icons-react";
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconCopy,
+  IconPlayerSkipBack,
+  IconPlayerSkipForward
+} from "@tabler/icons-react";
 
 import type { FormEvent, KeyboardEvent } from "react";
 
@@ -13,6 +19,7 @@ import type { Game } from "@chessu/types";
 
 import type { Move, Square } from "chess.js";
 import { Chess } from "chess.js";
+import type { ClearPremoves } from "react-chessboard";
 import { Chessboard } from "react-chessboard";
 
 import { API_URL } from "@/config";
@@ -41,14 +48,17 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   });
 
   const [moveFrom, setMoveFrom] = useState<string | Square | null>(null);
-
-  const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [boardWidth, setBoardWidth] = useState(480);
+  const chessboardRef = useRef<ClearPremoves>(null);
+
+  const [navFen, setNavFen] = useState<string | null>(null);
+  const [navIndex, setNavIndex] = useState<number | null>(null);
 
   const [playBtnLoading, setPlayBtnLoading] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
-
-  const chatlistRef = useRef<HTMLUListElement>(null);
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  const chatListRef = useRef<HTMLUListElement>(null);
+  const moveListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!session?.user || !session.user?.id) return;
@@ -58,7 +68,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     handleResize();
 
     if (lobby.pgn && lobby.actualGame.pgn() !== lobby.pgn) {
-      syncPgn(lobby.pgn, lobby, { updateCustomSquares });
+      syncPgn(lobby.pgn, lobby, { updateCustomSquares, setNavFen, setNavIndex });
     }
 
     syncSide(session.user, undefined, lobby, { updateLobby });
@@ -67,7 +77,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
       updateLobby,
       addMessage,
       updateCustomSquares,
-      makeMove
+      makeMove,
+      setNavFen,
+      setNavIndex
     });
 
     return () => {
@@ -80,10 +92,17 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   // auto scroll down when new message is added
   useEffect(() => {
-    const chatlist = chatlistRef.current;
-    if (!chatlist) return;
-    chatlist.scrollTop = chatlist.scrollHeight;
+    const chatList = chatListRef.current;
+    if (!chatList) return;
+    chatList.scrollTop = chatList.scrollHeight;
   }, [chatMessages]);
+
+  // auto scroll for moves
+  useEffect(() => {
+    const activeMoveEl = document.getElementById("activeNavMove");
+    if (!activeMoveEl) return;
+    activeMoveEl.scrollIntoView();
+  });
 
   useEffect(() => {
     updateTurnTitle();
@@ -148,6 +167,8 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
       const result = lobby.actualGame.move(m);
 
       if (result) {
+        setNavFen(null);
+        setNavIndex(null);
         updateLobby({
           type: "updateLobby",
           payload: { pgn: lobby.actualGame.pgn() }
@@ -193,7 +214,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function onDrop(sourceSquare: Square, targetSquare: Square) {
-    if (lobby.side === "s") return false;
+    if (lobby.side === "s" || navFen) return false;
 
     // premove
     if (lobby.side !== lobby.actualGame.turn()) return true;
@@ -240,7 +261,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function onPieceDragBegin(_piece: string, sourceSquare: Square) {
-    if (lobby.side !== lobby.actualGame.turn()) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen) return;
 
     getMoveOptions(sourceSquare);
   }
@@ -251,7 +272,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   function onSquareClick(square: Square) {
     updateCustomSquares({ rightClicked: {} });
-    if (lobby.side !== lobby.actualGame.turn()) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen) return;
 
     function resetFirstMove(square: Square) {
       setMoveFrom(square);
@@ -347,6 +368,93 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     }, 5000);
   }
 
+  function getMoveListHtml() {
+    const history = lobby.actualGame.history({ verbose: true });
+    const movePairs = history
+      .slice(history.length / 2)
+      .map((_, i) => history.slice((i *= 2), i + 2));
+
+    return movePairs.map((moves, i) => {
+      return (
+        <tr className="flex w-full items-center gap-1" key={i + 1}>
+          <td className="">{i + 1}.</td>
+          <td
+            className={
+              "btn btn-ghost btn-xs h-full w-2/5 font-normal normal-case" +
+              ((history.indexOf(moves[0]) === history.length - 1 && navIndex === null) ||
+              navIndex === history.indexOf(moves[0])
+                ? " btn-active pointer-events-none rounded-none"
+                : "")
+            }
+            id={
+              (history.indexOf(moves[0]) === history.length - 1 && navIndex === null) ||
+              navIndex === history.indexOf(moves[0])
+                ? "activeNavMove"
+                : ""
+            }
+            onClick={() => navigateMove(history.indexOf(moves[0]))}
+          >
+            {moves[0].san}
+          </td>
+          {moves[1] && (
+            <td
+              className={
+                "btn btn-ghost btn-xs h-full w-2/5 font-normal normal-case" +
+                ((history.indexOf(moves[1]) === history.length - 1 && navIndex === null) ||
+                navIndex === history.indexOf(moves[1])
+                  ? " btn-active pointer-events-none rounded-none"
+                  : "")
+              }
+              id={
+                (history.indexOf(moves[1]) === history.length - 1 && navIndex === null) ||
+                navIndex === history.indexOf(moves[1])
+                  ? "activeNavMove"
+                  : ""
+              }
+              onClick={() => navigateMove(history.indexOf(moves[1]))}
+            >
+              {moves[1].san}
+            </td>
+          )}
+        </tr>
+      );
+    });
+  }
+
+  function navigateMove(index: number | null | "prev") {
+    const history = lobby.actualGame.history({ verbose: true });
+
+    if (index === null || index >= history.length - 1 || !history.length) {
+      // last move
+      setNavIndex(null);
+      setNavFen(null);
+      return;
+    }
+
+    if (index === "prev") {
+      index = history.length - 2;
+    } else if (index < 0) {
+      index = 0;
+    }
+
+    chessboardRef.current?.clearPremoves(false);
+
+    setNavIndex(index);
+    setNavFen(history[index + 1].fen);
+  }
+
+  function getNavMoveSquares() {
+    if (navIndex === null) return;
+    const history = lobby.actualGame.history({ verbose: true });
+
+    if (!history.length) return;
+
+    return {
+      [history[navIndex].from]: { background: "rgba(255, 255, 0, 0.4)" },
+      [history[navIndex].to]: { background: "rgba(255, 255, 0, 0.4)" }
+    };
+  }
+
   return (
     <div className="flex w-full flex-wrap justify-center gap-6 px-4 py-4 lg:gap-10 2xl:gap-16">
       <div className="relative h-min">
@@ -371,7 +479,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           boardWidth={boardWidth}
           customDarkSquareStyle={{ backgroundColor: "#4b7399" }}
           customLightSquareStyle={{ backgroundColor: "#eae9d2" }}
-          position={lobby.actualGame.fen()}
+          position={navFen || lobby.actualGame.fen()}
           boardOrientation={lobby.side === "b" ? "black" : "white"}
           isDraggablePiece={isDraggablePiece}
           onPieceDragBegin={onPieceDragBegin}
@@ -379,13 +487,14 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           onPieceDrop={onDrop}
           onSquareClick={onSquareClick}
           onSquareRightClick={onSquareRightClick}
-          arePremovesAllowed={true}
+          arePremovesAllowed={!navFen}
           customSquareStyles={{
-            ...customSquares.lastMove,
-            ...customSquares.check,
+            ...(navIndex === null ? customSquares.lastMove : getNavMoveSquares()),
+            ...(navIndex === null ? customSquares.check : {}),
             ...customSquares.rightClicked,
-            ...customSquares.options
+            ...(navIndex === null ? customSquares.options : {})
           }}
+          ref={chessboardRef}
         />
       </div>
 
@@ -418,24 +527,46 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                 </div>
               </div>
             </div>
-            <div className="h-36 w-full overflow-y-scroll">
+            <div className="h-32 w-full overflow-y-scroll" ref={moveListRef}>
               <table className="table-compact table w-full">
-                <tbody>
-                  {(lobby.actualGame.pgn() || "")
-                    .split(/\d+\./)
-                    .filter((move) => move.trim() !== "")
-                    .map((moveSet, i) => {
-                      const moves = moveSet.trim().split(" ");
-                      return (
-                        <tr className="flex w-full items-center gap-1" key={i + 1}>
-                          <td className="">{i + 1}.</td>
-                          <td className="w-1/2 text-center">{moves[0]}</td>
-                          <td className="w-1/2 text-center">{moves[1]}</td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
+                <tbody>{getMoveListHtml()}</tbody>
               </table>
+            </div>
+            <div className="flex h-4 w-full">
+              <button
+                className={
+                  "btn btn-sm flex-grow rounded-r-none" +
+                  (navIndex === 0 || lobby.actualGame.history().length <= 1 ? " btn-disabled" : "")
+                }
+                onClick={() => navigateMove(0)}
+              >
+                <IconPlayerSkipBack size={18} />
+              </button>
+              <button
+                className={
+                  "btn btn-sm flex-grow rounded-none" +
+                  (navIndex === 0 || lobby.actualGame.history().length <= 1 ? " btn-disabled" : "")
+                }
+                onClick={() => navigateMove(navIndex === null ? "prev" : navIndex - 1)}
+              >
+                <IconChevronLeft size={18} />
+              </button>
+              <button
+                className={
+                  "btn btn-sm flex-grow rounded-none" + (navIndex === null ? " btn-disabled" : "")
+                }
+                onClick={() => navigateMove(navIndex === null ? null : navIndex + 1)}
+              >
+                <IconChevronRight size={18} />
+              </button>
+              <button
+                className={
+                  "btn btn-sm flex-grow rounded-l-none" + (navIndex === null ? " btn-disabled" : "")
+                }
+                onClick={() => navigateMove(null)}
+              >
+                <IconPlayerSkipForward size={18} />
+              </button>
             </div>
           </div>
         </div>
@@ -444,7 +575,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           <div className="bg-base-300 flex h-full w-full min-w-[64px] flex-col rounded-lg p-4 shadow-sm">
             <ul
               className="mb-4 flex h-full flex-col gap-1 overflow-y-scroll break-words"
-              ref={chatlistRef}
+              ref={chatListRef}
             >
               {chatMessages.map((m, i) => (
                 <li className="max-w-[30rem]" key={i}>

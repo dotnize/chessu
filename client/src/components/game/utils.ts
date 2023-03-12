@@ -1,14 +1,18 @@
 import type { Action, CustomSquares, Lobby } from "@/types";
 import type { Game, User } from "@chessu/types";
-import type { Dispatch } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 export const syncPgn = (
     latestPgn: string,
     lobby: Lobby,
     actions: {
         updateCustomSquares: Dispatch<Partial<CustomSquares>>;
+        setNavFen: Dispatch<SetStateAction<string | null>>;
+        setNavIndex: Dispatch<SetStateAction<number | null>>;
     }
 ) => {
+    actions.setNavFen(null);
+    actions.setNavIndex(null);
     lobby.actualGame.loadPgn(latestPgn as string);
 
     const lastMove = lobby.actualGame.history({ verbose: true }).pop();
