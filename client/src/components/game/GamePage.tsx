@@ -105,8 +105,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   // auto scroll for moves
   useEffect(() => {
     const activeMoveEl = document.getElementById("activeNavMove");
-    if (!activeMoveEl) return;
-    activeMoveEl.scrollIntoView({ inline: "nearest", block: "nearest" });
+    const moveList = moveListRef.current;
+    if (!activeMoveEl || !moveList) return;
+    moveList.scrollTop = activeMoveEl.offsetTop;
   });
 
   useEffect(() => {
