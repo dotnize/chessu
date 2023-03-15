@@ -528,7 +528,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   <IconCopy size={16} />
                   ches.su/{initialLobby.code}
                 </label>
-                <div tabIndex={0} className="dropdown-content badge badge-md badge-primary shadow">
+                <div tabIndex={0} className="dropdown-content badge badge-neutral text-xs shadow">
                   copied to clipboard
                 </div>
               </div>
