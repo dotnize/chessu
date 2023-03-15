@@ -50,7 +50,12 @@ export default function CreateGame() {
           <option value="white">White</option>
           <option value="black">Black</option>
         </select>
-        <button className={"btn" + (buttonLoading ? " loading" : "")} type="submit">
+        <button
+          className={
+            "btn" + (buttonLoading ? " loading" : "") + (!session?.user?.id ? " btn-disabled" : "")
+          }
+          type="submit"
+        >
           Create
         </button>
       </div>

@@ -53,7 +53,14 @@ export default function JoinGame() {
         name="joinGameCode"
         id="joinGameCode"
       />
-      <button className={"btn btn-square" + (buttonLoading ? " loading" : "")} type="submit">
+      <button
+        className={
+          "btn btn-square" +
+          (buttonLoading ? " loading" : "") +
+          (!session?.user?.id ? " btn-disabled" : "")
+        }
+        type="submit"
+      >
         Join
       </button>
     </form>
