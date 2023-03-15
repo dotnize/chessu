@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: { code: string } })
     openGraph: {
       title: "chessu",
       description: `Play or watch a game with ${game.host?.name}`,
-      url: `https://ches.su/game/${game.code}`,
+      url: `https://ches.su/${game.code}`,
       siteName: "chessu",
       locale: "en_US",
       type: "website"

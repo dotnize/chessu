@@ -24,7 +24,7 @@ export default function CreateGame() {
     const game = await createGame(startingSide, unlisted.checked);
 
     if (game) {
-      router.push(`/game/${game.code}`);
+      router.push(`/${game.code}`);
     } else {
       setButtonLoading(false);
       // TODO: Show error message

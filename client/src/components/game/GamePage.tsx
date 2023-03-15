@@ -362,7 +362,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function copyInvite() {
-    const text = `https://ches.su/game/${initialLobby.code}`;
+    const text = `https://ches.su/${initialLobby.code}`;
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(text);
     } else {
@@ -526,7 +526,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   onClick={copyInvite}
                 >
                   <IconCopy size={16} />
-                  ches.su/game/{initialLobby.code}
+                  ches.su/{initialLobby.code}
                 </label>
                 <div tabIndex={0} className="dropdown-content badge badge-md badge-primary shadow">
                   copied to clipboard

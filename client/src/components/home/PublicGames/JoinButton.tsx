@@ -9,7 +9,7 @@ export default function JoinButton({ code }: { code: string }) {
 
   function handleJoin() {
     startTransition(() => {
-      router.push(`/game/${code}`);
+      router.push(`/${code}`);
     });
   }
 

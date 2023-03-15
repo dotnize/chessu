@@ -31,7 +31,7 @@ export default function JoinGame() {
     const game = await getGame(code);
 
     if (game && game.code) {
-      router.push(`/game/${game.code}`);
+      router.push(`/${game.code}`);
     } else {
       setButtonLoading(false);
       setNotFound(true);
