@@ -67,7 +67,7 @@ export default function AuthModal() {
                   id="guestName"
                   name="guestName"
                   placeholder="Enter name here..."
-                  className="input input-bordered flex-grow"
+                  className="input input-bordered w-full"
                   maxLength={16}
                   minLength={2}
                   required
