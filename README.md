@@ -1,4 +1,4 @@
-# chessu
+# chessu [![Deployment status](https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment)](https://ches.su) [![MIT License](https://img.shields.io/github/license/nizewn/chessu?color=blue)](https://github.com/nizewn/chessu/blob/main/LICENSE)
 
 > ❗ This project is still in the early stages of development and should be considered unstable. Expect bugs and weird behavior.
 
@@ -64,6 +64,4 @@ PGHOST=db.example.com
 PGUSER=exampleuser
 PGPASSWORD=examplepassword
 PGDATABASE=chessu
-# or use a connection string instead
-DATABASE_URL=postgres://...
 ```
