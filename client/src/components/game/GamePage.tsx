@@ -430,7 +430,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   function navigateMove(index: number | null | "prev") {
     const history = lobby.actualGame.history({ verbose: true });
 
-    if (index === null || index >= history.length - 1 || !history.length) {
+    if (index === null || (index !== "prev" && index >= history.length - 1) || !history.length) {
       // last move
       setNavIndex(null);
       setNavFen(null);
@@ -446,7 +446,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     chessboardRef.current?.clearPremoves(false);
 
     setNavIndex(index);
-    setNavFen(history[index + 1].fen);
+    setNavFen(history[index].after);
   }
 
   function getNavMoveSquares() {
