@@ -9,7 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@tabler/icons-react": "^2.10.0",
+        "@tabler/icons-react": "^2.11.0",
         "chess.js": "^1.0.0-beta.4",
         "next": "13.2.4",
         "react": "18.2.0",
