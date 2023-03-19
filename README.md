@@ -1,6 +1,6 @@
-# chessu [![Deployment status](https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment)](https://ches.su) [![MIT License](https://img.shields.io/github/license/nizewn/chessu?color=blue)](https://github.com/nizewn/chessu/blob/main/LICENSE)
+# chessu [![Deployment status](https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment)](https://ches.su)
 
-> ❗ This project is still in the early stages of development and should be considered unstable. Expect bugs and weird behavior.
+> ❗ This project is still in the early stages of development. Expect bugs and incomplete features.
 
 Yet another Chess web app. Live demo at [ches.su](https://ches.su).
 
@@ -19,7 +19,9 @@ This project is structured as a monorepo using npm workspaces, separated into th
 - `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su).
 - `types` - Shared type definitions for the client and server.
 
-### Scripts
+For separate deployments, you may exclude the `client` or `server` directory. However, you should include the `types` folder as it contains shared type definitions that are required by both packages.
+
+<details><summary><b>Scripts</b></summary><p>
 
 ```sh
 # install all dependencies, including eslint and prettier for development
@@ -27,8 +29,9 @@ npm install
 
 # concurrently run frontend and backend development servers
 npm run dev # -w client/server to run only one
+```
 
-
+```sh
 # for separate production deployments
 npm install -w client
 npm install -w server
@@ -40,9 +43,9 @@ npm start -w client
 npm start -w server
 ```
 
-For separate deployments, you may exclude the `client` or `server` directory. However, you should include the `types` folder as it contains shared type definitions that are required by both packages.
+</p></details>
 
-### Environment variables
+<details><summary><b>Environment variables</b></summary><p>
 
 You may create a `.env` file in each package directory to set their environment variables.
 
@@ -65,3 +68,13 @@ PGUSER=exampleuser
 PGPASSWORD=examplepassword
 PGDATABASE=chessu
 ```
+
+</p></details>
+
+## Contributing
+
+Pull requests are welcome. For feature changes or suggestions, please open an issue first for discussion.
+
+## License
+
+[MIT](https://github.com/nizewn/chessu/blob/main/LICENSE)
