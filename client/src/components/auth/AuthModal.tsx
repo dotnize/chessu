@@ -62,8 +62,8 @@ export default function AuthModal() {
                 <span>Name</span>
                 <input
                   type="text"
-                  pattern="[A-Za-z0-9_]+"
-                  title="Alphanumeric characters and underscores only"
+                  pattern="[A-Za-z0-9]+"
+                  title="Alphanumeric characters only"
                   id="guestName"
                   name="guestName"
                   placeholder="Enter name here..."

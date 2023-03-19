@@ -22,7 +22,7 @@ export const guestSession = async (req: Request, res: Response) => {
     try {
         const name = xss(req.body.name);
 
-        const pattern = /^[A-Za-z0-9_]+$/;
+        const pattern = /^[A-Za-z0-9]+$/;
 
         if (!pattern.test(name)) {
             res.status(400).end();
