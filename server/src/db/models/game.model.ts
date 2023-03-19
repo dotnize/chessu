@@ -5,7 +5,7 @@ export const activeGames: Array<Game> = [];
 
 // todo: join user and game relationship
 
-const create = async (game: Game) => {
+export const create = async (game: Game) => {
     try {
         const res = await db.query(
             `INSERT INTO "game"(pgn, white_id, black_id, winner) VALUES($1, $2, $3, $4) RETURNING *`,
@@ -24,7 +24,7 @@ const create = async (game: Game) => {
     }
 };
 
-const find = async (where?: string, limit = 1) => {
+export const find = async (where?: string, limit = 1) => {
     const query = where
         ? `SELECT * FROM "game"`
         : {
@@ -49,7 +49,7 @@ const find = async (where?: string, limit = 1) => {
     }
 };
 
-const update = async (id: number, data: string) => {
+export const update = async (id: number, data: string) => {
     try {
         const res = await db.query(`UPDATE "game" SET $1 WHERE id = $2 RETURNING *`, [data, id]);
         return {
@@ -65,7 +65,7 @@ const update = async (id: number, data: string) => {
     }
 };
 
-const remove = async (id: number) => {
+export const remove = async (id: number) => {
     try {
         const res = await db.query(`DELETE FROM "game" WHERE id = $1 RETURNING *`, [id]);
         return {
@@ -79,11 +79,4 @@ const remove = async (id: number) => {
         console.log(err);
         return null;
     }
-};
-
-export const GameModel = {
-    create,
-    find,
-    update,
-    remove
 };

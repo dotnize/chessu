@@ -13,7 +13,7 @@ export interface Game {
 
 export interface User {
     id?: number | string; // string for guest IDs
-    name?: string;
+    name?: string | null;
     email?: string;
     connected?: boolean; // mainly for players, not spectators
 }

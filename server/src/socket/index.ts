@@ -12,7 +12,7 @@ import {
 const socketConnect = (socket: Socket) => {
     const req = socket.request;
 
-    // re-analyze if this is necessary, or if io.use will handle logout
+    // review if this is necessary, or if io.use will handle logout
     socket.use((__, next) => {
         req.session.reload((err) => {
             if (err) {
