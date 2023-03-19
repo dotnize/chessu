@@ -6,7 +6,7 @@ import { createServer } from "http";
 import session from "./middleware/session.js";
 import { Server } from "socket.io";
 import { init as initSocket } from "./socket/index.js";
-import { db } from "./db/index.js";
+import { db, INIT_TABLES } from "./db/index.js";
 import routes from "./routes/index.js";
 
 const corsConfig = {
@@ -18,7 +18,14 @@ const app = express();
 const server = createServer(app);
 
 // database
-db.connect();
+await db.connect();
+db.query(INIT_TABLES, (err) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("Tables initialized");
+    }
+});
 
 // middleware
 app.use(cors(corsConfig));
