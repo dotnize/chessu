@@ -10,13 +10,29 @@ export async function joinLobby(this: Socket, gameCode: string) {
         return;
     }
 
+    if (game.host && game.host?.id === this.request.session.user.id) {
+        game.host.connected = true;
+        if (game.host.name !== this.request.session.user.name) {
+            game.host.name = this.request.session.user.name;
+        }
+    }
     if (game.white && game.white?.id === this.request.session.user.id) {
         game.white.connected = true;
+        if (game.white.name !== this.request.session.user.name) {
+            game.white.name = this.request.session.user.name;
+        }
     } else if (game.black && game.black?.id === this.request.session.user.id) {
         game.black.connected = true;
+        if (game.black.name !== this.request.session.user.name) {
+            game.black.name = this.request.session.user.name;
+        }
     } else {
         if (game.observers === undefined) game.observers = [];
-        game.observers?.push(this.request.session.user);
+        const user = {
+            id: this.request.session.user.id,
+            name: this.request.session.user.name
+        };
+        game.observers?.push(user);
     }
 
     if (this.rooms.size >= 2) {
@@ -61,10 +77,15 @@ export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?:
 
         if (sockets.length <= 0 || (reason === undefined && sockets.length <= 1)) {
             if (game.timeout) clearTimeout(game.timeout);
+
+            let timeout = 1000 * 60; // 1 minute
+            if (game.pgn) {
+                timeout *= 20; // 20 minutes if game has started
+            }
             game.timeout = Number(
                 setTimeout(() => {
                     activeGames.splice(activeGames.indexOf(game), 1);
-                }, 1000 * 60 * 10) // 10 minutes
+                }, timeout)
             );
         } else {
             this.to(game.code as string).emit("receivedLatestGame", game);
@@ -137,16 +158,24 @@ export async function joinAsPlayer(this: Socket) {
     if (!game) return;
     const user = game.observers?.find((o) => o.id === this.request.session.user.id);
     if (!game.white) {
-        game.white = this.request.session.user;
-        game.white.connected = true;
+        const sessionUser = {
+            id: this.request.session.user.id,
+            name: this.request.session.user.name,
+            connected: true
+        };
+        game.white = sessionUser;
         if (user) game.observers?.splice(game.observers?.indexOf(user), 1);
         io.to(game.code as string).emit("userJoinedAsPlayer", {
             name: this.request.session.user.name,
             side: "white"
         });
     } else if (!game.black) {
-        game.black = this.request.session.user;
-        game.black.connected = true;
+        const sessionUser = {
+            id: this.request.session.user.id,
+            name: this.request.session.user.name,
+            connected: true
+        };
+        game.black = sessionUser;
         if (user) game.observers?.splice(game.observers?.indexOf(user), 1);
         io.to(game.code as string).emit("userJoinedAsPlayer", {
             name: this.request.session.user.name,

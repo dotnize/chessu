@@ -34,13 +34,14 @@ export const getActiveGame = async (req: Request, res: Response) => {
 
 export const createGame = async (req: Request, res: Response) => {
     try {
-        if (!req.session.user) {
+        if (!req.session.user?.id) {
             console.log("unauthorized createGame");
             res.status(401).end();
             return;
         }
         const user: User = {
-            ...req.session.user,
+            id: req.session.user.id,
+            name: req.session.user.name,
             connected: false
         };
         const unlisted: boolean = req.body.unlisted ?? false;
