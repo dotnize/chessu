@@ -7,9 +7,6 @@ import { activeGames } from "../db/models/game.model.js";
 import { io } from "../server.js";
 import * as UserModel from "../db/models/user.model.js";
 
-import { activeGames } from "../db/models/game.model.js";
-import { io } from "../server.js";
-
 export const getCurrentSession = async (req: Request, res: Response) => {
     try {
         if (req.session.user) {
