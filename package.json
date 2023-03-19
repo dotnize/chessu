@@ -20,7 +20,7 @@
         "eslint-config-next": "13.2.4",
         "eslint-config-prettier": "^8.7.0",
         "prettier": "^2.8.4",
-        "prettier-plugin-tailwindcss": "^0.2.4"
+        "prettier-plugin-tailwindcss": "^0.2.5"
     },
     "engines": {
         "node": ">=18"
