@@ -30,6 +30,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
+      aria-label="Toggle theme"
       onClick={() => changeTheme(darkTheme ? "light" : "dark")}
       className={"btn btn-ghost btn-circle swap swap-rotate" + (darkTheme ? " swap-active" : "")}
     >

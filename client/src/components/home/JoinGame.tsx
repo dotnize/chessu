@@ -57,7 +57,7 @@ export default function JoinGame() {
         className={
           "btn btn-square" +
           (buttonLoading ? " loading" : "") +
-          (!session?.user?.id ? " btn-disabled" : "")
+          (!session?.user?.id ? " btn-disabled text-base-content" : "")
         }
         type="submit"
       >

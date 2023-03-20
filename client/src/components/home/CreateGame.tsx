@@ -52,7 +52,9 @@ export default function CreateGame() {
         </select>
         <button
           className={
-            "btn" + (buttonLoading ? " loading" : "") + (!session?.user?.id ? " btn-disabled" : "")
+            "btn" +
+            (buttonLoading ? " loading" : "") +
+            (!session?.user?.id ? " btn-disabled text-base-content" : "")
           }
           type="submit"
         >
