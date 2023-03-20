@@ -190,32 +190,41 @@ export default function AuthModal() {
           ) : (
             <>
               <div className="tabs flex-nowap w-full">
-                <a
+                <span
                   onClick={() => {
                     setActiveTab("guest");
                   }}
                   className={
-                    "tab tab-bordered flex-grow" + (activeTab === "guest" ? " tab-active" : "")
+                    "tab tab-bordered flex-grow rounded-tl-lg" +
+                    (activeTab === "guest"
+                      ? " tab-active bg-base-200"
+                      : " text-base-content hover:bg-base-200")
                   }
                 >
                   Guest
-                </a>
-                <a
+                </span>
+                <span
                   onClick={() => setActiveTab("login")}
                   className={
-                    "tab tab-bordered flex-grow" + (activeTab === "login" ? " tab-active" : "")
+                    "tab tab-bordered flex-grow" +
+                    (activeTab === "login"
+                      ? " tab-active bg-base-200"
+                      : " text-base-content hover:bg-base-200")
                   }
                 >
                   Login
-                </a>
-                <a
+                </span>
+                <span
                   onClick={() => setActiveTab("register")}
                   className={
-                    "tab tab-bordered flex-grow" + (activeTab === "register" ? " tab-active" : "")
+                    "tab tab-bordered flex-grow rounded-tr-lg" +
+                    (activeTab === "register"
+                      ? " tab-active bg-base-200"
+                      : " text-base-content hover:bg-base-200")
                   }
                 >
                   Register
-                </a>
+                </span>
               </div>
 
               <form className="flex flex-col px-2" onSubmit={submitAuth}>
