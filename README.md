@@ -1,6 +1,6 @@
 # chessu [![Deployment status](https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment)](https://ches.su)
 
-> ❗ This project is still in the early stages of development. Expect bugs and incomplete features.
+> This project is still in the early stages of development. Expect bugs and incomplete features.
 
 Yet another Chess web app. Live demo at [ches.su](https://ches.su).
 
@@ -8,6 +8,7 @@ Yet another Chess web app. Live demo at [ches.su](https://ches.su).
 - spectate and chat in ongoing games with other users
 - ~~_optional_ user accounts for tracking stats and game history~~ (wip)
 - mobile-friendly (wip)
+- ... and more ([view roadmap](https://github.com/users/nizewn/projects/2))
 
 Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
 
@@ -47,7 +48,7 @@ npm start -w server
 
 <details><summary><b>Environment variables</b></summary><p>
 
-You may create a `.env` file in each package directory to set their environment variables.
+You may also create a `.env` file in each package directory to set their environment variables.
 
 client:
 
