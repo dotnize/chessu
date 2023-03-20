@@ -10,7 +10,7 @@ export const getCurrentSession = async (req: Request, res: Response) => {
         if (req.session.user) {
             res.status(200).json(req.session.user);
         } else {
-            res.status(404).end();
+            res.status(204).end();
         }
     } catch (err: unknown) {
         console.log(err);
