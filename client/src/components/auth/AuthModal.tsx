@@ -42,9 +42,13 @@ export default function AuthModal() {
         <label className="modal-box flex flex-col gap-4 pt-2">
           <div className="flex w-full gap-2">
             <div className="tabs flex-grow">
-              <a className="tab tab-bordered tab-active flex-grow">Guest</a>
-              <a className="tab tab-bordered tab-disabled flex-grow">Login</a>
-              <a className="tab tab-bordered tab-disabled flex-grow">Register</a>
+              <span className="tab tab-bordered tab-active flex-grow">Guest</span>
+              <span className="tab tab-bordered tab-disabled flex-grow" aria-disabled>
+                Login
+              </span>
+              <span className="tab tab-bordered tab-disabled flex-grow" aria-disabled>
+                Register
+              </span>
             </div>
             {session?.user !== null && (
               <label htmlFor="auth-modal" className="btn btn-sm btn-circle btn-ghost">
