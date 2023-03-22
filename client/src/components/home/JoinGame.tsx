@@ -23,7 +23,7 @@ export default function JoinGame() {
     if (!code) return;
 
     setButtonLoading(true);
-    
+
     if (code.startsWith("ches.su")) {
       code = "http://" + code;
     }
@@ -58,7 +58,7 @@ export default function JoinGame() {
       />
       <button
         className={
-          "btn btn-square" +
+          "btn" +
           (buttonLoading ? " loading" : "") +
           (!session?.user?.id ? " btn-disabled text-base-content" : "")
         }
