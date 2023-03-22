@@ -25,7 +25,7 @@ export default function JoinGame() {
     setButtonLoading(true);
 
     if (code.startsWith("http") || code.startsWith("ches.su")) {
-      code = new URL(code).pathname.split("/")[2];
+      code = new URL(code).pathname.split("/")[1];
     }
 
     const game = await getGame(code);
