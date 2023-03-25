@@ -8,15 +8,37 @@ export const activeGames: Array<Game> = [];
 export const create = async (game: Game) => {
     try {
         const res = await db.query(
-            `INSERT INTO "game"(pgn, white_id, black_id, winner) VALUES($1, $2, $3, $4) RETURNING *`,
-            [game.pgn || null, game.white?.id || null, game.black?.id || null, game.winner || null]
+            `INSERT INTO "game"(code, winner_id, reason, pgn, host_id, white_id, white_guest_name, black_id, black_guest_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+            [
+                game.code || null,
+                game.winner === "draw"
+                    ? null
+                    : game.winner === "white"
+                    ? game.white?.id
+                    : game.black?.id,
+                game.reason || null,
+                game.pgn,
+                game.host?.id || null,
+                game.white?.id || null,
+                game.white?.name || null,
+                game.black?.id || null,
+                game.black?.name || null
+            ]
         );
         return {
             id: res.rows[0].id,
+            code: res.rows[0].code,
+            winner:
+                res.rows[0].winner_id === res.rows[0].white_id
+                    ? "white"
+                    : res.rows[0].winner_id === res.rows[0].black_id
+                    ? "black"
+                    : "draw",
+            reason: res.rows[0].reason,
             pgn: res.rows[0].pgn,
-            white: { id: res.rows[0].white_id },
-            black: { id: res.rows[0].black_id },
-            winner: res.rows[0].winner
+            host: { id: res.rows[0].host_id },
+            white: { id: res.rows[0].white_id, name: res.rows[0].white_guest_name },
+            black: { id: res.rows[0].black_id, name: res.rows[0].black_guest_name }
         } as Game;
     } catch (err: unknown) {
         console.log(err);
@@ -80,3 +102,12 @@ export const remove = async (id: number) => {
         return null;
     }
 };
+
+const GameModel = {
+    create,
+    find,
+    update,
+    remove
+};
+
+export default GameModel;

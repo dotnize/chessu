@@ -4,6 +4,7 @@ export interface Game {
     white?: User;
     black?: User;
     winner?: "white" | "black" | "draw";
+    reason?: string;
     host?: User;
     code?: string;
     unlisted?: boolean;
@@ -15,5 +16,8 @@ export interface User {
     id?: number | string; // string for guest IDs
     name?: string | null;
     email?: string;
-    connected?: boolean; // mainly for players, not spectators
+
+    // mainly for players, not spectators
+    connected?: boolean;
+    disconnectedOn?: number;
 }

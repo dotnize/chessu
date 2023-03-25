@@ -12,8 +12,14 @@ export const INIT_TABLES = `
     );
     CREATE TABLE IF NOT EXISTS "game" (
         id SERIAL PRIMARY KEY,
+        code VARCHAR(8) UNIQUE NOT NULL,
+        winner_id INT REFERENCES "user",
+        reason VARCHAR(16),
         pgn TEXT,
+        host_id INT REFERENCES "user",
         white_id INT REFERENCES "user",
-        black_id INT REFERENCES "user"
+        white_guest_name VARCHAR(32),
+        black_id INT REFERENCES "user",
+        black_guest_name VARCHAR(32)
     );
 `;
