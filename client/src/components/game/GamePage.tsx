@@ -651,7 +651,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   abandonSeconds > 1 ? "s" : ""
                 }.`
               ) : (
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center justify-center gap-2">
                   <span>Your opponent has disconnected.</span>
                   <div className="flex items-center gap-1">
                     <button
