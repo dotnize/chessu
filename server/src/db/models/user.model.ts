@@ -80,3 +80,12 @@ export const remove = async (id: number) => {
         return null;
     }
 };
+
+const UserModel = {
+    create,
+    find,
+    update,
+    remove
+};
+
+export default UserModel;
