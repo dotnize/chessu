@@ -65,6 +65,36 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const chatListRef = useRef<HTMLUListElement>(null);
   const moveListRef = useRef<HTMLDivElement>(null);
 
+  const [abandonSeconds, setAbandonSeconds] = useState(60);
+  useEffect(() => {
+    if (
+      lobby.side === "s" ||
+      lobby.reason ||
+      lobby.winner ||
+      !lobby.pgn ||
+      !lobby.white ||
+      !lobby.black ||
+      (lobby.white.id !== session?.user?.id && lobby.black.id !== session?.user?.id)
+    )
+      return;
+
+    let interval: number;
+    if (!lobby.white?.connected || !lobby.black?.connected) {
+      setAbandonSeconds(60);
+      interval = Number(
+        setInterval(() => {
+          if (abandonSeconds === 0 || (lobby.white?.connected && lobby.black?.connected)) {
+            clearInterval(interval);
+            return;
+          }
+          setAbandonSeconds((s) => s - 1);
+        }, 1000)
+      );
+    }
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lobby.black, lobby.white, lobby.black?.disconnectedOn, lobby.white?.disconnectedOn]);
+
   useEffect(() => {
     if (!session?.user || !session.user?.id) return;
     socket.connect();
@@ -216,11 +246,11 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function isDraggablePiece({ piece }: { piece: string }) {
-    return piece.startsWith(lobby.side);
+    return piece.startsWith(lobby.side) && !lobby.reason && !lobby.winner;
   }
 
   function onDrop(sourceSquare: Square, targetSquare: Square) {
-    if (lobby.side === "s" || navFen) return false;
+    if (lobby.side === "s" || navFen || lobby.reason || lobby.winner) return false;
 
     // premove
     if (lobby.side !== lobby.actualGame.turn()) return true;
@@ -267,7 +297,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function onPieceDragBegin(_piece: string, sourceSquare: Square) {
-    if (lobby.side !== lobby.actualGame.turn() || navFen) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.reason || lobby.winner) return;
 
     getMoveOptions(sourceSquare);
   }
@@ -278,7 +308,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   function onSquareClick(square: Square) {
     updateCustomSquares({ rightClicked: {} });
-    if (lobby.side !== lobby.actualGame.turn() || navFen) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.reason || lobby.winner) return;
 
     function resetFirstMove(square: Square) {
       setMoveFrom(square);
@@ -461,6 +491,20 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     };
   }
 
+  function claimAbandoned(type: "win" | "draw") {
+    if (
+      lobby.side === "s" ||
+      lobby.reason ||
+      lobby.winner ||
+      !lobby.pgn ||
+      abandonSeconds > 0 ||
+      (lobby.black?.connected && lobby.white?.connected)
+    ) {
+      return;
+    }
+    socket.emit("claimAbandoned", type);
+  }
+
   return (
     <div className="flex w-full flex-wrap justify-center gap-6 px-4 py-4 lg:gap-10 2xl:gap-16">
       <div className="relative h-min">
@@ -577,7 +621,53 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           </div>
         </div>
 
-        <div className="h-60 w-full min-w-fit">
+        <div className="relative h-60 w-full min-w-fit">
+          {(lobby.reason ||
+            (lobby.pgn &&
+              lobby.white &&
+              session?.user?.id === lobby.white?.id &&
+              lobby.black &&
+              !lobby.black?.connected) ||
+            (lobby.pgn &&
+              lobby.black &&
+              session?.user?.id === lobby.black?.id &&
+              lobby.white &&
+              !lobby.white?.connected)) && (
+            <div className="bg-neutral absolute w-full rounded-t-lg bg-opacity-95 p-2">
+              {lobby.reason ? (
+                lobby.reason === "abandoned" ? (
+                  lobby.winner === "draw" ? (
+                    "The game ended in a draw due to abandonment."
+                  ) : (
+                    `The game was won by ${lobby.winner} due to abandonment.`
+                  )
+                ) : lobby.winner === "draw" ? (
+                  "The game ended in a draw."
+                ) : (
+                  `The game was won by checkmate (${lobby.winner}).`
+                )
+              ) : abandonSeconds > 0 ? (
+                `Your opponent has disconnected. You can claim the win or draw in ${abandonSeconds} second${
+                  abandonSeconds > 1 ? "s" : ""
+                }.`
+              ) : (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span>Your opponent has disconnected.</span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => claimAbandoned("win")}
+                      className="btn btn-sm btn-primary"
+                    >
+                      Claim win
+                    </button>
+                    <button onClick={() => claimAbandoned("draw")} className="btn btn-sm btn-ghost">
+                      Draw
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           <div className="bg-base-300 flex h-full w-full min-w-[64px] flex-col rounded-lg p-4 shadow-sm">
             <ul
               className="mb-4 flex h-full flex-col gap-1 overflow-y-scroll break-words"

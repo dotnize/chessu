@@ -6,7 +6,8 @@ import {
     getLatestGame,
     sendMove,
     joinAsPlayer,
-    chat
+    chat,
+    claimAbandoned
 } from "./game.socket.js";
 
 const socketConnect = (socket: Socket) => {
@@ -34,6 +35,7 @@ const socketConnect = (socket: Socket) => {
     socket.on("sendMove", sendMove);
     socket.on("joinAsPlayer", joinAsPlayer);
     socket.on("chat", chat);
+    socket.on("claimAbandoned", claimAbandoned);
 };
 
 export const init = () => {
