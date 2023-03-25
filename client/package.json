@@ -19,11 +19,11 @@
     },
     "devDependencies": {
         "@chessu/types": "*",
-        "@types/node": "18.15.3",
-        "@types/react": "18.0.28",
+        "@types/node": "18.15.8",
+        "@types/react": "18.0.29",
         "@types/react-dom": "18.0.11",
         "autoprefixer": "^10.4.14",
-        "daisyui": "^2.51.4",
+        "daisyui": "^2.51.5",
         "postcss": "^8.4.21",
         "tailwindcss": "^3.2.7",
         "typescript": "5.0.2"
