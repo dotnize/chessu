@@ -1,4 +1,4 @@
-import { activeGames } from "../db/models/game.model.js";
+import GameModel, { activeGames } from "../db/models/game.model.js";
 import type { Game } from "@chessu/types";
 import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
@@ -138,10 +138,14 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
         game.winner = "black";
     }
 
+    const { id } = (await GameModel.create(game)) as Game;
+    game.id = id;
+
     const gameOver = {
         reason: game.endReason,
         winnerName: this.request.session.user.name,
-        winnerSide: game.winner === "draw" ? undefined : game.winner
+        winnerSide: game.winner === "draw" ? undefined : game.winner,
+        id
     };
 
     io.to(game.code as string).emit("gameOver", gameOver);
@@ -171,32 +175,36 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
         }
 
         const newMove = chess.move(m);
-        if (chess.isGameOver()) {
-            let reason: Game["endReason"];
-            if (chess.isCheckmate()) reason = "checkmate";
-            else if (chess.isStalemate()) reason = "stalemate";
-            else if (chess.isThreefoldRepetition()) reason = "repetition";
-            else if (chess.isInsufficientMaterial()) reason = "insufficient";
-            else if (chess.isDraw()) reason = "draw";
 
-            const winnerSide =
-                reason === "checkmate" ? (prevTurn === "w" ? "white" : "black") : undefined;
-            const winnerName =
-                reason === "checkmate"
-                    ? winnerSide === "white"
-                        ? game.white?.name
-                        : game.black?.name
-                    : undefined;
-            if (reason === "checkmate") {
-                game.winner = winnerSide;
-            } else {
-                game.winner = "draw";
-            }
-            game.endReason = reason;
-            io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide });
-        }
         if (newMove) {
             game.pgn = chess.pgn();
+            if (chess.isGameOver()) {
+                let reason: Game["endReason"];
+                if (chess.isCheckmate()) reason = "checkmate";
+                else if (chess.isStalemate()) reason = "stalemate";
+                else if (chess.isThreefoldRepetition()) reason = "repetition";
+                else if (chess.isInsufficientMaterial()) reason = "insufficient";
+                else if (chess.isDraw()) reason = "draw";
+
+                const winnerSide =
+                    reason === "checkmate" ? (prevTurn === "w" ? "white" : "black") : undefined;
+                const winnerName =
+                    reason === "checkmate"
+                        ? winnerSide === "white"
+                            ? game.white?.name
+                            : game.black?.name
+                        : undefined;
+                if (reason === "checkmate") {
+                    game.winner = winnerSide;
+                } else {
+                    game.winner = "draw";
+                }
+                game.endReason = reason;
+
+                const { id } = (await GameModel.create(game)) as Game; // save game to db
+                game.id = id;
+                io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide, id });
+            }
             this.to(game.code as string).emit("receivedMove", m);
         } else {
             throw new Error("invalid move");

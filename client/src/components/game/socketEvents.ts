@@ -58,11 +58,13 @@ export function initSocket(
         ({
             reason,
             winnerName,
-            winnerSide
+            winnerSide,
+            id
         }: {
             reason: Game["endReason"];
             winnerName?: string;
             winnerSide?: "white" | "black" | "draw";
+            id: number;
         }) => {
             const m = {
                 author: { name: "server" }
@@ -89,7 +91,7 @@ export function initSocket(
             }
             actions.updateLobby({
                 type: "updateLobby",
-                payload: { endReason: reason, winner: winnerSide || "draw" }
+                payload: { endReason: reason, winner: winnerSide || "draw", id }
             });
             actions.addMessage(m);
         }
