@@ -69,7 +69,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   useEffect(() => {
     if (
       lobby.side === "s" ||
-      lobby.reason ||
+      lobby.endReason ||
       lobby.winner ||
       !lobby.pgn ||
       !lobby.white ||
@@ -246,11 +246,11 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function isDraggablePiece({ piece }: { piece: string }) {
-    return piece.startsWith(lobby.side) && !lobby.reason && !lobby.winner;
+    return piece.startsWith(lobby.side) && !lobby.endReason && !lobby.winner;
   }
 
   function onDrop(sourceSquare: Square, targetSquare: Square) {
-    if (lobby.side === "s" || navFen || lobby.reason || lobby.winner) return false;
+    if (lobby.side === "s" || navFen || lobby.endReason || lobby.winner) return false;
 
     // premove
     if (lobby.side !== lobby.actualGame.turn()) return true;
@@ -297,7 +297,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function onPieceDragBegin(_piece: string, sourceSquare: Square) {
-    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.reason || lobby.winner) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.endReason || lobby.winner) return;
 
     getMoveOptions(sourceSquare);
   }
@@ -308,7 +308,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   function onSquareClick(square: Square) {
     updateCustomSquares({ rightClicked: {} });
-    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.reason || lobby.winner) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.endReason || lobby.winner) return;
 
     function resetFirstMove(square: Square) {
       setMoveFrom(square);
@@ -494,7 +494,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   function claimAbandoned(type: "win" | "draw") {
     if (
       lobby.side === "s" ||
-      lobby.reason ||
+      lobby.endReason ||
       lobby.winner ||
       !lobby.pgn ||
       abandonSeconds > 0 ||
@@ -510,8 +510,8 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
       <div className="relative h-min">
         {/* overlay */}
         {(!lobby.white?.id || !lobby.black?.id) && (
-          <div className="absolute top-0 right-0 bottom-0 z-10 flex h-full w-full items-center justify-center bg-black bg-opacity-70">
-            <div className="bg-base-200 flex w-full items-center justify-center gap-4 py-4 px-2">
+          <div className="absolute bottom-0 right-0 top-0 z-10 flex h-full w-full items-center justify-center bg-black bg-opacity-70">
+            <div className="bg-base-200 flex w-full items-center justify-center gap-4 px-2 py-4">
               Waiting for opponent.
               {session?.user?.id !== lobby.white?.id && session?.user?.id !== lobby.black?.id && (
                 <button
@@ -622,7 +622,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         </div>
 
         <div className="relative h-60 w-full min-w-fit">
-          {(lobby.reason ||
+          {(lobby.endReason ||
             (lobby.pgn &&
               lobby.white &&
               session?.user?.id === lobby.white?.id &&
@@ -634,8 +634,8 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
               lobby.white &&
               !lobby.white?.connected)) && (
             <div className="bg-neutral absolute w-full rounded-t-lg bg-opacity-95 p-2">
-              {lobby.reason ? (
-                lobby.reason === "abandoned" ? (
+              {lobby.endReason ? (
+                lobby.endReason === "abandoned" ? (
                   lobby.winner === "draw" ? (
                     "The game ended in a draw due to abandonment."
                   ) : (

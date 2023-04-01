@@ -1,4 +1,5 @@
 import { activeGames } from "../db/models/game.model.js";
+import type { Game } from "@chessu/types";
 import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
 import { io } from "../server.js";
@@ -127,7 +128,7 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
         return;
     }
 
-    game.reason = "abandoned";
+    game.endReason = "abandoned";
 
     if (type === "draw") {
         game.winner = "draw";
@@ -138,7 +139,7 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
     }
 
     const gameOver = {
-        reason: game.reason,
+        reason: game.endReason,
         winnerName: this.request.session.user.name,
         winnerSide: game.winner === "draw" ? undefined : game.winner
     };
@@ -153,7 +154,7 @@ export async function getLatestGame(this: Socket) {
 
 export async function sendMove(this: Socket, m: { from: string; to: string; promotion?: string }) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
-    if (!game || game.reason || game.winner) return;
+    if (!game || game.endReason || game.winner) return;
     const chess = new Chess();
     if (game.pgn) {
         chess.loadPgn(game.pgn);
@@ -171,7 +172,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
 
         const newMove = chess.move(m);
         if (chess.isGameOver()) {
-            let reason = "";
+            let reason: Game["endReason"];
             if (chess.isCheckmate()) reason = "checkmate";
             else if (chess.isStalemate()) reason = "stalemate";
             else if (chess.isThreefoldRepetition()) reason = "repetition";
@@ -191,7 +192,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
             } else {
                 game.winner = "draw";
             }
-            game.reason = reason;
+            game.endReason = reason;
             io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide });
         }
         if (newMove) {

@@ -4,7 +4,7 @@ export interface Game {
     white?: User;
     black?: User;
     winner?: "white" | "black" | "draw";
-    reason?: string;
+    endReason?: "draw" | "checkmate" | "stalemate" | "repetition" | "insufficient" | "abandoned";
     host?: User;
     code?: string;
     unlisted?: boolean;

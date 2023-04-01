@@ -60,7 +60,7 @@ export function initSocket(
             winnerName,
             winnerSide
         }: {
-            reason: string;
+            reason: Game["endReason"];
             winnerName?: string;
             winnerSide?: "white" | "black" | "draw";
         }) => {
@@ -89,7 +89,7 @@ export function initSocket(
             }
             actions.updateLobby({
                 type: "updateLobby",
-                payload: { reason, winner: winnerSide || "draw" }
+                payload: { endReason: reason, winner: winnerSide || "draw" }
             });
             actions.addMessage(m);
         }
