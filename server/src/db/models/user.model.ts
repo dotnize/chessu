@@ -24,7 +24,9 @@ export const findById = async (id: number) => {
     }
     try {
         const res = await db.query(`SELECT id, name, email FROM "user" WHERE id=$1`, [id]);
-        return res.rows as Array<User>;
+        if (res.rowCount) {
+            return res.rows[0] as User;
+        } else return null;
     } catch (err: unknown) {
         console.log(err);
         return null;
