@@ -8,17 +8,12 @@ export const activeGames: Array<Game> = [];
 export const create = async (game: Game) => {
     try {
         const res = await db.query(
-            `INSERT INTO "game"(code, winner_id, reason, pgn, host_id, white_id, white_guest_name, black_id, black_guest_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+            `INSERT INTO "game"(code, winner, end_reason, pgn, white_id, white_guest_name, black_id, black_guest_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
             [
                 game.code || null,
-                game.winner === "draw"
-                    ? null
-                    : game.winner === "white"
-                    ? game.white?.id
-                    : game.black?.id,
-                game.reason || null,
+                game.winner || null,
+                game.endReason || null,
                 game.pgn,
-                game.host?.id || null,
                 game.white?.id || null,
                 game.white?.name || null,
                 game.black?.id || null,
