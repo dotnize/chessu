@@ -36,14 +36,16 @@ export const create = async (game: Game) => {
 export const findById = async (id: number) => {
     try {
         const res = await db.query(`SELECT * FROM "game" WHERE id=$1`, [id]);
-        return {
-            id: res.rows[0].id,
-            winner: res.rows[0].winner,
-            endReason: res.rows[0].end_reason,
-            pgn: res.rows[0].pgn,
-            white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
-            black: { id: res.rows[0].black_id, name: res.rows[0].black_name }
-        } as Game;
+        if (res.rowCount) {
+            return {
+                id: res.rows[0].id,
+                winner: res.rows[0].winner,
+                endReason: res.rows[0].end_reason,
+                pgn: res.rows[0].pgn,
+                white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
+                black: { id: res.rows[0].black_id, name: res.rows[0].black_name }
+            } as Game;
+        } else return null;
     } catch (err: unknown) {
         console.log(err);
         return null;
