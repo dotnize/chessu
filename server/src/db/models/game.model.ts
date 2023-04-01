@@ -8,9 +8,8 @@ export const activeGames: Array<Game> = [];
 export const create = async (game: Game) => {
     try {
         const res = await db.query(
-            `INSERT INTO "game"(code, winner, end_reason, pgn, white_id, white_guest_name, black_id, black_guest_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+            `INSERT INTO "game"(winner, end_reason, pgn, white_id, white_name, black_id, black_name) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
             [
-                game.code || null,
                 game.winner || null,
                 game.endReason || null,
                 game.pgn,
@@ -22,18 +21,11 @@ export const create = async (game: Game) => {
         );
         return {
             id: res.rows[0].id,
-            code: res.rows[0].code,
-            winner:
-                res.rows[0].winner_id === res.rows[0].white_id
-                    ? "white"
-                    : res.rows[0].winner_id === res.rows[0].black_id
-                    ? "black"
-                    : "draw",
-            reason: res.rows[0].reason,
+            winner: res.rows[0].winner,
+            endReason: res.rows[0].reason,
             pgn: res.rows[0].pgn,
-            host: { id: res.rows[0].host_id },
-            white: { id: res.rows[0].white_id, name: res.rows[0].white_guest_name },
-            black: { id: res.rows[0].black_id, name: res.rows[0].black_guest_name }
+            white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
+            black: { id: res.rows[0].black_id, name: res.rows[0].black_name }
         } as Game;
     } catch (err: unknown) {
         console.log(err);
@@ -41,23 +33,40 @@ export const create = async (game: Game) => {
     }
 };
 
-export const find = async (where?: string, limit = 1) => {
-    const query = where
-        ? `SELECT * FROM "game"`
-        : {
-              text: `SELECT * FROM "game" WHERE $1 LIMIT $2`,
-              values: [where, limit]
-          };
-
+export const findById = async (id: number) => {
     try {
-        const res = await db.query(query);
+        const res = await db.query(`SELECT * FROM "game" WHERE id=$1`, [id]);
+        return {
+            id: res.rows[0].id,
+            winner: res.rows[0].winner,
+            endReason: res.rows[0].end_reason,
+            pgn: res.rows[0].pgn,
+            white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
+            black: { id: res.rows[0].black_id, name: res.rows[0].black_name }
+        } as Game;
+    } catch (err: unknown) {
+        console.log(err);
+        return null;
+    }
+};
+
+export const findByUserId = async (id: number, limit = 10) => {
+    if (id == 0) {
+        return null;
+    }
+    try {
+        const res = await db.query(
+            `SELECT * FROM "game" WHERE white_id=$1 OR black_id=$1 LIMIT $2`,
+            [id, limit]
+        );
         return res.rows.map((r) => {
             return {
                 id: r.id,
+                winner: r.winner,
+                endReason: r.end_reason,
                 pgn: r.pgn,
-                white: { id: r.white_id },
-                black: { id: r.black_id },
-                winner: r.winner
+                white: { id: r.white_id, name: r.white_name },
+                black: { id: r.black_id, name: r.black_name }
             } as Game;
         });
     } catch (err: unknown) {
@@ -66,15 +75,17 @@ export const find = async (where?: string, limit = 1) => {
     }
 };
 
+// TODO: update fields specifically, "data" string doesnt work
 export const update = async (id: number, data: string) => {
     try {
         const res = await db.query(`UPDATE "game" SET $1 WHERE id = $2 RETURNING *`, [data, id]);
         return {
             id: res.rows[0].id,
+            winner: res.rows[0].winner,
+            endReason: res.rows[0].end_reason,
             pgn: res.rows[0].pgn,
-            white: { id: res.rows[0].white_id },
-            black: { id: res.rows[0].black_id },
-            winner: res.rows[0].winner
+            white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
+            black: { id: res.rows[0].black_id, name: res.rows[0].black_name }
         } as Game;
     } catch (err: unknown) {
         console.log(err);
@@ -87,10 +98,11 @@ export const remove = async (id: number) => {
         const res = await db.query(`DELETE FROM "game" WHERE id = $1 RETURNING *`, [id]);
         return {
             id: res.rows[0].id,
+            winner: res.rows[0].winner,
+            endReason: res.rows[0].end_reason,
             pgn: res.rows[0].pgn,
-            white: { id: res.rows[0].white_id },
-            black: { id: res.rows[0].black_id },
-            winner: res.rows[0].winner
+            white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
+            black: { id: res.rows[0].black_id, name: res.rows[0].black_name }
         } as Game;
     } catch (err: unknown) {
         console.log(err);
@@ -100,7 +112,8 @@ export const remove = async (id: number) => {
 
 const GameModel = {
     create,
-    find,
+    findById,
+    findByUserId,
     update,
     remove
 };

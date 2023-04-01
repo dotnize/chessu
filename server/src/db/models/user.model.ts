@@ -18,7 +18,20 @@ export const create = async (user: User, password: string) => {
     }
 };
 
-export const find = async (user: User, limit?: number) => {
+export const findById = async (id: number) => {
+    if (id === 0) {
+        return null;
+    }
+    try {
+        const res = await db.query(`SELECT id, name, email FROM "user" WHERE id=$1`, [id]);
+        return res.rows as Array<User>;
+    } catch (err: unknown) {
+        console.log(err);
+        return null;
+    }
+};
+
+export const findByNameEmail = async (user: User, includePassword = false, limit?: number) => {
     // if user is not specified, get all users
     if (!user) {
         try {
@@ -34,7 +47,9 @@ export const find = async (user: User, limit?: number) => {
 
     try {
         const res = await db.query(
-            `SELECT id, name, email, password FROM "user" WHERE name=$1 OR email=$2 LIMIT $3`,
+            `SELECT id, name, email${
+                includePassword ? `, password` : ""
+            } FROM "user" WHERE name=$1 OR email=$2 LIMIT $3`,
             [user.name, user.email, limit ?? 1]
         );
         return res.rows as Array<User & { password?: string }>;
@@ -45,7 +60,7 @@ export const find = async (user: User, limit?: number) => {
 };
 
 export const update = async (id: number, updatedUser: User & { password?: string }) => {
-    if (typeof id === "string" || id === 0) {
+    if (id === 0) {
         return null;
     }
 
@@ -66,7 +81,7 @@ export const update = async (id: number, updatedUser: User & { password?: string
 };
 
 export const remove = async (id: number) => {
-    if (typeof id === "string" || id === 0) {
+    if (id === 0) {
         return null;
     }
 
@@ -83,7 +98,8 @@ export const remove = async (id: number) => {
 
 const UserModel = {
     create,
-    find,
+    findById,
+    findByNameEmail,
     update,
     remove
 };

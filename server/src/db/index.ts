@@ -17,8 +17,8 @@ export const INIT_TABLES = /* sql */ `
         end_reason VARCHAR(16),
         pgn TEXT,
         white_id INT REFERENCES "user",
-        white_guest_name VARCHAR(32),
+        white_name VARCHAR(32),
         black_id INT REFERENCES "user",
-        black_guest_name VARCHAR(32)
+        black_name VARCHAR(32)
     );
 `;

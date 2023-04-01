@@ -107,7 +107,7 @@ export const registerUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const duplicateUsers = await UserModel.find({ name, email });
+        const duplicateUsers = await UserModel.findByNameEmail({ name, email });
         if (duplicateUsers && duplicateUsers.length) {
             const dupl = duplicateUsers[0].name === name ? "Username" : "Email";
             res.status(409).json({ message: `${dupl} is already in use.` });
@@ -165,7 +165,10 @@ export const loginUser = async (req: Request, res: Response) => {
         const nameOrEmail = xss(req.body.name);
         const password = req.body.password;
 
-        const users = await UserModel.find({ name: nameOrEmail, email: nameOrEmail });
+        const users = await UserModel.findByNameEmail(
+            { name: nameOrEmail, email: nameOrEmail },
+            true
+        );
         if (!users || !users.length) {
             res.status(404).json({ message: "Invalid username/email." });
             return;
@@ -238,7 +241,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
         const email = xss(req.body.email || req.session.user.email);
 
-        const duplicateUsers = await UserModel.find({ name, email });
+        const duplicateUsers = await UserModel.findByNameEmail({ name, email });
         if (
             duplicateUsers &&
             duplicateUsers.length &&
