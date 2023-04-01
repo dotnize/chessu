@@ -2,7 +2,7 @@ import pg from "pg";
 
 export const db = new pg.Pool();
 
-export const INIT_TABLES = `
+export const INIT_TABLES = /* sql */ `
     CREATE TABLE IF NOT EXISTS "user" (
         id SERIAL PRIMARY KEY,
         name VARCHAR(128) UNIQUE NOT NULL,
