@@ -178,6 +178,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
 
         if (newMove) {
             game.pgn = chess.pgn();
+            this.to(game.code as string).emit("receivedMove", m);
             if (chess.isGameOver()) {
                 let reason: Game["endReason"];
                 if (chess.isCheckmate()) reason = "checkmate";
@@ -205,7 +206,6 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
                 game.id = id;
                 io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide, id });
             }
-            this.to(game.code as string).emit("receivedMove", m);
         } else {
             throw new Error("invalid move");
         }
