@@ -12,7 +12,6 @@ export const INIT_TABLES = /* sql */ `
     );
     CREATE TABLE IF NOT EXISTS "game" (
         id SERIAL PRIMARY KEY,
-        code VARCHAR(8) UNIQUE NOT NULL,
         winner VARCHAR(5),
         end_reason VARCHAR(16),
         pgn TEXT,
