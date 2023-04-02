@@ -36,8 +36,14 @@ export const create = async (game: Game) => {
             winner: res.rows[0].winner,
             endReason: res.rows[0].reason,
             pgn: res.rows[0].pgn,
-            white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
-            black: { id: res.rows[0].black_id, name: res.rows[0].black_name }
+            white: {
+                id: res.rows[0].white_id || undefined,
+                name: res.rows[0].white_name || undefined
+            },
+            black: {
+                id: res.rows[0].black_id || undefined,
+                name: res.rows[0].black_name || undefined
+            }
         } as Game;
     } catch (err: unknown) {
         console.log(err);
@@ -57,8 +63,8 @@ export const findById = async (id: number) => {
                 winner: res.rows[0].winner,
                 endReason: res.rows[0].end_reason,
                 pgn: res.rows[0].pgn,
-                white: { id: res.rows[0].white_id || null, name: res.rows[0].white_name },
-                black: { id: res.rows[0].black_id || null, name: res.rows[0].black_name }
+                white: { id: res.rows[0].white_id || undefined, name: res.rows[0].white_name },
+                black: { id: res.rows[0].black_id || undefined, name: res.rows[0].black_name }
             } as Game;
         } else return null;
     } catch (err: unknown) {
@@ -72,8 +78,9 @@ export const findByUserId = async (id: number, limit = 10) => {
         return null;
     }
     try {
+        // TODO: pagination
         const res = await db.query(
-            `SELECT game.id, game.winner, game.end_reason, game.pgn, white_user.id AS white_id, COALESCE(white_user.name, game.white_name) AS white_name, black_user.id AS black_id, COALESCE(black_user.name, game.black_name) AS black_name FROM game LEFT JOIN "user" white_user ON white_user.id = game.white_id LEFT JOIN "user" black_user ON black_user.id = game.black_id WHERE white_user.id=$1 OR black_user.id=$1 LIMIT $2`,
+            `SELECT game.id, game.winner, game.end_reason, game.pgn, white_user.id AS white_id, COALESCE(white_user.name, game.white_name) AS white_name, black_user.id AS black_id, COALESCE(black_user.name, game.black_name) AS black_name FROM game LEFT JOIN "user" white_user ON white_user.id = game.white_id LEFT JOIN "user" black_user ON black_user.id = game.black_id WHERE white_user.id=$1 OR black_user.id=$1 ORDER BY id DESC LIMIT $2`,
             [id, limit]
         );
         return res.rows.map((r) => {
@@ -82,8 +89,8 @@ export const findByUserId = async (id: number, limit = 10) => {
                 winner: r.winner,
                 endReason: r.end_reason,
                 pgn: r.pgn,
-                white: { id: r.white_id || null, name: r.white_name },
-                black: { id: r.black_id || null, name: r.black_name }
+                white: { id: r.white_id || undefined, name: r.white_name },
+                black: { id: r.black_id || undefined, name: r.black_name }
             } as Game;
         });
     } catch (err: unknown) {
