@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 
 import type { FormEvent, KeyboardEvent } from "react";
+import Link from "next/link";
 
 import { SessionContext } from "@/context/session";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
@@ -392,7 +393,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function copyInvite() {
-    const text = `https://ches.su/${initialLobby.code}`;
+    const text = `https://ches.su/${lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}`;
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(text);
     } else {
@@ -558,7 +559,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
           <div className="flex flex-1 flex-col gap-1">
             <div className="mb-2 flex w-full flex-col items-end gap-1">
-              Invite friends:
+              {lobby.endReason ? "Archived link:" : "Invite friends:"}
               <div
                 className={
                   "dropdown dropdown-top dropdown-end" + (copiedLink ? " dropdown-open" : "")
@@ -570,7 +571,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   onClick={copyInvite}
                 >
                   <IconCopy size={16} />
-                  ches.su/{initialLobby.code}
+                  ches.su/{lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}
                 </label>
                 <div tabIndex={0} className="dropdown-content badge badge-neutral text-xs shadow">
                   copied to clipboard
@@ -635,17 +636,21 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
               !lobby.white?.connected)) && (
             <div className="bg-neutral absolute w-full rounded-t-lg bg-opacity-95 p-2">
               {lobby.endReason ? (
-                lobby.endReason === "abandoned" ? (
-                  lobby.winner === "draw" ? (
-                    "The game ended in a draw due to abandonment."
-                  ) : (
-                    `The game was won by ${lobby.winner} due to abandonment.`
-                  )
-                ) : lobby.winner === "draw" ? (
-                  "The game ended in a draw."
-                ) : (
-                  `The game was won by checkmate (${lobby.winner}).`
-                )
+                <div>
+                  {lobby.endReason === "abandoned"
+                    ? lobby.winner === "draw"
+                      ? `The game ended in a draw due to abandonment.`
+                      : `The game was won by ${lobby.winner} due to abandonment.`
+                    : lobby.winner === "draw"
+                    ? "The game ended in a draw."
+                    : `The game was won by checkmate (${lobby.winner}).`}{" "}
+                  <br />
+                  You can review the archived game at{" "}
+                  <Link className="link" href={`/archive/${lobby.id}`}>
+                    ches.su/archive/{lobby.id}
+                  </Link>
+                  .
+                </div>
               ) : abandonSeconds > 0 ? (
                 `Your opponent has disconnected. You can claim the win or draw in ${abandonSeconds} second${
                   abandonSeconds > 1 ? "s" : ""
