@@ -5,7 +5,7 @@ export const activeGames: Array<Game> = [];
 
 // todo: join user and game relationship
 
-export const create = async (game: Game) => {
+export const save = async (game: Game) => {
     try {
         const white: User = {};
         const black: User = {};
@@ -31,6 +31,28 @@ export const create = async (game: Game) => {
                 black.name || null
             ]
         );
+        if (black.id || white.id) {
+            // draws
+            if (game.winner === "draw") {
+                if (white.id) {
+                    await db.query(`UPDATE "user" SET draws = draws + 1 WHERE id = $1`, [white.id]);
+                }
+                if (black.id) {
+                    await db.query(`UPDATE "user" SET draws = draws + 1 WHERE id = $1`, [black.id]);
+                }
+            } else {
+                const winner = game.winner === "white" ? white : black;
+                const loser = game.winner === "white" ? black : white;
+                if (winner.id) {
+                    await db.query(`UPDATE "user" SET wins = wins + 1 WHERE id = $1`, [winner.id]);
+                }
+                if (loser.id) {
+                    await db.query(`UPDATE "user" SET losses = losses + 1 WHERE id = $1`, [
+                        loser.id
+                    ]);
+                }
+            }
+        }
         return {
             id: res.rows[0].id,
             winner: res.rows[0].winner,
@@ -135,7 +157,7 @@ export const remove = async (id: number) => {
 };
 
 const GameModel = {
-    create,
+    save,
     findById,
     findByUserId,
     update,

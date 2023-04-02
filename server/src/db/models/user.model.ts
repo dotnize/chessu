@@ -8,7 +8,7 @@ export const create = async (user: User, password: string) => {
 
     try {
         const res = await db.query(
-            `INSERT INTO "user"(name, email, password) VALUES($1, $2, $3) RETURNING id, name, email`,
+            `INSERT INTO "user"(name, email, password) VALUES($1, $2, $3) RETURNING id, name, email, wins, losses, draws`,
             [user.name, user.email || null, password]
         );
         return res.rows[0] as User;
@@ -23,7 +23,10 @@ export const findById = async (id: number) => {
         return null;
     }
     try {
-        const res = await db.query(`SELECT id, name, email FROM "user" WHERE id=$1`, [id]);
+        const res = await db.query(
+            `SELECT id, name, email, wins, losses, draws FROM "user" WHERE id=$1`,
+            [id]
+        );
         if (res.rowCount) {
             return res.rows[0] as User;
         } else return null;
@@ -37,9 +40,10 @@ export const findByNameEmail = async (user: User, includePassword = false, limit
     // if user is not specified, get all users
     if (!user) {
         try {
-            const res = await db.query(`SELECT id, name, email FROM "user" LIMIT $1`, [
-                limit ?? 10
-            ]);
+            const res = await db.query(
+                `SELECT id, name, email, wins, losses, draws FROM "user" LIMIT $1`,
+                [limit ?? 10]
+            );
             return res.rows as Array<User & { password?: string }>;
         } catch (err: unknown) {
             console.log(err);
@@ -49,7 +53,7 @@ export const findByNameEmail = async (user: User, includePassword = false, limit
 
     try {
         const res = await db.query(
-            `SELECT id, name, email${
+            `SELECT id, name, email, wins, losses, draws${
                 includePassword ? `, password` : ""
             } FROM "user" WHERE name=$1 OR email=$2 LIMIT $3`,
             [user.name, user.email, limit ?? 1]
@@ -67,11 +71,11 @@ export const update = async (id: number, updatedUser: User & { password?: string
     }
 
     try {
-        let query = `UPDATE "user" SET name=$1, email=$2 WHERE id=$3 RETURNING id, name, email`;
+        let query = `UPDATE "user" SET name=$1, email=$2 WHERE id=$3 RETURNING id, name, email, wins, losses, draws`;
         let values = [updatedUser.name, updatedUser.email, id];
 
         if (updatedUser.password) {
-            query = `UPDATE "user" SET name=$1, email=$2, password=$3 WHERE id=$4 RETURNING id, name, email`;
+            query = `UPDATE "user" SET name=$1, email=$2, password=$3 WHERE id=$4 RETURNING id, name, email, wins, losses, draws`;
             values = [updatedUser.name, updatedUser.email, updatedUser.password, id];
         }
         const res = await db.query(query, values);

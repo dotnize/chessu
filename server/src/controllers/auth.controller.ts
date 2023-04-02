@@ -119,6 +119,10 @@ export const registerUser = async (req: Request, res: Response) => {
             throw new Error("Failed to create user");
         }
 
+        const publicUser = {
+            id: newUser.id,
+            name: newUser.name
+        };
         if (req.session.user?.id && typeof req.session.user.id === "string") {
             const game = activeGames.find(
                 (g) =>
@@ -128,17 +132,17 @@ export const registerUser = async (req: Request, res: Response) => {
             );
             if (game) {
                 if (game.host?.id === req.session.user.id) {
-                    game.host = newUser;
+                    game.host = publicUser;
                 }
                 if (game.white && game.white?.id === req.session.user.id) {
-                    game.white = newUser;
+                    game.white = publicUser;
                 } else if (game.black && game.black?.id === req.session.user.id) {
-                    game.black = newUser;
+                    game.black = publicUser;
                 } else {
                     const observer = game.observers?.find((o) => o.id === req.session.user.id);
                     if (observer) {
-                        observer.id = newUser.id;
-                        observer.name = newUser.name;
+                        observer.id = publicUser.id;
+                        observer.name = publicUser.name;
                     }
                 }
                 io.to(game.code as string).emit("receivedLatestGame", game);
@@ -180,10 +184,9 @@ export const loginUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const newUser = {
+        const publicUser = {
             id: users[0].id,
-            name: users[0].name,
-            email: users[0].email
+            name: users[0].name
         };
 
         if (req.session.user?.id && typeof req.session.user.id === "string") {
@@ -195,17 +198,17 @@ export const loginUser = async (req: Request, res: Response) => {
             );
             if (game) {
                 if (game.host?.id === req.session.user.id) {
-                    game.host = newUser;
+                    game.host = publicUser;
                 }
                 if (game.white && game.white?.id === req.session.user.id) {
-                    game.white = newUser;
+                    game.white = publicUser;
                 } else if (game.black && game.black?.id === req.session.user.id) {
-                    game.black = newUser;
+                    game.black = publicUser;
                 } else {
                     const observer = game.observers?.find((o) => o.id === req.session.user.id);
                     if (observer) {
-                        observer.id = newUser.id;
-                        observer.name = newUser.name;
+                        observer.id = publicUser.id;
+                        observer.name = publicUser.name;
                     }
                 }
                 io.to(game.code as string).emit("receivedLatestGame", game);
@@ -214,7 +217,11 @@ export const loginUser = async (req: Request, res: Response) => {
 
         req.session.user = {
             id: users[0].id,
-            name: users[0].name
+            name: users[0].name,
+            email: users[0].email,
+            wins: users[0].wins,
+            losses: users[0].losses,
+            draws: users[0].draws
         };
         req.session.save(() => {
             res.status(200).json(req.session.user);
@@ -261,6 +268,35 @@ export const updateUser = async (req: Request, res: Response) => {
 
         if (!updatedUser) {
             throw new Error("Failed to update user");
+        }
+
+        const publicUser = {
+            id: updatedUser.id,
+            name: updatedUser.name
+        };
+
+        const game = activeGames.find(
+            (g) =>
+                g.white?.id === req.session.user.id ||
+                g.black?.id === req.session.user.id ||
+                g.observers?.find((o) => o.id === req.session.user.id)
+        );
+        if (game) {
+            if (game.host?.id === req.session.user.id) {
+                game.host = publicUser;
+            }
+            if (game.white && game.white?.id === req.session.user.id) {
+                game.white = publicUser;
+            } else if (game.black && game.black?.id === req.session.user.id) {
+                game.black = publicUser;
+            } else {
+                const observer = game.observers?.find((o) => o.id === req.session.user.id);
+                if (observer) {
+                    observer.id = publicUser.id;
+                    observer.name = publicUser.name;
+                }
+            }
+            io.to(game.code as string).emit("receivedLatestGame", game);
         }
 
         req.session.user = updatedUser;

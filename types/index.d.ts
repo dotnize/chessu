@@ -16,6 +16,9 @@ export interface User {
     id?: number | string; // string for guest IDs
     name?: string | null;
     email?: string;
+    wins?: number;
+    losses?: number;
+    draws?: number;
 
     // mainly for players, not spectators
     connected?: boolean;

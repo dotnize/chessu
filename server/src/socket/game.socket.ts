@@ -138,7 +138,7 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
         game.winner = "black";
     }
 
-    const { id } = (await GameModel.create(game)) as Game;
+    const { id } = (await GameModel.save(game)) as Game;
     game.id = id;
 
     const gameOver = {
@@ -202,7 +202,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
                 }
                 game.endReason = reason;
 
-                const { id } = (await GameModel.create(game)) as Game; // save game to db
+                const { id } = (await GameModel.save(game)) as Game; // save game to db
                 game.id = id;
                 io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide, id });
             }
