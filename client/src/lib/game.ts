@@ -61,12 +61,12 @@ export const getArchivedGame = async ({ id, userid }: { id?: number; userid?: nu
         });
 
         if (res && res.status === 200) {
-            if (userid) {
-                const games: Game[] = await res.json();
-                return games;
-            } else {
+            if (id) {
                 const game: Game = await res.json();
-                return game;
+                if (game.id) return game;
+            } else {
+                const games: Game[] = await res.json();
+                if (games.length && games[0].id) return games;
             }
         }
     } catch (err) {
