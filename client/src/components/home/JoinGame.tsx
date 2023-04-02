@@ -3,7 +3,7 @@
 import type { FormEvent } from "react";
 import { useState, useContext } from "react";
 import { SessionContext } from "@/context/session";
-import { getGame } from "@/lib/game";
+import { getActiveGame } from "@/lib/game";
 import { useRouter } from "next/navigation";
 
 export default function JoinGame() {
@@ -31,7 +31,7 @@ export default function JoinGame() {
       code = new URL(code).pathname.split("/")[1];
     }
 
-    const game = await getGame(code);
+    const game = await getActiveGame(code);
 
     if (game && game.code) {
       router.push(`/${game.code}`);
