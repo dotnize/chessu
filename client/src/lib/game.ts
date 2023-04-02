@@ -56,6 +56,7 @@ export const getArchivedGame = async ({ id, userid }: { id?: number; userid?: nu
         url += `userid=${userid}`;
     }
     try {
+        // TODO: handle caching more efficiently
         const res = await fetch(url, {
             next: { revalidate: 20 }
         });
