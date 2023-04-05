@@ -183,13 +183,33 @@ export default function ArchivedGame({ game }: { game: Game }) {
   function getPlayerHtml(side: "top" | "bottom") {
     const blackHtml = (
       <div className="flex w-full flex-col justify-center">
-        <span className="font-bold">{game.black?.name}</span>
+        <a
+          className={
+            "font-bold" +
+            (typeof game.black?.id === "number" ? " text-primary link-hover" : " cursor-default")
+          }
+          href={typeof game.black?.id === "number" ? `/user/${game.black?.name}` : undefined}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {game.black?.name}
+        </a>
         <span className="flex items-center gap-1 text-xs">black</span>
       </div>
     );
     const whiteHtml = (
       <div className="flex w-full flex-col justify-center">
-        <span className="font-bold">{game.white?.name}</span>
+        <a
+          className={
+            "font-bold" +
+            (typeof game.white?.id === "number" ? " text-primary link-hover" : " cursor-default")
+          }
+          href={typeof game.white?.id === "number" ? `/user/${game.white?.name}` : undefined}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {game.white?.name}
+        </a>
         <span className="flex items-center gap-1 text-xs">white</span>
       </div>
     );

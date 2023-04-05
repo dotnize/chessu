@@ -360,9 +360,17 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   function getPlayerHtml(side: "top" | "bottom") {
     const blackHtml = (
       <div className="flex w-full flex-col justify-center">
-        <span className={lobby.black?.name ? "font-bold" : ""}>
+        <a
+          className={
+            (lobby.black?.name ? "font-bold" : "") +
+            (typeof lobby.black?.id === "number" ? " text-primary link-hover" : " cursor-default")
+          }
+          href={typeof lobby.black?.id === "number" ? `/user/${lobby.black?.name}` : undefined}
+          target="_blank"
+          rel="noreferrer"
+        >
           {lobby.black?.name || "(no one)"}
-        </span>
+        </a>
         <span className="flex items-center gap-1 text-xs">
           black
           {lobby.black?.connected === false && (
@@ -373,9 +381,17 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     );
     const whiteHtml = (
       <div className="flex w-full flex-col justify-center">
-        <span className={lobby.white?.name ? "font-bold" : ""}>
+        <a
+          className={
+            (lobby.white?.name ? "font-bold" : "") +
+            (typeof lobby.white?.id === "number" ? " text-primary link-hover" : " cursor-default")
+          }
+          href={typeof lobby.white?.id === "number" ? `/user/${lobby.white?.name}` : undefined}
+          target="_blank"
+          rel="noreferrer"
+        >
           {lobby.white?.name || "(no one)"}
-        </span>
+        </a>
         <span className="flex items-center gap-1 text-xs">
           white
           {lobby.white?.connected === false && (
@@ -691,7 +707,22 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   <span>
                     {m.author.id && (
                       <span>
-                        <span className="font-bold">{m.author.name}</span>:{" "}
+                        <a
+                          className={
+                            "font-bold" +
+                            (typeof m.author.id === "number"
+                              ? " text-primary link-hover"
+                              : " cursor-default")
+                          }
+                          href={
+                            typeof m.author.id === "number" ? `/user/${m.author.name}` : undefined
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {m.author.name}
+                        </a>
+                        :{" "}
                       </span>
                     )}
                     <span>{m.message}</span>

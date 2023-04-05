@@ -24,8 +24,18 @@ export default async function PublicGames() {
             {games && games.length > 0 ? (
               games.map((game) => (
                 <tr key={game.code} className="group">
-                  <td>{game.host?.name}</td>
-                  <td>
+                  <td className={typeof game.host?.id === "number" ? "text-primary" : ""}>
+                    {game.host?.name}
+                  </td>
+                  <td
+                    className={
+                      typeof (game.host?.id === game.white?.id
+                        ? game.black?.id
+                        : game.white?.id) === "number"
+                        ? "text-primary"
+                        : ""
+                    }
+                  >
                     {(game.host?.id === game.white?.id ? game.black?.name : game.white?.name) || ""}
                   </td>
                   <th>
