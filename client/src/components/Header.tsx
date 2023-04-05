@@ -2,7 +2,7 @@ import { IconUser } from "@tabler/icons-react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 
-export default function Navbar() {
+export default function Header() {
   return (
     <header className="navbar mx-1 w-auto justify-center drop-shadow-sm md:mx-16 lg:mx-40">
       <div className="flex flex-1 items-center gap-1">

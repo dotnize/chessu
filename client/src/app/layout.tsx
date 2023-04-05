@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import Navbar from "@/components/Navbar";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AuthModal from "@/components/auth/AuthModal";
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="overflow-x-hidden">
       <body className="overflow-x-hidden">
         <ContextProvider>
-          <Navbar />
+          <Header />
 
           <main className="mx-1 flex min-h-[70vh] justify-center md:mx-16 lg:mx-40">
             {children}
