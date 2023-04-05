@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
   };
 }
 
-export default async function Game({ params }: { params: { id: number } }) {
+export default async function Archive({ params }: { params: { id: number } }) {
   const game = (await getArchivedGame({ id: params.id })) as Game | undefined;
   if (!game) {
     notFound();
