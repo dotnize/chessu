@@ -239,6 +239,11 @@ export const updateUser = async (req: Request, res: Response) => {
             return;
         }
 
+        if (!req.body.name && !req.body.email && !req.body.password) {
+            res.status(400).end();
+            return;
+        }
+
         const name = xss(req.body.name || req.session.user.name);
         const pattern = /^[A-Za-z0-9]+$/;
         if (!pattern.test(name)) {
