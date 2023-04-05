@@ -4,10 +4,12 @@ import { SessionContext } from "@/context/session";
 import { login, logout, register, setGuestSession } from "@/lib/auth";
 import type { FormEvent } from "react";
 import { useContext, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 import Guest from "./Guest";
 import Login from "./Login";
 import Register from "./Register";
+import { IconSettings2, IconUserCircle } from "@tabler/icons-react";
 
 export default function AuthModal() {
   const session = useContext(SessionContext);
@@ -104,14 +106,30 @@ export default function AuthModal() {
       >
         <label className="modal-box flex max-w-sm flex-col gap-4 pt-2">
           {session?.user?.id && typeof session.user.id === "number" ? (
-            <div className="flex flex-col pt-2">
+            <div className="flex flex-col gap-2 pt-2">
               <div className="flex w-full justify-between">
-                <div className="div">
+                <div>
                   Logged in as <b>{session.user.name}</b>
                 </div>
                 <a className="link" onClick={clickLogout}>
                   Logout
                 </a>
+              </div>
+              <div className="flex w-full flex-col">
+                <Link
+                  className="btn btn-ghost gap-1 normal-case"
+                  href={`/user/${session.user.name}`}
+                  onClick={() => ((modalToggleRef.current as HTMLInputElement).checked = false)}
+                >
+                  <IconUserCircle /> View profile
+                </Link>
+                <Link
+                  className="btn btn-ghost gap-1 normal-case"
+                  href="/settings"
+                  onClick={() => ((modalToggleRef.current as HTMLInputElement).checked = false)}
+                >
+                  <IconSettings2 /> Account settings
+                </Link>
               </div>
 
               <div className="modal-action">
