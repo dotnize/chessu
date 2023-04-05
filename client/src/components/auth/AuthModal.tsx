@@ -1,7 +1,7 @@
 "use client";
 
 import { SessionContext } from "@/context/session";
-import { login, logout, register, setGuestSession, updateUser } from "@/lib/auth";
+import { login, logout, register, setGuestSession } from "@/lib/auth";
 import type { FormEvent } from "react";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -20,38 +20,9 @@ export default function AuthModal() {
     if (serverMessage) {
       setServerMessage(null);
     }
+    setActiveTab("login");
     await logout();
     session?.setUser(null);
-  }
-
-  async function updateAccount(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const target = e.target as HTMLFormElement;
-    const updateEmail = target.elements.namedItem("updateEmail") as HTMLInputElement;
-    const updatePassword = target.elements.namedItem("updatePassword") as HTMLInputElement;
-    if (
-      !updateEmail ||
-      !updatePassword ||
-      ((!updateEmail.value || updateEmail.value === session?.user?.email) && !updatePassword.value)
-    )
-      return;
-
-    setButtonLoading(true);
-    const user = await updateUser(
-      updateEmail.value || undefined,
-      updatePassword.value || undefined
-    );
-    if (typeof user === "string") {
-      setServerMessage(user);
-    } else if (user?.id) {
-      session?.setUser(user);
-      setServerMessage("Account updated successfully");
-      setTimeout(() => {
-        setServerMessage(null);
-      }, 5000);
-    }
-    updatePassword.value = "";
-    setButtonLoading(false);
   }
 
   async function submitAuth(e: FormEvent<HTMLFormElement>) {
@@ -142,44 +113,6 @@ export default function AuthModal() {
                   Logout
                 </a>
               </div>
-
-              <form className="form-control mt-2" onSubmit={updateAccount}>
-                <label className="label" htmlFor="updateEmail">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  className="input input-bordered w-full"
-                  id="updateEmail"
-                  name="updateEmail"
-                  placeholder={session.user.email || "Email address"}
-                  defaultValue={session.user.email}
-                  minLength={4}
-                />
-                <label className="label" htmlFor="updatePassword">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
-                  type="password"
-                  className="input input-bordered w-full"
-                  id="updatePassword"
-                  name="updatePassword"
-                  placeholder="New password (optional)"
-                  minLength={3}
-                />
-                {serverMessage && (
-                  <div
-                    className={serverMessage.includes("successful") ? "text-success" : "text-error"}
-                  >
-                    {serverMessage}
-                  </div>
-                )}
-                <div className="mt-2">
-                  <button type="submit" className={"btn" + (buttonLoading ? " loading" : "")}>
-                    Update
-                  </button>
-                </div>
-              </form>
 
               <div className="modal-action">
                 <label htmlFor="auth-modal" className="btn">
