@@ -11,7 +11,7 @@ export const getGames = async (req: Request, res: Response) => {
             return;
         }
 
-        if (req.query.id) {
+        if (req.query.id && Number.isFinite(req.query.id)) {
             // get finished game by id
             const game = await GameModel.findById(parseInt(req.query.id as string));
             if (!game) {
@@ -19,7 +19,7 @@ export const getGames = async (req: Request, res: Response) => {
             } else {
                 res.status(200).json(game);
             }
-        } else if (req.query.userid) {
+        } else if (req.query.userid && Number.isFinite(req.query.userid)) {
             // get finished games by user id
             const games = await GameModel.findByUserId(parseInt(req.query.userid as string));
             if (!games) {
