@@ -109,7 +109,7 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
         (game.white.id !== this.request.session.user.id &&
             game.black.id !== this.request.session.user.id)
     ) {
-        console.log(`claimAbandoned: Game not found or user is not a player.`);
+        console.log(`claimAbandoned: Invalid game or user is not a player.`);
         return;
     }
 
