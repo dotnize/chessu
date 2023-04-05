@@ -21,6 +21,8 @@ export const INIT_TABLES = /* sql */ `
         white_id INT REFERENCES "user",
         white_name VARCHAR(32),
         black_id INT REFERENCES "user",
-        black_name VARCHAR(32)
+        black_name VARCHAR(32),
+        started_at TIMESTAMP NOT NULL,
+        ended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 `;

@@ -10,6 +10,8 @@ export interface Game {
     unlisted?: boolean;
     timeout?: number;
     observers?: User[];
+    startedAt?: number;
+    endedAt?: number;
 }
 
 export interface User {

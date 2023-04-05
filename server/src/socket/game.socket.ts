@@ -231,6 +231,7 @@ export async function joinAsPlayer(this: Socket) {
             name: this.request.session.user.name,
             side: "white"
         });
+        game.startedAt = Date.now();
     } else if (!game.black) {
         const sessionUser = {
             id: this.request.session.user.id,
@@ -243,6 +244,7 @@ export async function joinAsPlayer(this: Socket) {
             name: this.request.session.user.name,
             side: "black"
         });
+        game.startedAt = Date.now();
     } else {
         console.log("joinAsPlayer: attempted to join a game with already 2 players");
     }
