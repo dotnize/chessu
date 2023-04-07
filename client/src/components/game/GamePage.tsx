@@ -149,7 +149,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   function updateTurnTitle() {
     if (lobby.side === "s" || !lobby.white?.id || !lobby.black?.id) return;
 
-    if (lobby.side === lobby.actualGame.turn()) {
+    if (lobby.side === lobby.actualGame.turn() && !lobby.actualGame.isGameOver()) {
       document.title = "(your turn) chessu";
     } else {
       document.title = "chessu";
