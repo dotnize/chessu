@@ -1,7 +1,7 @@
 import { API_URL } from "@/config";
 import type { User, Game } from "@chessu/types";
 
-export const getProfileData = async (name: string) => {
+export const fetchProfileData = async (name: string) => {
     try {
         // TODO: handle caching more efficiently?
         const res = await fetch(`${API_URL}/v1/users/${name}`, {

@@ -1,10 +1,10 @@
 import ArchivedGame from "@/components/archive/ArchivedGame";
-import { getArchivedGame } from "@/lib/game";
+import { fetchArchivedGame } from "@/lib/game";
 import type { Game } from "@chessu/types";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { id: number } }) {
-  const game = (await getArchivedGame({ id: params.id })) as Game | undefined;
+  const game = (await fetchArchivedGame({ id: params.id })) as Game | undefined;
   if (!game) {
     return {
       description: "Game not found",
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
 }
 
 export default async function Archive({ params }: { params: { id: number } }) {
-  const game = (await getArchivedGame({ id: params.id })) as Game | undefined;
+  const game = (await fetchArchivedGame({ id: params.id })) as Game | undefined;
   if (!game) {
     notFound();
   }

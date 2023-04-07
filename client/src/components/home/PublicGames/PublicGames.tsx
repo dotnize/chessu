@@ -1,9 +1,9 @@
-import { getPublicGames } from "@/lib/game";
+import { fetchPublicGames } from "@/lib/game";
 import JoinButton from "./JoinButton";
 import RefreshButton from "./RefreshButton";
 
 export default async function PublicGames() {
-  const games = await getPublicGames();
+  const games = await fetchPublicGames();
 
   return (
     <div className="flex flex-col items-center">

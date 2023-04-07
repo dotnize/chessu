@@ -1,9 +1,9 @@
 import GameAuthWrapper from "@/components/game/GameAuthWrapper";
-import { getActiveGame } from "@/lib/game";
+import { fetchActiveGame } from "@/lib/game";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { code: string } }) {
-  const game = await getActiveGame(params.code);
+  const game = await fetchActiveGame(params.code);
   if (!game) {
     return {
       description: "Game not found",
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { code: string } })
 }
 
 export default async function Game({ params }: { params: { code: string } }) {
-  const game = await getActiveGame(params.code);
+  const game = await fetchActiveGame(params.code);
   if (!game) {
     notFound();
   }

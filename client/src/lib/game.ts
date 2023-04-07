@@ -22,7 +22,7 @@ export const createGame = async (side: string, unlisted: boolean) => {
     }
 };
 
-export const getActiveGame = async (code: string) => {
+export const fetchActiveGame = async (code: string) => {
     try {
         const res = await fetch(`${API_URL}/v1/games/${code}`, { cache: "no-store" });
 
@@ -35,7 +35,7 @@ export const getActiveGame = async (code: string) => {
     }
 };
 
-export const getPublicGames = async () => {
+export const fetchPublicGames = async () => {
     try {
         const res = await fetch(`${API_URL}/v1/games`, { cache: "no-store" });
 
@@ -48,7 +48,7 @@ export const getPublicGames = async () => {
     }
 };
 
-export const getArchivedGame = async ({ id, userid }: { id?: number; userid?: number }) => {
+export const fetchArchivedGame = async ({ id, userid }: { id?: number; userid?: number }) => {
     let url = `${API_URL}/v1/games?`;
     if (id) {
         url += `id=${id}`;
