@@ -11,17 +11,25 @@ export const getGames = async (req: Request, res: Response) => {
             return;
         }
 
-        if (req.query.id && Number.isFinite(req.query.id)) {
+        let id, userid;
+        if (req.query.id) {
+            id = parseInt(req.query.id as string);
+        }
+        if (req.query.userid) {
+            userid = parseInt(req.query.userid as string);
+        }
+
+        if (id && !isNaN(id)) {
             // get finished game by id
-            const game = await GameModel.findById(parseInt(req.query.id as string));
+            const game = await GameModel.findById(id);
             if (!game) {
                 res.status(404).end();
             } else {
                 res.status(200).json(game);
             }
-        } else if (req.query.userid && Number.isFinite(req.query.userid)) {
+        } else if (userid && !isNaN(userid)) {
             // get finished games by user id
-            const games = await GameModel.findByUserId(parseInt(req.query.userid as string));
+            const games = await GameModel.findByUserId(userid);
             if (!games) {
                 res.status(404).end();
             } else {
