@@ -9,9 +9,9 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@tabler/icons-react": "^2.13.0",
+        "@tabler/icons-react": "^2.14.0",
         "chess.js": "^1.0.0-beta.4",
-        "next": "13.2.4",
+        "next": "13.3.0",
         "react": "18.2.0",
         "react-chessboard": "^2.1.2",
         "react-dom": "18.2.0",
@@ -20,7 +20,7 @@
     "devDependencies": {
         "@chessu/types": "*",
         "@types/node": "18.15.11",
-        "@types/react": "18.0.31",
+        "@types/react": "18.0.33",
         "@types/react-dom": "18.0.11",
         "autoprefixer": "^10.4.14",
         "daisyui": "^2.51.5",
