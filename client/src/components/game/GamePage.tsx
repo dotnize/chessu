@@ -367,7 +367,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           }
           href={typeof lobby.black?.id === "number" ? `/user/${lobby.black?.name}` : undefined}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           {lobby.black?.name || "(no one)"}
         </a>
@@ -388,7 +388,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           }
           href={typeof lobby.white?.id === "number" ? `/user/${lobby.white?.name}` : undefined}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           {lobby.white?.name || "(no one)"}
         </a>
@@ -662,9 +662,14 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                     : `The game was won by checkmate (${lobby.winner}).`}{" "}
                   <br />
                   You can review the archived game at{" "}
-                  <Link className="link" href={`/archive/${lobby.id}`}>
+                  <a
+                    className="link"
+                    href={`/archive/${lobby.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     ches.su/archive/{lobby.id}
-                  </Link>
+                  </a>
                   .
                 </div>
               ) : abandonSeconds > 0 ? (
@@ -718,7 +723,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                             typeof m.author.id === "number" ? `/user/${m.author.name}` : undefined
                           }
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                         >
                           {m.author.name}
                         </a>

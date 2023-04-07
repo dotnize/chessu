@@ -190,7 +190,7 @@ export default function ArchivedGame({ game }: { game: Game }) {
           }
           href={typeof game.black?.id === "number" ? `/user/${game.black?.name}` : undefined}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           {game.black?.name}
         </a>
@@ -206,7 +206,7 @@ export default function ArchivedGame({ game }: { game: Game }) {
           }
           href={typeof game.white?.id === "number" ? `/user/${game.white?.name}` : undefined}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           {game.white?.name}
         </a>

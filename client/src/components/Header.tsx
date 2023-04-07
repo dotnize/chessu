@@ -26,7 +26,7 @@ export default function Header() {
                 <a
                   href="https://github.com/users/nizewn/projects/2"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="link"
                 >
                   here
