@@ -146,10 +146,10 @@ export default function AuthModal() {
                     setActiveTab("guest");
                   }}
                   className={
-                    "tab tab-bordered flex-grow rounded-tl-lg" +
+                    "tab tab-bordered tab-border-2 flex-grow rounded-tl-lg" +
                     (activeTab === "guest"
-                      ? " tab-active bg-base-200"
-                      : " text-base-content hover:bg-base-200")
+                      ? " tab-active text-base-content"
+                      : " text-base-content border-opacity-10 hover:border-opacity-30")
                   }
                 >
                   Guest
@@ -157,10 +157,10 @@ export default function AuthModal() {
                 <span
                   onClick={() => setActiveTab("login")}
                   className={
-                    "tab tab-bordered flex-grow" +
+                    "tab tab-bordered tab-border-2 flex-grow rounded-tl-lg" +
                     (activeTab === "login"
-                      ? " tab-active bg-base-200"
-                      : " text-base-content hover:bg-base-200")
+                      ? " tab-active"
+                      : " text-base-content border-opacity-10 hover:border-opacity-30")
                   }
                 >
                   Login
@@ -168,10 +168,10 @@ export default function AuthModal() {
                 <span
                   onClick={() => setActiveTab("register")}
                   className={
-                    "tab tab-bordered flex-grow rounded-tr-lg" +
+                    "tab tab-bordered tab-border-2 flex-grow rounded-tl-lg" +
                     (activeTab === "register"
-                      ? " tab-active bg-base-200"
-                      : " text-base-content hover:bg-base-200")
+                      ? " tab-active"
+                      : " text-base-content border-opacity-10 hover:border-opacity-30")
                   }
                 >
                   Register
