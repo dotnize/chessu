@@ -1,9 +1,9 @@
-import { getPublicGames } from "@/lib/game";
+import { fetchPublicGames } from "@/lib/game";
 import JoinButton from "./JoinButton";
 import RefreshButton from "./RefreshButton";
 
 export default async function PublicGames() {
-  const games = await getPublicGames();
+  const games = await fetchPublicGames();
 
   return (
     <div className="flex flex-col items-center">
@@ -24,8 +24,18 @@ export default async function PublicGames() {
             {games && games.length > 0 ? (
               games.map((game) => (
                 <tr key={game.code} className="group">
-                  <td>{game.host?.name}</td>
-                  <td>
+                  <td className={typeof game.host?.id === "number" ? "text-primary" : ""}>
+                    {game.host?.name}
+                  </td>
+                  <td
+                    className={
+                      typeof (game.host?.id === game.white?.id
+                        ? game.black?.id
+                        : game.white?.id) === "number"
+                        ? "text-primary"
+                        : ""
+                    }
+                  >
                     {(game.host?.id === game.white?.id ? game.black?.name : game.white?.name) || ""}
                   </td>
                   <th>

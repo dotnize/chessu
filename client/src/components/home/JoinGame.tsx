@@ -3,7 +3,7 @@
 import type { FormEvent } from "react";
 import { useState, useContext } from "react";
 import { SessionContext } from "@/context/session";
-import { getGame } from "@/lib/game";
+import { fetchActiveGame } from "@/lib/game";
 import { useRouter } from "next/navigation";
 
 export default function JoinGame() {
@@ -31,7 +31,7 @@ export default function JoinGame() {
       code = new URL(code).pathname.split("/")[1];
     }
 
-    const game = await getGame(code);
+    const game = await fetchActiveGame(code);
 
     if (game && game.code) {
       router.push(`/${game.code}`);
@@ -58,7 +58,7 @@ export default function JoinGame() {
       />
       <button
         className={
-          "btn btn-square" +
+          "btn" +
           (buttonLoading ? " loading" : "") +
           (!session?.user?.id ? " btn-disabled text-base-content" : "")
         }

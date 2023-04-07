@@ -6,7 +6,12 @@ export default function Footer() {
       <div className="items-center">
         <p>
           &copy; 2023{" "}
-          <a href="https://nize.ph" target="_blank" rel="noreferrer" className="link-hover">
+          <a
+            href="https://nize.ph"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-hover"
+          >
             nize
           </a>
         </p>
@@ -15,7 +20,7 @@ export default function Footer() {
         <a
           href="https://github.com/nizewn/chessu"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="btn btn-ghost btn-sm gap-1 normal-case"
         >
           <IconBrandGithub className="inline-block" size={16} />

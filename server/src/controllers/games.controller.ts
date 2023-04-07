@@ -1,11 +1,43 @@
 import type { Request, Response } from "express";
-import { activeGames } from "../db/models/game.model.js";
+import GameModel, { activeGames } from "../db/models/game.model.js";
 import type { Game, User } from "@chessu/types";
 import { nanoid } from "nanoid";
 
-export const getActivePublicGames = async (req: Request, res: Response) => {
+export const getGames = async (req: Request, res: Response) => {
     try {
-        res.status(200).json(activeGames.filter((g) => !g.unlisted && !g.winner));
+        if (!req.query.id && !req.query.userid) {
+            // get all active games
+            res.status(200).json(activeGames.filter((g) => !g.unlisted && !g.winner));
+            return;
+        }
+
+        let id, userid;
+        if (req.query.id) {
+            id = parseInt(req.query.id as string);
+        }
+        if (req.query.userid) {
+            userid = parseInt(req.query.userid as string);
+        }
+
+        if (id && !isNaN(id)) {
+            // get finished game by id
+            const game = await GameModel.findById(id);
+            if (!game) {
+                res.status(404).end();
+            } else {
+                res.status(200).json(game);
+            }
+        } else if (userid && !isNaN(userid)) {
+            // get finished games by user id
+            const games = await GameModel.findByUserId(userid);
+            if (!games) {
+                res.status(404).end();
+            } else {
+                res.status(200).json(games);
+            }
+        } else {
+            res.status(400).end();
+        }
     } catch (err: unknown) {
         console.log(err);
         res.status(500).end();

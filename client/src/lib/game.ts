@@ -22,7 +22,7 @@ export const createGame = async (side: string, unlisted: boolean) => {
     }
 };
 
-export const getGame = async (code: string) => {
+export const fetchActiveGame = async (code: string) => {
     try {
         const res = await fetch(`${API_URL}/v1/games/${code}`, { cache: "no-store" });
 
@@ -35,13 +35,40 @@ export const getGame = async (code: string) => {
     }
 };
 
-export const getPublicGames = async () => {
+export const fetchPublicGames = async () => {
     try {
         const res = await fetch(`${API_URL}/v1/games`, { cache: "no-store" });
 
         if (res && res.status === 200) {
             const games: Game[] = await res.json();
             return games;
+        }
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export const fetchArchivedGame = async ({ id, userid }: { id?: number; userid?: number }) => {
+    let url = `${API_URL}/v1/games?`;
+    if (id) {
+        url += `id=${id}`;
+    } else {
+        url += `userid=${userid}`;
+    }
+    try {
+        // TODO: handle caching more efficiently
+        const res = await fetch(url, {
+            next: { revalidate: 20 }
+        });
+
+        if (res && res.status === 200) {
+            if (id) {
+                const game: Game = await res.json();
+                if (game.id) return game;
+            } else {
+                const games: Game[] = await res.json();
+                if (games.length && games[0].id) return games;
+            }
         }
     } catch (err) {
         console.error(err);

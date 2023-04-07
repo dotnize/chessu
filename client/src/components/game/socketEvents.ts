@@ -58,17 +58,25 @@ export function initSocket(
         ({
             reason,
             winnerName,
-            winnerSide
+            winnerSide,
+            id
         }: {
-            reason: string;
+            reason: Game["endReason"];
             winnerName?: string;
-            winnerSide?: string;
+            winnerSide?: "white" | "black" | "draw";
+            id: number;
         }) => {
             const m = {
                 author: { name: "server" }
             } as Message;
 
-            if (reason === "checkmate") {
+            if (reason === "abandoned") {
+                if (!winnerSide) {
+                    m.message = `${winnerName} has claimed a draw due to abandonment.`;
+                } else {
+                    m.message = `${winnerName} (${winnerSide}) has claimed the win due to abandonment.`;
+                }
+            } else if (reason === "checkmate") {
                 m.message = `${winnerName} (${winnerSide}) has won by checkmate.`;
             } else {
                 let message = "The game has ended in a draw";
@@ -81,6 +89,10 @@ export function initSocket(
                 }
                 m.message = message.concat(".");
             }
+            actions.updateLobby({
+                type: "updateLobby",
+                payload: { endReason: reason, winner: winnerSide || "draw", id }
+            });
             actions.addMessage(m);
         }
     );

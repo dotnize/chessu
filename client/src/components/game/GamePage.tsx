@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 
 import type { FormEvent, KeyboardEvent } from "react";
+import Link from "next/link";
 
 import { SessionContext } from "@/context/session";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
@@ -65,6 +66,36 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const chatListRef = useRef<HTMLUListElement>(null);
   const moveListRef = useRef<HTMLDivElement>(null);
 
+  const [abandonSeconds, setAbandonSeconds] = useState(60);
+  useEffect(() => {
+    if (
+      lobby.side === "s" ||
+      lobby.endReason ||
+      lobby.winner ||
+      !lobby.pgn ||
+      !lobby.white ||
+      !lobby.black ||
+      (lobby.white.id !== session?.user?.id && lobby.black.id !== session?.user?.id)
+    )
+      return;
+
+    let interval: number;
+    if (!lobby.white?.connected || !lobby.black?.connected) {
+      setAbandonSeconds(60);
+      interval = Number(
+        setInterval(() => {
+          if (abandonSeconds === 0 || (lobby.white?.connected && lobby.black?.connected)) {
+            clearInterval(interval);
+            return;
+          }
+          setAbandonSeconds((s) => s - 1);
+        }, 1000)
+      );
+    }
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lobby.black, lobby.white, lobby.black?.disconnectedOn, lobby.white?.disconnectedOn]);
+
   useEffect(() => {
     if (!session?.user || !session.user?.id) return;
     socket.connect();
@@ -118,7 +149,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   function updateTurnTitle() {
     if (lobby.side === "s" || !lobby.white?.id || !lobby.black?.id) return;
 
-    if (lobby.side === lobby.actualGame.turn()) {
+    if (lobby.side === lobby.actualGame.turn() && !lobby.actualGame.isGameOver()) {
       document.title = "(your turn) chessu";
     } else {
       document.title = "chessu";
@@ -216,11 +247,11 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function isDraggablePiece({ piece }: { piece: string }) {
-    return piece.startsWith(lobby.side);
+    return piece.startsWith(lobby.side) && !lobby.endReason && !lobby.winner;
   }
 
   function onDrop(sourceSquare: Square, targetSquare: Square) {
-    if (lobby.side === "s" || navFen) return false;
+    if (lobby.side === "s" || navFen || lobby.endReason || lobby.winner) return false;
 
     // premove
     if (lobby.side !== lobby.actualGame.turn()) return true;
@@ -267,7 +298,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function onPieceDragBegin(_piece: string, sourceSquare: Square) {
-    if (lobby.side !== lobby.actualGame.turn() || navFen) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.endReason || lobby.winner) return;
 
     getMoveOptions(sourceSquare);
   }
@@ -278,7 +309,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   function onSquareClick(square: Square) {
     updateCustomSquares({ rightClicked: {} });
-    if (lobby.side !== lobby.actualGame.turn() || navFen) return;
+    if (lobby.side !== lobby.actualGame.turn() || navFen || lobby.endReason || lobby.winner) return;
 
     function resetFirstMove(square: Square) {
       setMoveFrom(square);
@@ -329,9 +360,17 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   function getPlayerHtml(side: "top" | "bottom") {
     const blackHtml = (
       <div className="flex w-full flex-col justify-center">
-        <span className={lobby.black?.name ? "font-bold" : ""}>
+        <a
+          className={
+            (lobby.black?.name ? "font-bold" : "") +
+            (typeof lobby.black?.id === "number" ? " text-primary link-hover" : " cursor-default")
+          }
+          href={typeof lobby.black?.id === "number" ? `/user/${lobby.black?.name}` : undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {lobby.black?.name || "(no one)"}
-        </span>
+        </a>
         <span className="flex items-center gap-1 text-xs">
           black
           {lobby.black?.connected === false && (
@@ -342,9 +381,17 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     );
     const whiteHtml = (
       <div className="flex w-full flex-col justify-center">
-        <span className={lobby.white?.name ? "font-bold" : ""}>
+        <a
+          className={
+            (lobby.white?.name ? "font-bold" : "") +
+            (typeof lobby.white?.id === "number" ? " text-primary link-hover" : " cursor-default")
+          }
+          href={typeof lobby.white?.id === "number" ? `/user/${lobby.white?.name}` : undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {lobby.white?.name || "(no one)"}
-        </span>
+        </a>
         <span className="flex items-center gap-1 text-xs">
           white
           {lobby.white?.connected === false && (
@@ -362,7 +409,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function copyInvite() {
-    const text = `https://ches.su/${initialLobby.code}`;
+    const text = `https://ches.su/${lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}`;
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(text);
     } else {
@@ -461,13 +508,27 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     };
   }
 
+  function claimAbandoned(type: "win" | "draw") {
+    if (
+      lobby.side === "s" ||
+      lobby.endReason ||
+      lobby.winner ||
+      !lobby.pgn ||
+      abandonSeconds > 0 ||
+      (lobby.black?.connected && lobby.white?.connected)
+    ) {
+      return;
+    }
+    socket.emit("claimAbandoned", type);
+  }
+
   return (
     <div className="flex w-full flex-wrap justify-center gap-6 px-4 py-4 lg:gap-10 2xl:gap-16">
       <div className="relative h-min">
         {/* overlay */}
         {(!lobby.white?.id || !lobby.black?.id) && (
-          <div className="absolute top-0 right-0 bottom-0 z-10 flex h-full w-full items-center justify-center bg-black bg-opacity-70">
-            <div className="bg-base-200 flex w-full items-center justify-center gap-4 py-4 px-2">
+          <div className="absolute bottom-0 right-0 top-0 z-10 flex h-full w-full items-center justify-center bg-black bg-opacity-70">
+            <div className="bg-base-200 flex w-full items-center justify-center gap-4 px-2 py-4">
               Waiting for opponent.
               {session?.user?.id !== lobby.white?.id && session?.user?.id !== lobby.black?.id && (
                 <button
@@ -514,7 +575,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
           <div className="flex flex-1 flex-col gap-1">
             <div className="mb-2 flex w-full flex-col items-end gap-1">
-              Invite friends:
+              {lobby.endReason ? "Archived link:" : "Invite friends:"}
               <div
                 className={
                   "dropdown dropdown-top dropdown-end" + (copiedLink ? " dropdown-open" : "")
@@ -526,7 +587,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   onClick={copyInvite}
                 >
                   <IconCopy size={16} />
-                  ches.su/{initialLobby.code}
+                  ches.su/{lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}
                 </label>
                 <div tabIndex={0} className="dropdown-content badge badge-neutral text-xs shadow">
                   copied to clipboard
@@ -577,7 +638,62 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           </div>
         </div>
 
-        <div className="h-60 w-full min-w-fit">
+        <div className="relative h-60 w-full min-w-fit">
+          {(lobby.endReason ||
+            (lobby.pgn &&
+              lobby.white &&
+              session?.user?.id === lobby.white?.id &&
+              lobby.black &&
+              !lobby.black?.connected) ||
+            (lobby.pgn &&
+              lobby.black &&
+              session?.user?.id === lobby.black?.id &&
+              lobby.white &&
+              !lobby.white?.connected)) && (
+            <div className="bg-neutral absolute w-full rounded-t-lg bg-opacity-95 p-2">
+              {lobby.endReason ? (
+                <div>
+                  {lobby.endReason === "abandoned"
+                    ? lobby.winner === "draw"
+                      ? `The game ended in a draw due to abandonment.`
+                      : `The game was won by ${lobby.winner} due to abandonment.`
+                    : lobby.winner === "draw"
+                    ? "The game ended in a draw."
+                    : `The game was won by checkmate (${lobby.winner}).`}{" "}
+                  <br />
+                  You can review the archived game at{" "}
+                  <a
+                    className="link"
+                    href={`/archive/${lobby.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ches.su/archive/{lobby.id}
+                  </a>
+                  .
+                </div>
+              ) : abandonSeconds > 0 ? (
+                `Your opponent has disconnected. You can claim the win or draw in ${abandonSeconds} second${
+                  abandonSeconds > 1 ? "s" : ""
+                }.`
+              ) : (
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <span>Your opponent has disconnected.</span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => claimAbandoned("win")}
+                      className="btn btn-sm btn-primary"
+                    >
+                      Claim win
+                    </button>
+                    <button onClick={() => claimAbandoned("draw")} className="btn btn-sm btn-ghost">
+                      Draw
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           <div className="bg-base-300 flex h-full w-full min-w-[64px] flex-col rounded-lg p-4 shadow-sm">
             <ul
               className="mb-4 flex h-full flex-col gap-1 overflow-y-scroll break-words"
@@ -596,7 +712,22 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   <span>
                     {m.author.id && (
                       <span>
-                        <span className="font-bold">{m.author.name}</span>:{" "}
+                        <a
+                          className={
+                            "font-bold" +
+                            (typeof m.author.id === "number"
+                              ? " text-primary link-hover"
+                              : " cursor-default")
+                          }
+                          href={
+                            typeof m.author.id === "number" ? `/user/${m.author.name}` : undefined
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {m.author.name}
+                        </a>
+                        :{" "}
                       </span>
                     )}
                     <span>{m.message}</span>

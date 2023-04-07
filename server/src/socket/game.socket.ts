@@ -1,4 +1,5 @@
-import { activeGames } from "../db/models/game.model.js";
+import GameModel, { activeGames } from "../db/models/game.model.js";
+import type { Game } from "@chessu/types";
 import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
 import { io } from "../server.js";
@@ -18,11 +19,13 @@ export async function joinLobby(this: Socket, gameCode: string) {
     }
     if (game.white && game.white?.id === this.request.session.user.id) {
         game.white.connected = true;
+        game.white.disconnectedOn = undefined;
         if (game.white.name !== this.request.session.user.name) {
             game.white.name = this.request.session.user.name;
         }
     } else if (game.black && game.black?.id === this.request.session.user.id) {
         game.black.connected = true;
+        game.black.disconnectedOn = undefined;
         if (game.black.name !== this.request.session.user.name) {
             game.black.name = this.request.session.user.name;
         }
@@ -50,7 +53,7 @@ export async function joinLobby(this: Socket, gameCode: string) {
 
 export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?: string) {
     if (this.rooms.size >= 3 && !code) {
-        console.log(`[WARNING] leaveLobby: room size is ${this.rooms.size}, aborting...`);
+        console.log(`leaveLobby: room size is ${this.rooms.size}, aborting...`);
         return;
     }
     const game = activeGames.find(
@@ -68,8 +71,10 @@ export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?:
         }
         if (game.black && game.black?.id === this.request.session.user.id) {
             game.black.connected = false;
+            game.black.disconnectedOn = Date.now();
         } else if (game.white && game.white?.id === this.request.session.user.id) {
             game.white.connected = false;
+            game.white.disconnectedOn = Date.now();
         }
 
         // count sockets
@@ -94,6 +99,58 @@ export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?:
     await this.leave(code || Array.from(this.rooms)[1]);
 }
 
+export async function claimAbandoned(this: Socket, type: "win" | "draw") {
+    const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
+    if (
+        !game ||
+        !game.pgn ||
+        !game.white ||
+        !game.black ||
+        (game.white.id !== this.request.session.user.id &&
+            game.black.id !== this.request.session.user.id)
+    ) {
+        console.log(`claimAbandoned: Invalid game or user is not a player.`);
+        return;
+    }
+
+    if (
+        (game.white &&
+            game.white.id === this.request.session.user.id &&
+            (game.black?.connected ||
+                Date.now() - (game.black?.disconnectedOn as number) < 50000)) ||
+        (game.black &&
+            game.black.id === this.request.session.user.id &&
+            (game.white?.connected || Date.now() - (game.white?.disconnectedOn as number) < 50000))
+    ) {
+        console.log(
+            `claimAbandoned: Invalid claim by ${this.request.session.user.name}. Opponent is still connected or disconnected less than 50 seconds ago.`
+        );
+        return;
+    }
+
+    game.endReason = "abandoned";
+
+    if (type === "draw") {
+        game.winner = "draw";
+    } else if (game.white && game.white?.id === this.request.session.user.id) {
+        game.winner = "white";
+    } else if (game.black && game.black?.id === this.request.session.user.id) {
+        game.winner = "black";
+    }
+
+    const { id } = (await GameModel.save(game)) as Game;
+    game.id = id;
+
+    const gameOver = {
+        reason: game.endReason,
+        winnerName: this.request.session.user.name,
+        winnerSide: game.winner === "draw" ? undefined : game.winner,
+        id
+    };
+
+    io.to(game.code as string).emit("gameOver", gameOver);
+}
+
 export async function getLatestGame(this: Socket) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
     if (game) this.emit("receivedLatestGame", game);
@@ -101,7 +158,7 @@ export async function getLatestGame(this: Socket) {
 
 export async function sendMove(this: Socket, m: { from: string; to: string; promotion?: string }) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
-    if (!game) return;
+    if (!game || game.endReason || game.winner) return;
     const chess = new Chess();
     if (game.pgn) {
         chess.loadPgn(game.pgn);
@@ -118,32 +175,37 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
         }
 
         const newMove = chess.move(m);
-        if (chess.isGameOver()) {
-            let reason = "";
-            if (chess.isCheckmate()) reason = "checkmate";
-            else if (chess.isStalemate()) reason = "stalemate";
-            else if (chess.isThreefoldRepetition()) reason = "repetition";
-            else if (chess.isInsufficientMaterial()) reason = "insufficient";
-            else if (chess.isDraw()) reason = "draw";
 
-            const winnerSide =
-                reason === "checkmate" ? (prevTurn === "w" ? "white" : "black") : undefined;
-            const winnerName =
-                reason === "checkmate"
-                    ? winnerSide === "white"
-                        ? game.white?.name
-                        : game.black?.name
-                    : undefined;
-            if (reason === "checkmate") {
-                game.winner = winnerSide;
-            } else {
-                game.winner = "draw";
-            }
-            io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide });
-        }
         if (newMove) {
             game.pgn = chess.pgn();
             this.to(game.code as string).emit("receivedMove", m);
+            if (chess.isGameOver()) {
+                let reason: Game["endReason"];
+                if (chess.isCheckmate()) reason = "checkmate";
+                else if (chess.isStalemate()) reason = "stalemate";
+                else if (chess.isThreefoldRepetition()) reason = "repetition";
+                else if (chess.isInsufficientMaterial()) reason = "insufficient";
+                else if (chess.isDraw()) reason = "draw";
+
+                const winnerSide =
+                    reason === "checkmate" ? (prevTurn === "w" ? "white" : "black") : undefined;
+                const winnerName =
+                    reason === "checkmate"
+                        ? winnerSide === "white"
+                            ? game.white?.name
+                            : game.black?.name
+                        : undefined;
+                if (reason === "checkmate") {
+                    game.winner = winnerSide;
+                } else {
+                    game.winner = "draw";
+                }
+                game.endReason = reason;
+
+                const { id } = (await GameModel.save(game)) as Game; // save game to db
+                game.id = id;
+                io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide, id });
+            }
         } else {
             throw new Error("invalid move");
         }
@@ -169,6 +231,7 @@ export async function joinAsPlayer(this: Socket) {
             name: this.request.session.user.name,
             side: "white"
         });
+        game.startedAt = Date.now();
     } else if (!game.black) {
         const sessionUser = {
             id: this.request.session.user.id,
@@ -181,8 +244,9 @@ export async function joinAsPlayer(this: Socket) {
             name: this.request.session.user.name,
             side: "black"
         });
+        game.startedAt = Date.now();
     } else {
-        console.log("[WARNING] attempted to join a game with already 2 players");
+        console.log("joinAsPlayer: attempted to join a game with already 2 players");
     }
     io.to(game.code as string).emit("receivedLatestGame", game);
 }

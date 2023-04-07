@@ -17,7 +17,7 @@ export default function RefreshButton() {
   return (
     <button
       aria-label="Refresh public games"
-      className={"btn btn-sm btn-ghost" + (isLoading ? " loading" : "")}
+      className={"btn btn-sm btn-square btn-ghost" + (isLoading ? " loading" : "")}
       onClick={handleRefresh}
     >
       <IconRefresh size={16} />
