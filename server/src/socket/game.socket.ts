@@ -149,6 +149,9 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
     };
 
     io.to(game.code as string).emit("gameOver", gameOver);
+
+    if (game.timeout) clearTimeout(game.timeout);
+    activeGames.splice(activeGames.indexOf(game), 1);
 }
 
 export async function getLatestGame(this: Socket) {
@@ -205,6 +208,9 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
                 const { id } = (await GameModel.save(game)) as Game; // save game to db
                 game.id = id;
                 io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide, id });
+
+                if (game.timeout) clearTimeout(game.timeout);
+                activeGames.splice(activeGames.indexOf(game), 1);
             }
         } else {
             throw new Error("invalid move");
