@@ -1,4 +1,13 @@
-# chessu [![Deployment status](https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment)](https://ches.su)
+<h1 align="center">
+  <img src="./assets/chessu.png" alt="chessu" height="128" />
+</h1>
+<p align="center">
+  <a href="https://ches.su">
+    <img src="https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment&style=for-the-badge" alt="ches.su" />
+  </a>
+  <img src="https://img.shields.io/github/license/nizewn/chessu?color=blue&style=for-the-badge" alt="MIT Licensed" />
+  <img src="https://img.shields.io/github/last-commit/nizewn/chessu?style=for-the-badge" alt="Last commit" />
+</p>
 
 > This project is still in the early stages of development. Expect bugs and incomplete features.
 
