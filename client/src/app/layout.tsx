@@ -48,6 +48,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ContextProvider>
 
         <Footer />
+
+        {/* not using <Script> from next/script since it executes too late */}
+        <script
+          defer
+          id="load-theme"
+          dangerouslySetInnerHTML={{
+            __html: `if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+              document.documentElement.setAttribute("data-theme", "chessuDark");
+          } else {
+              document.documentElement.setAttribute("data-theme", "chessuLight");
+          }`
+          }}
+        ></script>
       </body>
     </html>
   );
