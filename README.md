@@ -85,7 +85,3 @@ PGDATABASE=chessu
 ## Contributing
 
 Pull requests are welcome. For feature changes or suggestions, please open an issue first for discussion.
-
-## License
-
-[MIT](https://github.com/nizewn/chessu/blob/main/LICENSE)
