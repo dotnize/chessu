@@ -5,6 +5,7 @@ module.exports = {
         extend: {}
     },
     plugins: [require("daisyui")],
+    darkMode: ["class", '[data-theme="chessuDark"]'],
     daisyui: {
         // based on daisyUI night and winter themes
         themes: [
