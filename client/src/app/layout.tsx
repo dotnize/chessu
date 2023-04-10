@@ -30,7 +30,8 @@ export const metadata = {
     ],
     apple: { url: "/apple-touch-icon.png", sizes: "180x180" }
   },
-  manifest: "/site.webmanifest"
+  manifest: "/site.webmanifest",
+  metadataBase: new URL(process.env.VERCEL ? "https://ches.su" : "http://localhost:3000")
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
