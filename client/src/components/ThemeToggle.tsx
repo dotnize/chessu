@@ -4,7 +4,7 @@ import { IconSun, IconMoon } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 
 export default function ThemeToggle() {
-  const [darkTheme, setDarkTheme] = useState(false);
+  const [darkTheme, setDarkTheme] = useState(true);
 
   useEffect(() => {
     if (document.documentElement.getAttribute("data-theme") === "chessuDark") {
