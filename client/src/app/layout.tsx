@@ -50,9 +50,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <Footer />
 
-        {/* not using <Script> from next/script since it executes too late */}
+        {/* next/script issue: https://github.com/vercel/next.js/issues/43402 */}
         <script
-          defer
           id="load-theme"
           dangerouslySetInnerHTML={{
             __html: `if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
