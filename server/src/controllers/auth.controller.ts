@@ -3,9 +3,9 @@ import type { User } from "@chessu/types";
 import xss from "xss";
 import { hash, verify } from "argon2";
 
-import { activeGames } from "../db/models/game.model.js";
-import { io } from "../server.js";
-import UserModel from "../db/models/user.model.js";
+import { activeGames } from "../db/models/game.model";
+import { io } from "../server";
+import UserModel from "../db/models/user.model";
 
 export const getCurrentSession = async (req: Request, res: Response) => {
     try {

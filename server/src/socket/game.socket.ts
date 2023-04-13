@@ -1,8 +1,7 @@
-import GameModel, { activeGames } from "../db/models/game.model.js";
+import GameModel, { activeGames } from "../db/models/game.model";
 import type { Game } from "@chessu/types";
 import type { DisconnectReason, Socket } from "socket.io";
-import { Chess } from "chess.js";
-import { io } from "../server.js";
+import { io } from "../server";
 
 export async function joinLobby(this: Socket, gameCode: string) {
     const game = activeGames.find((g) => g.code === gameCode);
@@ -162,7 +161,9 @@ export async function getLatestGame(this: Socket) {
 export async function sendMove(this: Socket, m: { from: string; to: string; promotion?: string }) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
     if (!game || game.endReason || game.winner) return;
-    const chess = new Chess();
+
+    const Chess = await import("chess.js");
+    const chess = new Chess.Chess();
     if (game.pgn) {
         chess.loadPgn(game.pgn);
     }

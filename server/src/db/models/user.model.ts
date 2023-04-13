@@ -1,4 +1,4 @@
-import { db } from "../index.js";
+import { db } from "../index";
 import type { User } from "@chessu/types";
 
 export const create = async (user: User, password: string) => {

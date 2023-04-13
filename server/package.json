@@ -1,12 +1,14 @@
 {
     "name": "@chessu/server",
+    "version": "1.0.0",
     "private": true,
-    "main": "./dist/server.js",
-    "type": "module",
     "scripts": {
-        "start": "node ./dist/server.js",
-        "build": "tsc",
-        "dev": "node --loader ts-node/esm --watch src/server.ts"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "npx kill-port 3001 && nodemon src/server.ts",
+        "dev": "yarn start",
+        "vercel:build": "vercel build",
+        "vercel:dev": "vercel dev",
+        "commit": "git add . && git commit -a -m 'myworldbox' && git push"
     },
     "dependencies": {
         "argon2": "^0.30.3",
@@ -16,23 +18,24 @@
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "express-session": "^1.17.3",
-        "nanoid": "^4.0.2",
+        "nodemon": "^2.0.22",
         "pg": "^8.10.0",
         "socket.io": "^4.6.1",
+        "uuid": "^9.0.0",
         "xss": "^1.0.14"
     },
     "devDependencies": {
         "@chessu/types": "*",
+        "@types/chess.js": "^0.13.4",
         "@types/connect-pg-simple": "^7.0.0",
         "@types/express": "^4.17.17",
         "@types/express-session": "^1.17.7",
         "@types/node": "^18.15.11",
         "@types/pg": "^8.6.6",
+        "@types/uuid": "^9.0.1",
+        "nodemon": "^2.0.22",
         "ts-node": "^10.9.1",
         "typescript": "^5.0.4"
-    },
-    "engines": {
-        "node": ">=18"
     },
     "optionalDependencies": {
         "bufferutil": "^4.0.7",
