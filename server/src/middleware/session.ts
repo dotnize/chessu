@@ -1,8 +1,8 @@
-import { nanoid } from "nanoid";
+import { v1 as uuidv1 } from 'uuid';
 import type { Session } from "express-session";
 import session from "express-session";
 import PGSimple from "connect-pg-simple";
-import { db } from "../db/index.js";
+import { db } from "../db/index";
 import type { User } from "@chessu/types";
 
 const PGSession = PGSimple(session);
@@ -33,7 +33,7 @@ const sessionMiddleware = session({
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     },
     genid: function () {
-        return nanoid(21);
+        return uuidv1();
     }
 });
 

@@ -12,7 +12,8 @@
         "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "commit": "git add . && git commit -a -m 'myworldbox' && git push"
     },
     "devDependencies": {
         "concurrently": "^8.0.1",
@@ -21,8 +22,5 @@
         "eslint-config-prettier": "^8.8.0",
         "prettier": "^2.8.7",
         "prettier-plugin-tailwindcss": "^0.2.7"
-    },
-    "engines": {
-        "node": ">=18"
     }
 }

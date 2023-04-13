@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import xss from "xss";
 
-import GameModel from "../db/models/game.model.js";
-import UserModel from "../db/models/user.model.js";
+import GameModel from "../db/models/game.model";
+import UserModel from "../db/models/user.model";
 
 export const getUserProfile = async (req: Request, res: Response) => {
     try {

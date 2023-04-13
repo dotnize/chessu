@@ -1,5 +1,6 @@
 import type { Socket } from "socket.io";
-import { io } from "../server.js";
+import { io } from "../server";
+import { db, INIT_TABLES } from "../db/index";
 import {
     joinLobby,
     leaveLobby,
@@ -8,9 +9,10 @@ import {
     joinAsPlayer,
     chat,
     claimAbandoned
-} from "./game.socket.js";
+} from "./game.socket";
 
 const socketConnect = (socket: Socket) => {
+    
     const req = socket.request;
 
     // review if this is necessary, or if io.use will handle logout
@@ -38,6 +40,17 @@ const socketConnect = (socket: Socket) => {
     socket.on("claimAbandoned", claimAbandoned);
 };
 
-export const init = () => {
+export const init = async () => {
+
+    await db.connect();
+    db.query(INIT_TABLES, (err) => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log("Tables initialized");
+        }
+    });
+
+    console.log("yolo")
     io.on("connection", socketConnect);
 };
