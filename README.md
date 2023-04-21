@@ -24,41 +24,17 @@ Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Expre
 
 ## Configuration
 
+> Node.js 18 or newer is recommended.
+
 This project is structured as a monorepo using npm workspaces, separated into three packages:
 
-- `client` - Next.js application for the front-end, deployed to [ches.su](https://ches.su).
-- `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su).
+- `client` - Next.js application for the front-end, deployed to [ches.su](https://ches.su) via Vercel.
+- `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su) via Railway.
 - `types` - Shared type definitions for the client and server.
 
 For separate deployments, you may exclude the `client` or `server` directory. However, you should include the `types` folder as it contains shared type definitions that are required by both packages.
 
-<details><summary><b>Scripts</b></summary><p>
-
-```sh
-# install all dependencies, including eslint and prettier for development
-npm install
-
-# concurrently run frontend and backend development servers
-npm run dev # -w client/server to run only one
-```
-
-```sh
-# for separate production deployments
-npm install -w client
-npm install -w server
-
-npm run build -w client
-npm run build -w server
-
-npm start -w client
-npm start -w server
-```
-
-</p></details>
-
-<details><summary><b>Environment variables</b></summary><p>
-
-You may also create a `.env` file in each package directory to set their environment variables.
+### Environment variables
 
 client:
 
@@ -80,7 +56,37 @@ PGPASSWORD=examplepassword
 PGDATABASE=chessu
 ```
 
-</p></details>
+You may also create a `.env` file in each package directory to set their environment variables.
+
+### Scripts
+
+For development:
+
+```sh
+# install all dependencies, including eslint and prettier
+npm install
+
+# concurrently run frontend and backend development servers
+npm run dev
+
+# or run them separately
+npm run dev -w client
+npm run dev -w server
+```
+
+For production:
+
+```sh
+# for separate deployments
+npm install -w client
+npm install -w server
+
+npm run build -w client
+npm run build -w server
+
+npm start -w client
+npm start -w server
+```
 
 ## Contributing
 
