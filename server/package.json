@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node ./dist/server.js",
         "build": "tsc",
-        "dev": "node --loader ts-node/esm --watch src/server.ts"
+        "dev": "tsc-watch --noClear --onSuccess 'node ./dist/server.js'"
     },
     "dependencies": {
         "argon2": "^0.30.3",
@@ -28,7 +28,7 @@
         "@types/express-session": "^1.17.7",
         "@types/node": "^18.15.13",
         "@types/pg": "^8.6.6",
-        "ts-node": "^10.9.1",
+        "tsc-watch": "^6.0.0",
         "typescript": "^5.0.4"
     },
     "engines": {
