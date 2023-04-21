@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "argon2": "^0.30.3",
-        "chess.js": "^1.0.0-beta.4",
+        "chess.js": "^1.0.0-beta.5",
         "connect-pg-simple": "^8.0.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
@@ -26,7 +26,7 @@
         "@types/connect-pg-simple": "^7.0.0",
         "@types/express": "^4.17.17",
         "@types/express-session": "^1.17.7",
-        "@types/node": "^18.15.11",
+        "@types/node": "^18.15.13",
         "@types/pg": "^8.6.6",
         "ts-node": "^10.9.1",
         "typescript": "^5.0.4"
