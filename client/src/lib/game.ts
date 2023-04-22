@@ -3,7 +3,7 @@ import { API_URL } from "@/config";
 
 export const createGame = async (side: string, unlisted: boolean) => {
     try {
-        const res = await fetch(`${process.env.API_URL}/v1/games`, {
+        const res = await fetch(`${API_URL}/v1/games`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -24,7 +24,7 @@ export const createGame = async (side: string, unlisted: boolean) => {
 
 export const fetchActiveGame = async (code: string) => {
     try {
-        const res = await fetch(`${process.env.API_URL}/v1/games/${code}`, { cache: "no-store" });
+        const res = await fetch(`${API_URL}/v1/games/${code}`, { cache: "no-store" });
 
         if (res && res.status === 200) {
             const game: Game = await res.json();
@@ -37,7 +37,7 @@ export const fetchActiveGame = async (code: string) => {
 
 export const fetchPublicGames = async () => {
     try {
-        const res = await fetch(`${process.env.API_URL}/v1/games`, { cache: "no-store" });
+        const res = await fetch(`${API_URL}/v1/games`, { cache: "no-store" });
 
         if (res && res.status === 200) {
             const games: Game[] = await res.json();
@@ -49,7 +49,7 @@ export const fetchPublicGames = async () => {
 };
 
 export const fetchArchivedGame = async ({ id, userid }: { id?: number; userid?: number }) => {
-    let url = `${process.env.API_URL}/v1/games?`;
+    let url = `${API_URL}/v1/games?`;
     if (id) {
         url += `id=${id}`;
     } else {
