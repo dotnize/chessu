@@ -2,8 +2,8 @@
   <img src="./assets/chessu.png" alt="chessu" height="128" />
 </h1>
 <p align="center">
-  <a href="https://ches.su">
-    <img src="https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment&style=for-the-badge" alt="ches.su" />
+  <a href="https://chessust.vercel.app">
+    <img src="https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment&style=for-the-badge" alt="chessust.vercel.app" />
   </a>
   <img src="https://img.shields.io/github/license/nizewn/chessu?color=blue&style=for-the-badge" alt="MIT Licensed" />
   <img src="https://img.shields.io/github/last-commit/nizewn/chessu?style=for-the-badge" alt="Last commit" />
@@ -11,7 +11,7 @@
 
 > This project is still in the early stages of development. Expect bugs and incomplete features.
 
-Yet another Chess web app. Live demo at [ches.su](https://ches.su).
+Yet another Chess web app. Live demo at [chessust.vercel.app](https://chessust.vercel.app).
 
 - play against other users in real-time
 - spectate and chat in ongoing games with other users
@@ -28,8 +28,8 @@ Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Expre
 
 This project is structured as a monorepo using npm workspaces, separated into three packages:
 
-- `client` - Next.js application for the front-end, deployed to [ches.su](https://ches.su) via Vercel.
-- `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su) via Railway.
+- `client` - Next.js application for the front-end, deployed to [chessust.vercel.app](https://chessust.vercel.app) via Vercel.
+- `server` - Node/Express.js application for the back-end, deployed to [server.chessust.vercel.app](https://server.chessust.vercel.app) via Railway.
 - `types` - Shared type definitions for the client and server.
 
 For separate deployments, you may exclude the `client` or `server` directory. However, you should include the `types` folder as it contains shared type definitions that are required by both packages.

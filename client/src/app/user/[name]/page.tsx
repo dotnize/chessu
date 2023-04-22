@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { name: string } })
     openGraph: {
       title: `${data.name} | chessu`,
       description: `${data.name}'s profile on chessu`,
-      url: `https://ches.su/user/${data.name}`,
+      url: `https://chessust.vercel.app/user/${data.name}`,
       siteName: "chessu",
       locale: "en_US",
       type: "website"

@@ -409,7 +409,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   }
 
   function copyInvite() {
-    const text = `https://ches.su/${lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}`;
+    const text = `https://chessust.vercel.app/${lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}`;
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(text);
     } else {
@@ -587,7 +587,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                   onClick={copyInvite}
                 >
                   <IconCopy size={16} />
-                  ches.su/{lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}
+                  chessust.vercel.app/{lobby.endReason ? `archive/${lobby.id}` : initialLobby.code}
                 </label>
                 <div tabIndex={0} className="dropdown-content badge badge-neutral text-xs shadow">
                   copied to clipboard
@@ -668,7 +668,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    ches.su/archive/{lobby.id}
+                    chessust.vercel.app/archive/{lobby.id}
                   </a>
                   .
                 </div>
