@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node ./dist/server.js",
         "build": "tsc",
-        "dev": "tsc-watch --noClear --onSuccess 'node ./dist/server.js'"
+        "dev": "tsc-watch --noClear --onSuccess \"node ./dist/server.js\""
     },
     "dependencies": {
         "argon2": "^0.30.3",
