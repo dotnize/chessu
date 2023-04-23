@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
-var xss = require("xss");
+import xss from 'xss';
 
 import GameModel from "../db/models/game.model";
 import UserModel from "../db/models/user.model";
 
 export const getUserProfile = async (req: Request, res: Response) => {
     try {
-        const name = xss.xss(req.params.name);
+        const name = xss(req.params.name);
 
         const users = await UserModel.findByNameEmail({ name, email: name });
 

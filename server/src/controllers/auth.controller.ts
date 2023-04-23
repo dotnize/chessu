@@ -1,6 +1,6 @@
+import xss from 'xss';
 import type { Request, Response } from "express";
 import type { User } from "@chessust/types";
-var xss = require("xss");
 import { hash, verify } from "argon2";
 
 import { activeGames } from "../db/models/game.model";
@@ -26,7 +26,7 @@ export const guestSession = async (req: Request, res: Response) => {
             res.status(403).end();
             return;
         }
-        const name = xss.xss(req.body.name);
+        const name = xss(req.body.name);
 
         const pattern = /^[A-Za-z0-9]+$/;
 
@@ -50,7 +50,7 @@ export const guestSession = async (req: Request, res: Response) => {
                 (g) =>
                     g.white?.id === req.session.user.id ||
                     g.black?.id === req.session.user.id ||
-                    g.observers?.find((o:any) => o.id === req.session.user.id)
+                    g.observers?.find((o: any) => o.id === req.session.user.id)
             );
             if (game) {
                 if (game.host?.id === req.session.user.id) {
@@ -61,7 +61,7 @@ export const guestSession = async (req: Request, res: Response) => {
                 } else if (game.black?.id === req.session.user.id) {
                     game.black.name = name;
                 } else {
-                    const observer = game.observers?.find((o:any) => o.id === req.session.user.id);
+                    const observer = game.observers?.find((o: any) => o.id === req.session.user.id);
                     if (observer) {
                         observer.name = name;
                     }
@@ -96,8 +96,8 @@ export const registerUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const name = xss.xss(req.body.name);
-        const email = xss.xss(req.body.email);
+        const name = xss(req.body.name);
+        const email = xss(req.body.email);
         const password = await hash(req.body.password);
 
         const pattern = /^[A-Za-z0-9]+$/;
@@ -128,7 +128,7 @@ export const registerUser = async (req: Request, res: Response) => {
                 (g) =>
                     g.white?.id === req.session.user.id ||
                     g.black?.id === req.session.user.id ||
-                    g.observers?.find((o:any) => o.id === req.session.user.id)
+                    g.observers?.find((o: any) => o.id === req.session.user.id)
             );
             if (game) {
                 if (game.host?.id === req.session.user.id) {
@@ -139,7 +139,7 @@ export const registerUser = async (req: Request, res: Response) => {
                 } else if (game.black && game.black?.id === req.session.user.id) {
                     game.black = publicUser;
                 } else {
-                    const observer = game.observers?.find((o:any) => o.id === req.session.user.id);
+                    const observer = game.observers?.find((o: any) => o.id === req.session.user.id);
                     if (observer) {
                         observer.id = publicUser.id;
                         observer.name = publicUser.name;
@@ -166,7 +166,7 @@ export const loginUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const nameOrEmail = xss.xss(req.body.name);
+        const nameOrEmail = xss(req.body.name);
         const password = req.body.password;
 
         const users = await UserModel.findByNameEmail(
@@ -194,7 +194,7 @@ export const loginUser = async (req: Request, res: Response) => {
                 (g) =>
                     g.white?.id === req.session.user.id ||
                     g.black?.id === req.session.user.id ||
-                    g.observers?.find((o:any) => o.id === req.session.user.id)
+                    g.observers?.find((o: any) => o.id === req.session.user.id)
             );
             if (game) {
                 if (game.host?.id === req.session.user.id) {
@@ -205,7 +205,7 @@ export const loginUser = async (req: Request, res: Response) => {
                 } else if (game.black && game.black?.id === req.session.user.id) {
                     game.black = publicUser;
                 } else {
-                    const observer = game.observers?.find((o:any) => o.id === req.session.user.id);
+                    const observer = game.observers?.find((o: any) => o.id === req.session.user.id);
                     if (observer) {
                         observer.id = publicUser.id;
                         observer.name = publicUser.name;
@@ -244,14 +244,14 @@ export const updateUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const name = xss.xss(req.body.name || req.session.user.name);
+        const name = xss(req.body.name || req.session.user.name);
         const pattern = /^[A-Za-z0-9]+$/;
         if (!pattern.test(name)) {
             res.status(400).end();
             return;
         }
 
-        const email = xss.xss(req.body.email || req.session.user.email);
+        const email = xss(req.body.email || req.session.user.email);
 
         const duplicateUsers = await UserModel.findByNameEmail({ name, email });
         if (
@@ -284,7 +284,7 @@ export const updateUser = async (req: Request, res: Response) => {
             (g) =>
                 g.white?.id === req.session.user.id ||
                 g.black?.id === req.session.user.id ||
-                g.observers?.find((o:any) => o.id === req.session.user.id)
+                g.observers?.find((o: any) => o.id === req.session.user.id)
         );
         if (game) {
             if (game.host?.id === req.session.user.id) {
@@ -295,7 +295,7 @@ export const updateUser = async (req: Request, res: Response) => {
             } else if (game.black && game.black?.id === req.session.user.id) {
                 game.black = publicUser;
             } else {
-                const observer = game.observers?.find((o:any) => o.id === req.session.user.id);
+                const observer = game.observers?.find((o: any) => o.id === req.session.user.id);
                 if (observer) {
                     observer.id = publicUser.id;
                     observer.name = publicUser.name;
