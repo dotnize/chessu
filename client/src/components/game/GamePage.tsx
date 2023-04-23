@@ -23,13 +23,13 @@ import { Chess } from "chess.js";
 var react_chessboard = require("react-chessboard");
 
 import { API_URL } from "@/config";
-var io = require("socket.io-client");
 
 import { lobbyReducer, squareReducer } from "./reducers";
 import { initSocket } from "./socketEvents";
 import { syncPgn, syncSide } from "./utils";
+import { io } from "socket.io-client";
 
-const socket = io.io(API_URL, { withCredentials: true, autoConnect: false });
+const socket = io(API_URL, { withCredentials: true, autoConnect: false });
 
 export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const session = useContext(SessionContext);

@@ -2,12 +2,13 @@ import type { Action, CustomSquares, Lobby, Message } from "@/types";
 
 import type { User, Game } from "@chessust/types";
 import type { Dispatch, SetStateAction } from "react";
-var socket_io_client = require("socket.io-client");
+import type { Socket } from "socket.io-client";
+
 import { syncPgn, syncSide } from "./utils";
 
 export function initSocket(
     user: User,
-    socket: typeof socket_io_client.Socket,
+    socket: Socket,
     lobby: Lobby,
     actions: {
         updateLobby: Dispatch<Action>;
