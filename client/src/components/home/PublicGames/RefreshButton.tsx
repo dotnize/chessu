@@ -1,5 +1,3 @@
-"use client";
-
 import { IconRefresh } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";

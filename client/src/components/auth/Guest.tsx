@@ -1,5 +1,3 @@
-"use client";
-
 export default function Guest({ currentName }: { currentName: string }) {
   return (
     <div className="form-control">

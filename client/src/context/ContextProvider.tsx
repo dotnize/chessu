@@ -1,5 +1,3 @@
-"use client";
-
 import type { User } from "@chessust/types";
 
 import { useState, useEffect } from "react";
