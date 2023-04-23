@@ -1,4 +1,4 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import cors from "cors";
 import type { Request, Response, NextFunction } from "express";
 import express from "express";
