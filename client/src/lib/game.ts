@@ -59,7 +59,7 @@ export const fetchArchivedGame = async ({ id, userid }: { id?: number; userid?: 
         // TODO: handle caching more efficiently
         const res = await fetch(url, {
             next: { revalidate: 20 }
-        });
+        } as RequestInit);
 
         if (res && res.status === 200) {
             if (id) {

@@ -16,7 +16,7 @@ import { SessionContext } from "@/context/session";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
 
 import type { Message } from "@/types";
-var chessust = require("@chessust/types");
+import type { Game } from "@chessust/types";
 
 import type { Move, Square } from "chess.js";
 import { Chess } from "chess.js";
@@ -31,7 +31,7 @@ import { syncPgn, syncSide } from "./utils";
 
 const socket = io.io(API_URL, { withCredentials: true, autoConnect: false });
 
-export default function GamePage({ initialLobby }: { initialLobby: typeof chessust.Game }) {
+export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const session = useContext(SessionContext);
 
   const [lobby, updateLobby]: any = useReducer(lobbyReducer, {
