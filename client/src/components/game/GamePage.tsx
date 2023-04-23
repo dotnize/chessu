@@ -29,7 +29,7 @@ import { initSocket } from "./socketEvents";
 import { syncPgn, syncSide } from "./utils";
 import { io } from "socket.io-client";
 
-const socket = io(API_URL, { withCredentials: true, autoConnect: false });
+const socket = io(API_URL, { withCredentials: true, autoConnect: true });
 
 export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const session = useContext(SessionContext);
