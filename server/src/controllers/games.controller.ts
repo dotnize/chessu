@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import GameModel, { activeGames } from "../db/models/game.model";
 var chessust = require("@chessust/types");
-var nanoid = await import("nanoid");
+var nanoid = require("nanoid");
 
 export const getGames = async (req: Request, res: Response) => {
     try {

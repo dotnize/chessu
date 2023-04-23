@@ -1,4 +1,4 @@
-var nanoid = await import("nanoid");
+var nanoid = require("nanoid");
 import type { Session } from "express-session";
 import session from "express-session";
 import PGSimple from "connect-pg-simple";
