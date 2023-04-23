@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import GameModel, { activeGames } from "../db/models/game.model";
-var chessust = require("../../../types/index");
+import type { User, Game } from "@chessust/types";
 import { uuid } from "uuidv4";
 
 export const getGames = async (req: Request, res: Response) => {
@@ -71,13 +71,13 @@ export const createGame = async (req: Request, res: Response) => {
             res.status(401).end();
             return;
         }
-        const user: typeof chessust.User = {
+        const user: User = {
             id: req.session.user.id,
             name: req.session.user.name,
             connected: false
         };
         const unlisted: boolean = req.body.unlisted ?? false;
-        const game: typeof chessust.Game = {
+        const game: Game = {
             code: uuid(),
             unlisted,
             host: user,

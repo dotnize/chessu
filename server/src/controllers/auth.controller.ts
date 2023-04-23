@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-var chessust = require("../../../types/index");
+import type { User } from "@chessust/types";
 var xss = require("xss");
 import { hash, verify } from "argon2";
 
@@ -37,7 +37,7 @@ export const guestSession = async (req: Request, res: Response) => {
 
         if (!req.session.user || !req.session.user?.id) {
             // create guest session
-            const user: typeof chessust.User = {
+            const user: User = {
                 id: req.session.id,
                 name
             };

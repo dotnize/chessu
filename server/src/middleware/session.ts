@@ -3,7 +3,7 @@ import type { Session } from "express-session";
 import session from "express-session";
 import PGSimple from "connect-pg-simple";
 import { db } from "../db/index";
-import type { User } from "../../../types/index";
+import type { User } from "@chessust/types";
 
 const PGSession = PGSimple(session);
 
