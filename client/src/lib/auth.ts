@@ -1,4 +1,4 @@
-import type { User } from "@chessu/types";
+import type { User } from "@chessust/types";
 import { API_URL } from "@/config";
 
 export const fetchSession = async () => {

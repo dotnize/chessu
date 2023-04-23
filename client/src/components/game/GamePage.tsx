@@ -16,7 +16,7 @@ import { SessionContext } from "@/context/session";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
 
 import type { Message } from "@/types";
-import type { Game } from "@chessu/types";
+import type { Game } from "@chessust/types";
 
 import type { Move, Square } from "chess.js";
 import { Chess } from "chess.js";

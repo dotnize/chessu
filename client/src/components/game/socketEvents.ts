@@ -1,5 +1,5 @@
 import type { Action, CustomSquares, Lobby, Message } from "@/types";
-import type { Game, User } from "@chessu/types";
+import type { Game, User } from "@chessust/types";
 import type { Dispatch, SetStateAction } from "react";
 import type { Socket } from "socket.io-client";
 import { syncPgn, syncSide } from "./utils";

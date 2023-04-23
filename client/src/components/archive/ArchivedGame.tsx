@@ -1,6 +1,6 @@
 "use client";
 
-import { Game } from "@chessu/types";
+import { Game } from "@chessust/types";
 import { Chessboard } from "react-chessboard";
 import { useEffect, useReducer, useState, useRef } from "react";
 import {

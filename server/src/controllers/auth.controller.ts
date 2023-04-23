@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { User } from "@chessu/types";
+import type { User } from "@chessust/types";
 import xss from "xss";
 import { hash, verify } from "argon2";
 

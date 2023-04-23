@@ -1,6 +1,6 @@
 "use client";
 
-import type { User } from "@chessu/types";
+import type { User } from "@chessust/types";
 
 import { useState, useEffect } from "react";
 import { SessionContext } from "./session";

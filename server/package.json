@@ -1,5 +1,5 @@
 {
-    "name": "@chessu/server",
+    "name": "@chessust/server",
     "private": true,
     "main": "./dist/server.js",
     "type": "module",
@@ -22,7 +22,7 @@
         "xss": "^1.0.14"
     },
     "devDependencies": {
-        "@chessu/types": "*",
+        "@chessust/types": "*",
         "@types/connect-pg-simple": "^7.0.0",
         "@types/express": "^4.17.17",
         "@types/express-session": "^1.17.7",

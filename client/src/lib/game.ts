@@ -1,4 +1,4 @@
-import type { Game } from "@chessu/types";
+import type { Game } from "@chessust/types";
 import { API_URL } from "@/config";
 
 export const createGame = async (side: string, unlisted: boolean) => {
