@@ -1,3 +1,5 @@
+"use client";
+
 import { SessionContext } from "@/context/session";
 import { login, logout, register, setGuestSession } from "@/lib/auth";
 import type { FormEvent } from "react";

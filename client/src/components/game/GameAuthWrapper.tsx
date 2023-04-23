@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext } from "react";
 import { SessionContext } from "@/context/session";
 import GamePage from "./GamePage";

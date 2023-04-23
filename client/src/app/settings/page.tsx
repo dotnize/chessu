@@ -1,3 +1,5 @@
+"use client";
+
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { SessionContext } from "@/context/session";

@@ -1,3 +1,6 @@
+"use client";
+// TODO: restructure, i could use some help with this :>
+
 import {
   IconChevronLeft,
   IconChevronRight,
