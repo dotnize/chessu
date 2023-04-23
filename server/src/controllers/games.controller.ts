@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import GameModel, { activeGames } from "../db/models/game.model.js";
+import GameModel, { activeGames } from "../db/models/game.model";
 import type { Game, User } from "@chessust/types";
 import { nanoid } from "nanoid";
 

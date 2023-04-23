@@ -2,7 +2,7 @@
     "name": "@chessust/server",
     "private": true,
     "main": "./dist/server.js",
-    "type": "module",
+    "version": "1.0.0",
     "scripts": {
         "start": "node ./dist/server.js",
         "build": "tsc",

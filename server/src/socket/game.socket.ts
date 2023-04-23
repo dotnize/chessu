@@ -1,8 +1,8 @@
-import GameModel, { activeGames } from "../db/models/game.model.js";
+import GameModel, { activeGames } from "../db/models/game.model";
 import type { Game } from "@chessust/types";
 import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
-import { io } from "../server.js";
+import { io } from "../server";
 
 export async function joinLobby(this: Socket, gameCode: string) {
     const game = activeGames.find((g) => g.code === gameCode);
@@ -61,11 +61,11 @@ export async function leaveLobby(this: Socket, reason?: DisconnectReason, code?:
             g.code === (code || this.rooms.size === 2 ? Array.from(this.rooms)[1] : 0) ||
             (g.black?.connected && g.black?.id === this.request.session.user.id) ||
             (g.white?.connected && g.white?.id === this.request.session.user.id) ||
-            g.observers?.find((o) => this.request.session.user.id === o.id)
+            g.observers?.find((o: any) => this.request.session.user.id === o.id)
     );
 
     if (game) {
-        const user = game.observers?.find((o) => o.id === this.request.session.user.id);
+        const user = game.observers?.find((o: any) => o.id === this.request.session.user.id);
         if (user) {
             game.observers?.splice(game.observers?.indexOf(user), 1);
         }
@@ -162,7 +162,7 @@ export async function getLatestGame(this: Socket) {
 export async function sendMove(this: Socket, m: { from: string; to: string; promotion?: string }) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
     if (!game || game.endReason || game.winner) return;
-    const chess = new Chess();
+    const chess: any = new Chess();
     if (game.pgn) {
         chess.loadPgn(game.pgn);
     }
@@ -224,7 +224,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
 export async function joinAsPlayer(this: Socket) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
     if (!game) return;
-    const user = game.observers?.find((o) => o.id === this.request.session.user.id);
+    const user = game.observers?.find((o: any) => o.id === this.request.session.user.id);
     if (!game.white) {
         const sessionUser = {
             id: this.request.session.user.id,

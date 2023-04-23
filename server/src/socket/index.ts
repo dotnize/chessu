@@ -1,5 +1,5 @@
 import type { Socket } from "socket.io";
-import { io } from "../server.js";
+import { io } from "../server";
 import {
     joinLobby,
     leaveLobby,
@@ -14,8 +14,8 @@ const socketConnect = (socket: Socket) => {
     const req = socket.request;
 
     // review if this is necessary, or if io.use will handle logout
-    socket.use((__, next) => {
-        req.session.reload((err) => {
+    socket.use((__:any, next:any) => {
+        req.session.reload((err:any) => {
             if (err) {
                 console.log("reload: disconnecting socket.");
                 console.log(err);

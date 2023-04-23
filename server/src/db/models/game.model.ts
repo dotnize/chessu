@@ -1,4 +1,4 @@
-import { db } from "../index.js";
+import { db } from "../index";
 import type { Game, User } from "@chessust/types";
 
 export const activeGames: Array<Game> = [];
