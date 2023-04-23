@@ -1,5 +1,5 @@
 import GameModel, { activeGames } from "../db/models/game.model";
-import type { Game } from "@chessust/types";
+var chessust = require("@chessust/types");
 import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
 import { io } from "../server";
@@ -138,7 +138,7 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
         game.winner = "black";
     }
 
-    const { id } = (await GameModel.save(game)) as Game;
+    const { id } = (await GameModel.save(game)) as typeof chessust.Game;
     game.id = id;
 
     const gameOver = {
@@ -183,7 +183,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
             game.pgn = chess.pgn();
             this.to(game.code as string).emit("receivedMove", m);
             if (chess.isGameOver()) {
-                let reason: Game["endReason"];
+                let reason: typeof chessust.Game["endReason"];
                 if (chess.isCheckmate()) reason = "checkmate";
                 else if (chess.isStalemate()) reason = "stalemate";
                 else if (chess.isThreefoldRepetition()) reason = "repetition";
@@ -205,7 +205,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
                 }
                 game.endReason = reason;
 
-                const { id } = (await GameModel.save(game)) as Game; // save game to db
+                const { id } = (await GameModel.save(game)) as typeof chessust.Game; // save game to db
                 game.id = id;
                 io.to(game.code as string).emit("gameOver", { reason, winnerName, winnerSide, id });
 

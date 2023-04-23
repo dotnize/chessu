@@ -1,7 +1,7 @@
 import { db } from "../index";
-import type { User } from "@chessust/types";
+var chessust = require("@chessust/types");
 
-export const create = async (user: User, password: string) => {
+export const create = async (user: typeof chessust.User, password: string) => {
     if (user.name === "Guest" || user.email === undefined) {
         return null;
     }
@@ -11,7 +11,7 @@ export const create = async (user: User, password: string) => {
             `INSERT INTO "user"(name, email, password) VALUES($1, $2, $3) RETURNING id, name, email, wins, losses, draws`,
             [user.name, user.email || null, password]
         );
-        return res.rows[0] as User;
+        return res.rows[0] as typeof chessust.User;
     } catch (err: unknown) {
         console.log(err);
         return null;
@@ -28,7 +28,7 @@ export const findById = async (id: number) => {
             [id]
         );
         if (res.rowCount) {
-            return res.rows[0] as User;
+            return res.rows[0] as typeof chessust.User;
         } else return null;
     } catch (err: unknown) {
         console.log(err);
@@ -36,7 +36,7 @@ export const findById = async (id: number) => {
     }
 };
 
-export const findByNameEmail = async (user: User, includePassword = false, limit?: number) => {
+export const findByNameEmail = async (user: typeof chessust.User, includePassword = false, limit?: number) => {
     // if user is not specified, get all users
     if (!user) {
         try {
@@ -44,7 +44,7 @@ export const findByNameEmail = async (user: User, includePassword = false, limit
                 `SELECT id, name, email, wins, losses, draws FROM "user" LIMIT $1`,
                 [limit ?? 10]
             );
-            return res.rows as Array<User & { password?: string }>;
+            return res.rows as Array<typeof chessust.User & { password?: string }>;
         } catch (err: unknown) {
             console.log(err);
             return null;
@@ -58,14 +58,14 @@ export const findByNameEmail = async (user: User, includePassword = false, limit
             } FROM "user" WHERE name=$1 OR email=$2 LIMIT $3`,
             [user.name, user.email, limit ?? 1]
         );
-        return res.rows as Array<User & { password?: string }>;
+        return res.rows as Array<typeof chessust.User & { password?: string }>;
     } catch (err: unknown) {
         console.log(err);
         return null;
     }
 };
 
-export const update = async (id: number, updatedUser: User & { password?: string }) => {
+export const update = async (id: number, updatedUser: typeof chessust.User & { password?: string }) => {
     if (id === 0) {
         return null;
     }
@@ -79,7 +79,7 @@ export const update = async (id: number, updatedUser: User & { password?: string
             values = [updatedUser.name, updatedUser.email, updatedUser.password, id];
         }
         const res = await db.query(query, values);
-        return res.rows[0] as User;
+        return res.rows[0] as typeof chessust.User;
     } catch (err: unknown) {
         console.log(err);
         return null;
@@ -95,7 +95,7 @@ export const remove = async (id: number) => {
         const res = await db.query(`DELETE FROM "user" WHERE id = $1 RETURNING id, name, email`, [
             id
         ]);
-        return res.rows[0] as User;
+        return res.rows[0] as typeof chessust.User;
     } catch (err: unknown) {
         console.log(err);
         return null;

@@ -8,7 +8,7 @@ import {
     joinAsPlayer,
     chat,
     claimAbandoned
-} from "./game.socket.js";
+} from "./game.socket";
 
 const socketConnect = (socket: Socket) => {
     const req = socket.request;

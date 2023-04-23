@@ -1,21 +1,21 @@
-import { nanoid } from "nanoid";
+var nanoid = require("nanoid");
 import type { Session } from "express-session";
 import session from "express-session";
 import PGSimple from "connect-pg-simple";
 import { db } from "../db/index";
-import type { User } from "@chessust/types";
+var chessust = require("@chessust/types");
 
 const PGSession = PGSimple(session);
 
 declare module "express-session" {
     interface SessionData {
-        user: User;
+        user: typeof chessust.User;
     }
 }
 declare module "http" {
     interface IncomingMessage {
         session: Session & {
-            user: User;
+            user: typeof chessust.User;
         };
     }
 }
@@ -33,7 +33,7 @@ const sessionMiddleware = session({
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     },
     genid: function () {
-        return nanoid(21);
+        return nanoid.nanoid(21);
     }
 });
 

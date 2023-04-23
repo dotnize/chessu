@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import type { User } from "@chessust/types";
-import xss from "xss";
+var chessust = require("@chessust/types");
+var xss = require("xss");
 import { hash, verify } from "argon2";
 
 import { activeGames } from "../db/models/game.model";
@@ -26,7 +26,7 @@ export const guestSession = async (req: Request, res: Response) => {
             res.status(403).end();
             return;
         }
-        const name = xss(req.body.name);
+        const name = xss.xss(req.body.name);
 
         const pattern = /^[A-Za-z0-9]+$/;
 
@@ -37,7 +37,7 @@ export const guestSession = async (req: Request, res: Response) => {
 
         if (!req.session.user || !req.session.user?.id) {
             // create guest session
-            const user: User = {
+            const user: typeof chessust.User = {
                 id: req.session.id,
                 name
             };
@@ -96,8 +96,8 @@ export const registerUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const name = xss(req.body.name);
-        const email = xss(req.body.email);
+        const name = xss.xss(req.body.name);
+        const email = xss.xss(req.body.email);
         const password = await hash(req.body.password);
 
         const pattern = /^[A-Za-z0-9]+$/;
@@ -166,7 +166,7 @@ export const loginUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const nameOrEmail = xss(req.body.name);
+        const nameOrEmail = xss.xss(req.body.name);
         const password = req.body.password;
 
         const users = await UserModel.findByNameEmail(
@@ -244,14 +244,14 @@ export const updateUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const name = xss(req.body.name || req.session.user.name);
+        const name = xss.xss(req.body.name || req.session.user.name);
         const pattern = /^[A-Za-z0-9]+$/;
         if (!pattern.test(name)) {
             res.status(400).end();
             return;
         }
 
-        const email = xss(req.body.email || req.session.user.email);
+        const email = xss.xss(req.body.email || req.session.user.email);
 
         const duplicateUsers = await UserModel.findByNameEmail({ name, email });
         if (
