@@ -19,10 +19,10 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
   return {
     description: `Archived game: ${game.white?.name} vs ${game.black?.name}`,
     openGraph: {
-      title: "chessu",
+      title: "chessust",
       description: `Archived game: ${game.white?.name} vs ${game.black?.name}`,
       url: `https://chessust.vercel.app/archive/${game.id}`,
-      siteName: "chessu",
+      siteName: "chessust",
       locale: "en_US",
       type: "website"
     },

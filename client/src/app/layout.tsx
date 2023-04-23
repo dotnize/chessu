@@ -7,13 +7,13 @@ import AuthModal from "@/components/auth/AuthModal";
 import ContextProvider from "@/context/ContextProvider";
 
 export const metadata = {
-  title: "chessu",
+  title: "chessust",
   description: "Play Chess online.",
   openGraph: {
-    title: "chessu",
+    title: "chessust",
     description: "Play Chess online.",
     url: "https://chessust.vercel.app",
-    siteName: "chessu",
+    siteName: "chessust",
     locale: "en_US",
     type: "website"
   },

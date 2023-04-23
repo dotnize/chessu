@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./assets/chessu.png" alt="chessu" height="128" />
+  <img src="./assets/chessu.png" alt="chessust" height="128" />
 </h1>
 <p align="center">
   <a href="https://chessust.vercel.app">

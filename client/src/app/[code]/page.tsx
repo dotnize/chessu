@@ -18,10 +18,10 @@ export async function generateMetadata({ params }: { params: { code: string } })
   return {
     description: `Play or watch a game with ${game.host?.name}`,
     openGraph: {
-      title: "chessu",
+      title: "chessust",
       description: `Play or watch a game with ${game.host?.name}`,
       url: `https://chessust.vercel.app/${game.code}`,
-      siteName: "chessu",
+      siteName: "chessust",
       locale: "en_US",
       type: "website"
     },

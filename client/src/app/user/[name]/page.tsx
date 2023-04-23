@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: { name: string } })
       title: `${data.name} | chessu`,
       description: `${data.name}'s profile on chessu`,
       url: `https://chessust.vercel.app/user/${data.name}`,
-      siteName: "chessu",
+      siteName: "chessust",
       locale: "en_US",
       type: "website"
     },
