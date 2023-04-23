@@ -1,5 +1,5 @@
 import { db } from "../index";
-var chessust = require("../../../types/index");
+var chessust = require("../../../../types/index");
 
 export const activeGames: Array<typeof chessust.Game> = [];
 
