@@ -7,18 +7,18 @@ export default function Footer() {
         <p>
           &copy; 2023{" "}
           <a
-            href="https://nize.ph"
+            href="https://myworldbox.github.io"
             target="_blank"
             rel="noopener noreferrer"
             className="link-hover"
           >
-            nize
+            myworldbox
           </a>
         </p>
       </div>
       <div className="items-center">
         <a
-          href="https://github.com/nizewn/chessu"
+          href="https://github.com/myworldbox/chessust"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ghost btn-sm gap-1 normal-case"

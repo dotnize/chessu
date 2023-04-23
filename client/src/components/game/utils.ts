@@ -1,5 +1,5 @@
 import type { Action, CustomSquares, Lobby } from "@/types";
-import type { Game, User } from "@chessu/types";
+import type { Game, User } from "@chessust/types";
 import type { Dispatch, SetStateAction } from "react";
 
 export const syncPgn = (

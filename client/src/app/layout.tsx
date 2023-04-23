@@ -7,13 +7,13 @@ import AuthModal from "@/components/auth/AuthModal";
 import ContextProvider from "@/context/ContextProvider";
 
 export const metadata = {
-  title: "chessu",
+  title: "chessust",
   description: "Play Chess online.",
   openGraph: {
-    title: "chessu",
+    title: "chessust",
     description: "Play Chess online.",
-    url: "https://ches.su",
-    siteName: "chessu",
+    url: "https://chessust.vercel.app",
+    siteName: "chessust",
     locale: "en_US",
     type: "website"
   },
@@ -31,7 +31,7 @@ export const metadata = {
     apple: { url: "/apple-touch-icon.png", sizes: "180x180" }
   },
   manifest: "/site.webmanifest",
-  metadataBase: new URL(process.env.VERCEL ? "https://ches.su" : "http://localhost:3000")
+  metadataBase: new URL(process.env.VERCEL ? "https://chessust.vercel.app" : "http://localhost:3000")
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -55,9 +55,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           id="load-theme"
           dangerouslySetInnerHTML={{
             __html: `if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-              document.documentElement.setAttribute("data-theme", "chessuDark");
+              document.documentElement.setAttribute("data-theme", "chessustDark");
           } else {
-              document.documentElement.setAttribute("data-theme", "chessuLight");
+              document.documentElement.setAttribute("data-theme", "chessustLight");
           }`
           }}
         ></script>

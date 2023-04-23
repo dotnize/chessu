@@ -1,6 +1,6 @@
 "use client";
 
-import { Game } from "@chessu/types";
+import { Game } from "@chessust/types";
 import { Chessboard } from "react-chessboard";
 import { useEffect, useReducer, useState, useRef } from "react";
 import {
@@ -68,7 +68,7 @@ export default function ArchivedGame({ game }: { game: Game }) {
   }, []);
 
   function copyLink() {
-    const text = `https://ches.su/archive/${game.id}`;
+    const text = `https://chessust.vercel.app/archive/${game.id}`;
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(text);
     } else {
@@ -266,7 +266,7 @@ export default function ArchivedGame({ game }: { game: Game }) {
                   onClick={copyLink}
                 >
                   <IconCopy size={16} />
-                  ches.su/archive/{game.id}
+                  chessust.vercel.app/archive/{game.id}
                 </label>
                 <div tabIndex={0} className="dropdown-content badge badge-neutral text-xs shadow">
                   copied to clipboard

@@ -1,4 +1,4 @@
-import type { Game, User } from "@chessu/types";
+import type { User, Game } from "@chessust/types";
 import type { Chess } from "chess.js";
 
 export interface Lobby extends Game {

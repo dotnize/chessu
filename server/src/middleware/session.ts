@@ -1,9 +1,9 @@
-import { nanoid } from "nanoid";
+import { uuid } from "uuidv4";
 import type { Session } from "express-session";
 import session from "express-session";
 import PGSimple from "connect-pg-simple";
-import { db } from "../db/index.js";
-import type { User } from "@chessu/types";
+import { db } from "../db/index";
+import type { User } from "@chessust/types";
 
 const PGSession = PGSimple(session);
 
@@ -24,7 +24,7 @@ const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET || "whatever this is",
     resave: false,
     saveUninitialized: false,
-    name: "chessu",
+    name: "chessust",
     proxy: true,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
@@ -33,7 +33,7 @@ const sessionMiddleware = session({
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     },
     genid: function () {
-        return nanoid(21);
+        return uuid();
     }
 });
 

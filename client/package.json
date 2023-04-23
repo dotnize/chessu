@@ -1,5 +1,5 @@
 {
-    "name": "@chessu/client",
+    "name": "@chessust/client",
     "version": "0.0.0",
     "private": true,
     "scripts": {
@@ -18,7 +18,7 @@
         "socket.io-client": "^4.6.1"
     },
     "devDependencies": {
-        "@chessu/types": "*",
+        "@chessust/types": "*",
         "@types/node": "18.15.13",
         "@types/react": "18.0.38",
         "@types/react-dom": "18.0.11",

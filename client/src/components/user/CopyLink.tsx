@@ -7,7 +7,7 @@ export default function CopyLink({ name }: { name: string }) {
   const [copiedLink, setCopiedLink] = useState(false);
 
   function copyLink() {
-    const text = `https://ches.su/user/${name}`;
+    const text = `https://chessust.vercel.app/user/${name}`;
 
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(text);
@@ -27,7 +27,7 @@ export default function CopyLink({ name }: { name: string }) {
         onClick={copyLink}
       >
         <IconCopy size={16} />
-        ches.su/user/{name}
+        chessust.vercel.app/user/{name}
       </label>
       <div tabIndex={0} className="dropdown-content badge badge-neutral text-xs shadow">
         copied to clipboard

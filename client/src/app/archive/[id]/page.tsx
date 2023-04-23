@@ -1,6 +1,6 @@
 import ArchivedGame from "@/components/archive/ArchivedGame";
 import { fetchArchivedGame } from "@/lib/game";
-import type { Game } from "@chessu/types";
+import type { Game } from "@chessust/types";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { id: number } }) {
@@ -19,10 +19,10 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
   return {
     description: `Archived game: ${game.white?.name} vs ${game.black?.name}`,
     openGraph: {
-      title: "chessu",
+      title: "chessust",
       description: `Archived game: ${game.white?.name} vs ${game.black?.name}`,
-      url: `https://ches.su/archive/${game.id}`,
-      siteName: "chessu",
+      url: `https://chessust.vercel.app/archive/${game.id}`,
+      siteName: "chessust",
       locale: "en_US",
       type: "website"
     },

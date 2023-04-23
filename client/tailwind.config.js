@@ -1,16 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./src/**/*.{js,ts,jsx,tsx}"],
+    content: [
+        "./src/**/*.{js,ts,jsx,tsx}",
+    ],
     theme: {
         extend: {}
     },
     plugins: [require("daisyui")],
-    darkMode: ["class", '[data-theme="chessuDark"]'],
+    darkMode: ["class", '[data-theme="chessustDark"]'],
     daisyui: {
         // based on daisyUI night and winter themes
         themes: [
             {
-                chessuLight: {
+                chessustLight: {
                     primary: "#047AFF",
                     secondary: "#6370d6",
                     accent: "#C148AC",
@@ -24,7 +26,7 @@ module.exports = {
                     warning: "#EFD7BB",
                     error: "#E58B8B"
                 },
-                chessuDark: {
+                chessustDark: {
                     primary: "#38BDF8",
                     secondary: "#818CF8",
                     accent: "#1d4ed8",
@@ -37,6 +39,6 @@ module.exports = {
                 }
             }
         ],
-        darkTheme: "chessuDark"
+        darkTheme: "chessustDark"
     }
 };

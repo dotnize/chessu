@@ -1,4 +1,4 @@
-import type { Game } from "@chessu/types";
+import type { Game } from "@chessust/types";
 import { API_URL } from "@/config";
 
 export const createGame = async (side: string, unlisted: boolean) => {
@@ -59,7 +59,7 @@ export const fetchArchivedGame = async ({ id, userid }: { id?: number; userid?: 
         // TODO: handle caching more efficiently
         const res = await fetch(url, {
             next: { revalidate: 20 }
-        });
+        } as RequestInit);
 
         if (res && res.status === 200) {
             if (id) {

@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import GameModel, { activeGames } from "../db/models/game.model.js";
-import type { Game, User } from "@chessu/types";
-import { nanoid } from "nanoid";
+import GameModel, { activeGames } from "../db/models/game.model";
+import type { User, Game } from "@chessust/types";
+import { uuid } from "uuidv4";
 
 export const getGames = async (req: Request, res: Response) => {
     try {
@@ -78,7 +78,7 @@ export const createGame = async (req: Request, res: Response) => {
         };
         const unlisted: boolean = req.body.unlisted ?? false;
         const game: Game = {
-            code: nanoid(6),
+            code: uuid(),
             unlisted,
             host: user,
             pgn: ""
