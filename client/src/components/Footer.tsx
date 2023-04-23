@@ -12,7 +12,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="link-hover"
           >
-            nize
+            myworldbox
           </a>
         </p>
       </div>

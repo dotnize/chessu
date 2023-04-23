@@ -1,7 +1,7 @@
 {
     "name": "chessust",
     "private": "true",
-    "author": "nizewn",
+    "author": "myworldbox",
     "license": "MIT",
     "workspaces": [
         "client",

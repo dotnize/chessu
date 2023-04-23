@@ -45,15 +45,12 @@ io.use((socket:any, next:any) => {
 });
 io.use((socket:any, next:any) => {
     const session = socket.request.session;
-    next()
-    /*
     if (session && session.user) {
         next();
     } else {
         console.log("io.use: no session");
         socket.disconnect();
     }
-    */
 });
 initSocket();
 
