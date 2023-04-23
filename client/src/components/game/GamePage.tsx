@@ -34,7 +34,7 @@ const socket = io(API_URL, { withCredentials: true, autoConnect: false });
 export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const session = useContext(SessionContext);
 
-  const [lobby, updateLobby]: any = useReducer(lobbyReducer, {
+  const [lobby, updateLobby] = useReducer(lobbyReducer, {
     ...initialLobby,
     actualGame: new Chess(),
     side: "s"
