@@ -3,9 +3,9 @@
 import { useContext } from "react";
 import { SessionContext } from "@/context/session";
 import GamePage from "./GamePage";
-import type { Game } from "@chessust/types";
+var chessust = require("@chessust/types")
 
-export default function GameAuthWrapper({ initialLobby }: { initialLobby: Game }) {
+export default function GameAuthWrapper({ initialLobby }: { initialLobby: typeof chessust.Game }) {
   const session = useContext(SessionContext);
 
   if (!session?.user || !session.user?.id) {

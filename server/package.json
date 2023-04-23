@@ -1,12 +1,11 @@
 {
     "name": "@chessust/server",
     "private": true,
-    "main": "./dist/server.js",
     "version": "1.0.0",
     "scripts": {
-        "start": "node ./dist/server.js",
+        "start": "node ./server.ts",
         "build": "tsc",
-        "dev": "tsc-watch --noClear --onSuccess \"node ./dist/server.js\""
+        "dev": "tsc-watch --noClear --onSuccess \"node ./server.ts\""
     },
     "dependencies": {
         "argon2": "^0.30.3",

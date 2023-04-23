@@ -1,5 +1,5 @@
 import { API_URL } from "@/config";
-import type { User, Game } from "@chessust/types";
+var chessust = require("@chessust/types")
 
 export const fetchProfileData = async (name: string) => {
     try {

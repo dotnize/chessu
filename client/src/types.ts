@@ -1,4 +1,4 @@
-import type { Game, User } from "@chessust/types";
+var chessust = require("@chessust/types");
 import type { Chess } from "chess.js";
 
 export interface Lobby extends Game {
@@ -28,6 +28,6 @@ export type Action =
       };
 
 export interface Message {
-    author: User;
+    author: typeof chessust.User;
     message: string;
 }

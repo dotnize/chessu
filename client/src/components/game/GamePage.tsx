@@ -16,26 +16,25 @@ import { SessionContext } from "@/context/session";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
 
 import type { Message } from "@/types";
-import type { Game } from "@chessust/types";
+var chessust = require("@chessust/types");
 
 import type { Move, Square } from "chess.js";
 import { Chess } from "chess.js";
-import type { ClearPremoves } from "react-chessboard";
-import { Chessboard } from "react-chessboard";
+var react_chessboard = require("react-chessboard");
 
 import { API_URL } from "@/config";
-import { io } from "socket.io-client";
+var io = require("socket.io-client");
 
 import { lobbyReducer, squareReducer } from "./reducers";
 import { initSocket } from "./socketEvents";
 import { syncPgn, syncSide } from "./utils";
 
-const socket = io(API_URL, { withCredentials: true, autoConnect: false });
+const socket = io.io(API_URL, { withCredentials: true, autoConnect: false });
 
-export default function GamePage({ initialLobby }: { initialLobby: Game }) {
+export default function GamePage({ initialLobby }: { initialLobby: typeof chessust.Game }) {
   const session = useContext(SessionContext);
 
-  const [lobby, updateLobby] = useReducer(lobbyReducer, {
+  const [lobby, updateLobby]: any = useReducer(lobbyReducer, {
     ...initialLobby,
     actualGame: new Chess(),
     side: "s"
@@ -50,7 +49,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   const [moveFrom, setMoveFrom] = useState<string | Square | null>(null);
   const [boardWidth, setBoardWidth] = useState(480);
-  const chessboardRef = useRef<ClearPremoves>(null);
+  const chessboardRef = useRef<typeof react_chessboard.ClearPremoves>(null);
 
   const [navFen, setNavFen] = useState<string | null>(null);
   const [navIndex, setNavIndex] = useState<number | null>(null);
@@ -213,9 +212,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         updateTurnTitle();
         let kingSquare = undefined;
         if (lobby.actualGame.inCheck()) {
-          const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
+          const kingPos = lobby.actualGame.board().reduce((acc:any, row:any, index:any) => {
             const squareIndex = row.findIndex(
-              (square) => square && square.type === "k" && square.color === lobby.actualGame.turn()
+              (square:any) => square && square.type === "k" && square.color === lobby.actualGame.turn()
             );
             return squareIndex >= 0 ? `${String.fromCharCode(squareIndex + 97)}${8 - index}` : acc;
           }, "");
@@ -284,7 +283,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
       newSquares[move.to] = {
         background:
           lobby.actualGame.get(move.to as Square) &&
-          lobby.actualGame.get(move.to as Square)?.color !== lobby.actualGame.get(square)?.color
+            lobby.actualGame.get(move.to as Square)?.color !== lobby.actualGame.get(square)?.color
             ? "radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)"
             : "radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)",
         borderRadius: "50%"
@@ -344,7 +343,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         ...customSquares.rightClicked,
         [square]:
           customSquares.rightClicked[square] &&
-          customSquares.rightClicked[square]?.backgroundColor === colour
+            customSquares.rightClicked[square]?.backgroundColor === colour
             ? undefined
             : { backgroundColor: colour }
       }
@@ -425,9 +424,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     const history = lobby.actualGame.history({ verbose: true });
     const movePairs = history
       .slice(history.length / 2)
-      .map((_, i) => history.slice((i *= 2), i + 2));
+      .map((_:any, i:any) => history.slice((i *= 2), i + 2));
 
-    return movePairs.map((moves, i) => {
+    return movePairs.map((moves:any, i:any) => {
       return (
         <tr className="flex w-full items-center gap-1" key={i + 1}>
           <td className="">{i + 1}.</td>
@@ -435,13 +434,13 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
             className={
               "btn btn-ghost btn-xs h-full w-2/5 font-normal normal-case" +
               ((history.indexOf(moves[0]) === history.length - 1 && navIndex === null) ||
-              navIndex === history.indexOf(moves[0])
+                navIndex === history.indexOf(moves[0])
                 ? " btn-active pointer-events-none rounded-none"
                 : "")
             }
             id={
               (history.indexOf(moves[0]) === history.length - 1 && navIndex === null) ||
-              navIndex === history.indexOf(moves[0])
+                navIndex === history.indexOf(moves[0])
                 ? "activeNavMove"
                 : ""
             }
@@ -454,13 +453,13 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
               className={
                 "btn btn-ghost btn-xs h-full w-2/5 font-normal normal-case" +
                 ((history.indexOf(moves[1]) === history.length - 1 && navIndex === null) ||
-                navIndex === history.indexOf(moves[1])
+                  navIndex === history.indexOf(moves[1])
                   ? " btn-active pointer-events-none rounded-none"
                   : "")
               }
               id={
                 (history.indexOf(moves[1]) === history.length - 1 && navIndex === null) ||
-                navIndex === history.indexOf(moves[1])
+                  navIndex === history.indexOf(moves[1])
                   ? "activeNavMove"
                   : ""
               }
@@ -542,7 +541,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           </div>
         )}
 
-        <Chessboard
+        <react_chessboard.Chessboard
           boardWidth={boardWidth}
           customDarkSquareStyle={{ backgroundColor: "#4b7399" }}
           customLightSquareStyle={{ backgroundColor: "#eae9d2" }}
@@ -650,50 +649,49 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
               session?.user?.id === lobby.black?.id &&
               lobby.white &&
               !lobby.white?.connected)) && (
-            <div className="bg-neutral absolute w-full rounded-t-lg bg-opacity-95 p-2">
-              {lobby.endReason ? (
-                <div>
-                  {lobby.endReason === "abandoned"
-                    ? lobby.winner === "draw"
-                      ? `The game ended in a draw due to abandonment.`
-                      : `The game was won by ${lobby.winner} due to abandonment.`
-                    : lobby.winner === "draw"
-                    ? "The game ended in a draw."
-                    : `The game was won by checkmate (${lobby.winner}).`}{" "}
-                  <br />
-                  You can review the archived game at{" "}
-                  <a
-                    className="link"
-                    href={`/archive/${lobby.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    chessust.vercel.app/archive/{lobby.id}
-                  </a>
-                  .
-                </div>
-              ) : abandonSeconds > 0 ? (
-                `Your opponent has disconnected. You can claim the win or draw in ${abandonSeconds} second${
-                  abandonSeconds > 1 ? "s" : ""
-                }.`
-              ) : (
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  <span>Your opponent has disconnected.</span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => claimAbandoned("win")}
-                      className="btn btn-sm btn-primary"
+              <div className="bg-neutral absolute w-full rounded-t-lg bg-opacity-95 p-2">
+                {lobby.endReason ? (
+                  <div>
+                    {lobby.endReason === "abandoned"
+                      ? lobby.winner === "draw"
+                        ? `The game ended in a draw due to abandonment.`
+                        : `The game was won by ${lobby.winner} due to abandonment.`
+                      : lobby.winner === "draw"
+                        ? "The game ended in a draw."
+                        : `The game was won by checkmate (${lobby.winner}).`}{" "}
+                    <br />
+                    You can review the archived game at{" "}
+                    <a
+                      className="link"
+                      href={`/archive/${lobby.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      Claim win
-                    </button>
-                    <button onClick={() => claimAbandoned("draw")} className="btn btn-sm btn-ghost">
-                      Draw
-                    </button>
+                      chessust.vercel.app/archive/{lobby.id}
+                    </a>
+                    .
                   </div>
-                </div>
-              )}
-            </div>
-          )}
+                ) : abandonSeconds > 0 ? (
+                  `Your opponent has disconnected. You can claim the win or draw in ${abandonSeconds} second${abandonSeconds > 1 ? "s" : ""
+                  }.`
+                ) : (
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    <span>Your opponent has disconnected.</span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => claimAbandoned("win")}
+                        className="btn btn-sm btn-primary"
+                      >
+                        Claim win
+                      </button>
+                      <button onClick={() => claimAbandoned("draw")} className="btn btn-sm btn-ghost">
+                        Draw
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           <div className="bg-base-300 flex h-full w-full min-w-[64px] flex-col rounded-lg p-4 shadow-sm">
             <ul
               className="mb-4 flex h-full flex-col gap-1 overflow-y-scroll break-words"
@@ -753,7 +751,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         </div>
         {lobby.observers && lobby.observers.length > 0 && (
           <div className="w-full px-2 text-xs md:px-0">
-            Spectators: {lobby.observers?.map((o) => o.name).join(", ")}
+            Spectators: {lobby.observers?.map((o: any) => o.name).join(", ")}
           </div>
         )}
       </div>

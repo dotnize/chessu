@@ -1,12 +1,12 @@
 import type { Action, CustomSquares, Lobby, Message } from "@/types";
-import type { Game, User } from "@chessust/types";
+var chessust = require("@chessust/types");
 import type { Dispatch, SetStateAction } from "react";
-import type { Socket } from "socket.io-client";
+var socket_io_client = require("socket.io-client");
 import { syncPgn, syncSide } from "./utils";
 
 export function initSocket(
-    user: User,
-    socket: Socket,
+    user: typeof chessust.User,
+    socket: typeof socket_io_client.Socket,
     lobby: Lobby,
     actions: {
         updateLobby: Dispatch<Action>;
@@ -30,7 +30,7 @@ export function initSocket(
         actions.addMessage(message);
     });
 
-    socket.on("receivedLatestGame", (latestGame: Game) => {
+    socket.on("receivedLatestGame", (latestGame: typeof chessust.Game) => {
         if (latestGame.pgn && latestGame.pgn !== lobby.actualGame.pgn()) {
             syncPgn(latestGame.pgn, lobby, actions);
         }
@@ -61,7 +61,7 @@ export function initSocket(
             winnerSide,
             id
         }: {
-            reason: Game["endReason"];
+            reason: typeof chessust.Game["endReason"];
             winnerName?: string;
             winnerSide?: "white" | "black" | "draw";
             id: number;
