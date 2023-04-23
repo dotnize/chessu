@@ -32,9 +32,9 @@ export default function Header() {
           >
             <div className="card-body cursor-default">
               <p className="text-left text-xs">
-                This project is a work in progress. You can view the roadmap{" "}
+                This project is a work in progress.{" "}
                 <a
-                  href="https://github.com/users/nizewn/projects/2"
+                  href="https://github.com/myworldbox"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="link"

@@ -7,7 +7,7 @@ export default function Footer() {
         <p>
           &copy; 2023{" "}
           <a
-            href="https://nize.ph"
+            href="https://myworldbox.github.io"
             target="_blank"
             rel="noopener noreferrer"
             className="link-hover"
