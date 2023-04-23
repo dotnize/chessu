@@ -1,5 +1,5 @@
 import GameModel, { activeGames } from "../db/models/game.model";
-var chessust = require("@chessust/types");
+var chessust = require("../../../types/index");
 import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
 import { io } from "../server";

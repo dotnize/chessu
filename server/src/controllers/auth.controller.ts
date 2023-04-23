@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-var chessust = require("@chessust/types");
+var chessust = require("../../../types/index");
 var xss = require("xss");
 import { hash, verify } from "argon2";
 

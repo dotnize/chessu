@@ -3,7 +3,7 @@ import type { Session } from "express-session";
 import session from "express-session";
 import PGSimple from "connect-pg-simple";
 import { db } from "../db/index";
-var chessust = require("@chessust/types");
+var chessust = require("../../../types/index");
 
 const PGSession = PGSimple(session);
 

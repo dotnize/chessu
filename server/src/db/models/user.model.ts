@@ -1,5 +1,5 @@
 import { db } from "../index";
-var chessust = require("@chessust/types");
+var chessust = require("../../../types/index");
 
 export const create = async (user: typeof chessust.User, password: string) => {
     if (user.name === "Guest" || user.email === undefined) {
