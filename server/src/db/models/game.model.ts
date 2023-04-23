@@ -1,12 +1,12 @@
 import { db } from "../index";
-var chessust = require("../../../../types/index");
+import type { User, Game } from "@chessust/types";
 
-export const activeGames: Array<typeof chessust.Game> = [];
+export const activeGames: Array<Game> = [];
 
-export const save = async (game: typeof chessust.Game) => {
+export const save = async (game: Game) => {
     try {
-        const white: typeof chessust.User = {};
-        const black: typeof chessust.User = {};
+        const white: User = {};
+        const black: User = {};
         if (typeof game.white?.id === "string") {
             white.name = game.white?.name;
         } else {
@@ -67,7 +67,7 @@ export const save = async (game: typeof chessust.Game) => {
             },
             startedAt: res.rows[0].started_at.getTime(),
             endedAt: res.rows[0].ended_at?.getTime() || undefined
-        } as typeof chessust.Game;
+        } as Game;
     } catch (err: unknown) {
         console.log(err);
         return null;
@@ -90,7 +90,7 @@ export const findById = async (id: number) => {
                 black: { id: res.rows[0].black_id || undefined, name: res.rows[0].black_name },
                 startedAt: res.rows[0].started_at.getTime(),
                 endedAt: res.rows[0].ended_at?.getTime() || undefined
-            } as typeof chessust.Game;
+            } as Game;
         } else return null;
     } catch (err: unknown) {
         console.log(err);
@@ -118,7 +118,7 @@ export const findByUserId = async (id: number, limit = 10) => {
                 black: { id: r.black_id || undefined, name: r.black_name },
                 startedAt: r.started_at.getTime(),
                 endedAt: r.ended_at?.getTime() || undefined
-            } as typeof chessust.Game;
+            } as Game;
         });
     } catch (err: unknown) {
         console.log(err);
@@ -139,7 +139,7 @@ export const update = async (id: number, data: string) => {
             black: { id: res.rows[0].black_id, name: res.rows[0].black_name },
             startedAt: res.rows[0].started_at.getTime(),
             endedAt: res.rows[0].ended_at?.getTime() || undefined
-        } as typeof chessust.Game;
+        } as Game;
     } catch (err: unknown) {
         console.log(err);
         return null;
@@ -158,7 +158,7 @@ export const remove = async (id: number) => {
             black: { id: res.rows[0].black_id, name: res.rows[0].black_name },
             startedAt: res.rows[0].started_at.getTime(),
             endedAt: res.rows[0].ended_at?.getTime() || undefined
-        } as typeof chessust.Game;
+        } as Game;
     } catch (err: unknown) {
         console.log(err);
         return null;

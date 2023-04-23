@@ -3,19 +3,19 @@ import type { Session } from "express-session";
 import session from "express-session";
 import PGSimple from "connect-pg-simple";
 import { db } from "../db/index";
-var chessust = require("../../../types/index");
+import type { User } from "../../../types/index";
 
 const PGSession = PGSimple(session);
 
 declare module "express-session" {
     interface SessionData {
-        user: typeof chessust.User;
+        user: User;
     }
 }
 declare module "http" {
     interface IncomingMessage {
         session: Session & {
-            user: typeof chessust.User;
+            user: User;
         };
     }
 }
