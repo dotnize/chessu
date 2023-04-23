@@ -3,9 +3,9 @@
     "private": true,
     "version": "1.0.0",
     "scripts": {
-        "start": "node ./server.ts",
+        "start": "node ./src/server.ts",
         "build": "tsc",
-        "dev": "tsc-watch --noClear --onSuccess \"node ./server.ts\""
+        "dev": "tsc-watch --noClear --onSuccess \"node ./src/server.ts\""
     },
     "dependencies": {
         "argon2": "^0.30.3",
