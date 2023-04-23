@@ -55,9 +55,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           id="load-theme"
           dangerouslySetInnerHTML={{
             __html: `if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-              document.documentElement.setAttribute("data-theme", "chessuDark");
+              document.documentElement.setAttribute("data-theme", "chessustDark");
           } else {
-              document.documentElement.setAttribute("data-theme", "chessuLight");
+              document.documentElement.setAttribute("data-theme", "chessustLight");
           }`
           }}
         ></script>

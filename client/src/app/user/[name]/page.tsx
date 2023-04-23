@@ -16,11 +16,11 @@ export async function generateMetadata({ params }: { params: { name: string } })
     };
   }
   return {
-    title: `${data.name} | chessu`,
+    title: `${data.name} | chessust`,
     description: `${data.name}'s profile`,
     openGraph: {
-      title: `${data.name} | chessu`,
-      description: `${data.name}'s profile on chessu`,
+      title: `${data.name} | chessust`,
+      description: `${data.name}'s profile on chessust`,
       url: `https://chessust.vercel.app/user/${data.name}`,
       siteName: "chessust",
       locale: "en_US",
@@ -64,7 +64,7 @@ export default async function Profile({ params }: { params: { name: string } }) 
       <div>
         <h2 className="mb-1 text-lg font-bold">Recent games</h2>
         <ul className="bg-base-300 flex h-[60vh] flex-col gap-1 overflow-y-scroll rounded-lg">
-          {data.recentGames.map((game) => (
+          {data.recentGames.map((game:any) => (
             <li
               key={game.id}
               className="border-base-100 flex flex-wrap items-center justify-between gap-8 border-b-2 p-3"
