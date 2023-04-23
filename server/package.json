@@ -14,7 +14,7 @@
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
-        "express-session": "^4.6.0",
+        "express-session": "^1.17.3",
         "pg": "^8.10.0",
         "socket.io": "^4.6.1",
         "uuidv4": "^6.2.13",
