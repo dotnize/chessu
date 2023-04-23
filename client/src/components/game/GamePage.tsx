@@ -20,8 +20,8 @@ import type { Game } from "@chessust/types";
 
 import type { Move, Square } from "chess.js";
 import { Chess } from "chess.js";
-var react_chessboard = require("react-chessboard");
-
+import type { ClearPremoves } from "react-chessboard";
+import { Chessboard } from "react-chessboard";
 import { API_URL } from "@/config";
 
 import { lobbyReducer, squareReducer } from "./reducers";
@@ -29,7 +29,7 @@ import { initSocket } from "./socketEvents";
 import { syncPgn, syncSide } from "./utils";
 import { io } from "socket.io-client";
 
-const socket = io(API_URL, { withCredentials: true, autoConnect: true });
+const socket = io(API_URL, { withCredentials: true, autoConnect: false });
 
 export default function GamePage({ initialLobby }: { initialLobby: Game }) {
   const session = useContext(SessionContext);
@@ -49,7 +49,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
 
   const [moveFrom, setMoveFrom] = useState<string | Square | null>(null);
   const [boardWidth, setBoardWidth] = useState(480);
-  const chessboardRef = useRef<typeof react_chessboard.ClearPremoves>(null);
+  const chessboardRef = useRef<ClearPremoves>(null);
 
   const [navFen, setNavFen] = useState<string | null>(null);
   const [navIndex, setNavIndex] = useState<number | null>(null);
@@ -212,9 +212,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         updateTurnTitle();
         let kingSquare = undefined;
         if (lobby.actualGame.inCheck()) {
-          const kingPos = lobby.actualGame.board().reduce((acc:any, row:any, index:any) => {
+          const kingPos = lobby.actualGame.board().reduce((acc: any, row: any, index: any) => {
             const squareIndex = row.findIndex(
-              (square:any) => square && square.type === "k" && square.color === lobby.actualGame.turn()
+              (square: any) => square && square.type === "k" && square.color === lobby.actualGame.turn()
             );
             return squareIndex >= 0 ? `${String.fromCharCode(squareIndex + 97)}${8 - index}` : acc;
           }, "");
@@ -424,9 +424,9 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
     const history = lobby.actualGame.history({ verbose: true });
     const movePairs = history
       .slice(history.length / 2)
-      .map((_:any, i:any) => history.slice((i *= 2), i + 2));
+      .map((_: any, i: any) => history.slice((i *= 2), i + 2));
 
-    return movePairs.map((moves:any, i:any) => {
+    return movePairs.map((moves: any, i: any) => {
       return (
         <tr className="flex w-full items-center gap-1" key={i + 1}>
           <td className="">{i + 1}.</td>
@@ -541,7 +541,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
           </div>
         )}
 
-        <react_chessboard.Chessboard
+        <Chessboard
           boardWidth={boardWidth}
           customDarkSquareStyle={{ backgroundColor: "#4b7399" }}
           customLightSquareStyle={{ backgroundColor: "#eae9d2" }}
