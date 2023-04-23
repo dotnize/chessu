@@ -9,6 +9,8 @@ import { init as initSocket } from "./socket/index";
 import { db, INIT_TABLES } from "./db/index";
 import routes from "./routes/index";
 
+dotenv.config()
+
 const corsConfig = {
     origin: process.env.CORS_ORIGIN || "http://localhost:3000",
     credentials: true

@@ -9,7 +9,7 @@ export const fetchProfileData = async (name: string) => {
         });
 
         if (res && res.status === 200) {
-            const data: User & { recentGames: Game[] } = await res.json();
+            const data: typeof chessust.User & { recentGames: typeof chessust.Game[] } = await res.json();
             return data;
         }
     } catch (err) {
