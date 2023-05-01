@@ -1,11 +1,11 @@
-import type { Request, Response } from "express";
 import type { User } from "@chessu/types";
-import xss from "xss";
 import { hash, verify } from "argon2";
+import type { Request, Response } from "express";
+import xss from "xss";
 
 import { activeGames } from "../db/models/game.model.js";
-import { io } from "../server.js";
 import UserModel from "../db/models/user.model.js";
+import { io } from "../server.js";
 
 export const getCurrentSession = async (req: Request, res: Response) => {
     try {

@@ -10,7 +10,6 @@ import {
 } from "@tabler/icons-react";
 
 import type { FormEvent, KeyboardEvent } from "react";
-import Link from "next/link";
 
 import { SessionContext } from "@/context/session";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";

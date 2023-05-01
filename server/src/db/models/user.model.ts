@@ -1,5 +1,5 @@
-import { db } from "../index.js";
 import type { User } from "@chessu/types";
+import { db } from "../index.js";
 
 export const create = async (user: User, password: string) => {
     if (user.name === "Guest" || user.email === undefined) {

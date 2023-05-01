@@ -1,7 +1,8 @@
-import type { Request, Response } from "express";
-import GameModel, { activeGames } from "../db/models/game.model.js";
 import type { Game, User } from "@chessu/types";
+import type { Request, Response } from "express";
 import { nanoid } from "nanoid";
+
+import GameModel, { activeGames } from "../db/models/game.model.js";
 
 export const getGames = async (req: Request, res: Response) => {
     try {

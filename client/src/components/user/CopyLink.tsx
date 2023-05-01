@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { IconCopy } from "@tabler/icons-react";
+import { useState } from "react";
 
 export default function CopyLink({ name }: { name: string }) {
   const [copiedLink, setCopiedLink] = useState(false);

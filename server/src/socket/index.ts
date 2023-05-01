@@ -1,13 +1,14 @@
 import type { Socket } from "socket.io";
+
 import { io } from "../server.js";
 import {
+    chat,
+    claimAbandoned,
+    getLatestGame,
+    joinAsPlayer,
     joinLobby,
     leaveLobby,
-    getLatestGame,
-    sendMove,
-    joinAsPlayer,
-    chat,
-    claimAbandoned
+    sendMove
 } from "./game.socket.js";
 
 const socketConnect = (socket: Socket) => {

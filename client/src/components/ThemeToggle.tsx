@@ -1,7 +1,7 @@
 "use client";
 
-import { IconSun, IconMoon } from "@tabler/icons-react";
-import { useState, useEffect } from "react";
+import { IconMoon, IconSun } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
   const [darkTheme, setDarkTheme] = useState(true);

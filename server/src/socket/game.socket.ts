@@ -1,7 +1,8 @@
-import GameModel, { activeGames } from "../db/models/game.model.js";
 import type { Game } from "@chessu/types";
-import type { DisconnectReason, Socket } from "socket.io";
 import { Chess } from "chess.js";
+import type { DisconnectReason, Socket } from "socket.io";
+
+import GameModel, { activeGames } from "../db/models/game.model.js";
 import { io } from "../server.js";
 
 export async function joinLobby(this: Socket, gameCode: string) {

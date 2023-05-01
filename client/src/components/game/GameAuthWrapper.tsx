@@ -1,9 +1,10 @@
 "use client";
 
-import { useContext } from "react";
 import { SessionContext } from "@/context/session";
-import GamePage from "./GamePage";
 import type { Game } from "@chessu/types";
+import { useContext } from "react";
+
+import GamePage from "./GamePage";
 
 export default function GameAuthWrapper({ initialLobby }: { initialLobby: Game }) {
   const session = useContext(SessionContext);

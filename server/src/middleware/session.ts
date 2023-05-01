@@ -1,9 +1,10 @@
-import { nanoid } from "nanoid";
+import type { User } from "@chessu/types";
+import PGSimple from "connect-pg-simple";
 import type { Session } from "express-session";
 import session from "express-session";
-import PGSimple from "connect-pg-simple";
+import { nanoid } from "nanoid";
+
 import { db } from "../db/index.js";
-import type { User } from "@chessu/types";
 
 const PGSession = PGSimple(session);
 

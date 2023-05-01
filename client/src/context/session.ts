@@ -1,5 +1,4 @@
 import type { User } from "@chessu/types";
-
 import { createContext, Dispatch, SetStateAction } from "react";
 
 export const SessionContext = createContext<{
