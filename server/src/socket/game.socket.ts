@@ -7,10 +7,7 @@ import { io } from "../server.js";
 
 export async function joinLobby(this: Socket, gameCode: string) {
     const game = activeGames.find((g) => g.code === gameCode);
-    if (!game) {
-        console.log(`joinLobby: Game code ${gameCode} not found.`);
-        return;
-    }
+    if (!game) return;
 
     if (game.host && game.host?.id === this.request.session.user.id) {
         game.host.connected = true;
