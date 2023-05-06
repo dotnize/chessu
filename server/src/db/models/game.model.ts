@@ -126,26 +126,6 @@ export const findByUserId = async (id: number, limit = 10) => {
     }
 };
 
-// TODO: update fields specifically, "data" string doesnt work
-export const update = async (id: number, data: string) => {
-    try {
-        const res = await db.query(`UPDATE "game" SET $1 WHERE id = $2 RETURNING *`, [data, id]);
-        return {
-            id: res.rows[0].id,
-            winner: res.rows[0].winner,
-            endReason: res.rows[0].end_reason,
-            pgn: res.rows[0].pgn,
-            white: { id: res.rows[0].white_id, name: res.rows[0].white_name },
-            black: { id: res.rows[0].black_id, name: res.rows[0].black_name },
-            startedAt: res.rows[0].started_at.getTime(),
-            endedAt: res.rows[0].ended_at?.getTime() || undefined
-        } as Game;
-    } catch (err: unknown) {
-        console.log(err);
-        return null;
-    }
-};
-
 export const remove = async (id: number) => {
     try {
         const res = await db.query(`DELETE FROM "game" WHERE id = $1 RETURNING *`, [id]);
@@ -169,7 +149,6 @@ const GameModel = {
     save,
     findById,
     findByUserId,
-    update,
     remove
 };
 
