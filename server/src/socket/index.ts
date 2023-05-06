@@ -14,12 +14,9 @@ import {
 const socketConnect = (socket: Socket) => {
     const req = socket.request;
 
-    // review if this is necessary, or if io.use will handle logout
     socket.use((__, next) => {
         req.session.reload((err) => {
             if (err) {
-                console.log("reload: disconnecting socket.");
-                console.log(err);
                 socket.disconnect();
             } else {
                 next();
