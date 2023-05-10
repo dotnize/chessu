@@ -9,13 +9,13 @@
   <img src="https://img.shields.io/github/last-commit/nizewn/chessu?style=for-the-badge" alt="Last commit" />
 </p>
 
-> This project is still in the early stages of development. Expect bugs and incomplete features.
-
-Yet another Chess web app. Live demo at [ches.su](https://ches.su).
+<p align="center">Yet another Chess web app. Live demo at <a href="https://ches.su">ches.su</a>.</p>
 
 <p align="center">
   <img src="./assets/demo.jpg" alt="chessu" width="640" />
 </p>
+
+> This project is still in the early stages of development. Expect bugs and incomplete features.
 
 - play against other users in real-time
 - spectate and chat in ongoing games with other users
