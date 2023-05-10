@@ -11,8 +11,8 @@
     "scripts": {
         "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
         "lint": "eslint .",
-        "lint:fix": "eslint --fix .",
-        "format": "prettier --write ."
+        "lint-fix": "eslint --fix .",
+        "format": "prettier --write . --ignore-path .gitignore"
     },
     "devDependencies": {
         "concurrently": "^8.0.1",
