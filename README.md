@@ -3,9 +3,8 @@
 </h1>
 <p align="center">
   <a href="https://ches.su">
-    <img src="https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment&style=for-the-badge" alt="ches.su" />
+    <img src="https://img.shields.io/github/deployments/nizewn/chessu/Production?label=deployment&style=for-the-badge&color=blue" alt="ches.su" />
   </a>
-  <img src="https://img.shields.io/github/license/nizewn/chessu?color=blue&style=for-the-badge" alt="MIT Licensed" />
   <img src="https://img.shields.io/github/last-commit/nizewn/chessu?style=for-the-badge" alt="Last commit" />
 </p>
 
@@ -29,3 +28,7 @@ Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Expre
 ## Contributing
 
 Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) and [Contributing Guidelines](./CONTRIBUTING.md) before starting a pull request.
+
+## License
+
+[MIT](./LICENSE)
