@@ -10,8 +10,8 @@
     ],
     "scripts": {
         "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
-        "lint": "eslint .",
-        "lint-fix": "eslint --fix .",
+        "lint": "eslint . --ignore-path .gitignore",
+        "lint-fix": "eslint --fix . --ignore-path .gitignore",
         "format": "prettier --write . --ignore-path .gitignore"
     },
     "devDependencies": {

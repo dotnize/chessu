@@ -11,7 +11,9 @@ export const fetchSession = async () => {
             const user: User = await res.json();
             return user;
         }
-    } catch (err) {}
+    } catch (err) {
+        // do nothing
+    }
 };
 
 export const setGuestSession = async (name: string) => {

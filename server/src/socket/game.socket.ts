@@ -152,6 +152,7 @@ export async function claimAbandoned(this: Socket, type: "win" | "draw") {
     activeGames.splice(activeGames.indexOf(game), 1);
 }
 
+// eslint-disable-next-line no-unused-vars
 export async function getLatestGame(this: Socket) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
     if (game) this.emit("receivedLatestGame", game);
@@ -219,6 +220,7 @@ export async function sendMove(this: Socket, m: { from: string; to: string; prom
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 export async function joinAsPlayer(this: Socket) {
     const game = activeGames.find((g) => g.code === Array.from(this.rooms)[1]);
     if (!game) return;

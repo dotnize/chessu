@@ -9,11 +9,13 @@ import { db } from "../db/index.js";
 const PGSession = PGSimple(session);
 
 declare module "express-session" {
+    // eslint-disable-next-line no-unused-vars
     interface SessionData {
         user: User;
     }
 }
 declare module "http" {
+    // eslint-disable-next-line no-unused-vars
     interface IncomingMessage {
         session: Session & {
             user: User;

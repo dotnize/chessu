@@ -1,12 +1,13 @@
 "use client";
 
 import type { User } from "@chessu/types";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
 import { fetchSession } from "@/lib/auth";
 import { SessionContext } from "./session";
 
-export default function ContextProvider({ children }: { children: React.ReactNode }) {
+export default function ContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>({});
 
   async function getSession() {

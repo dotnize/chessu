@@ -1,7 +1,9 @@
 import "@/styles/globals.css";
 
-import Header from "@/components/Header";
+import type { ReactNode } from "react";
+
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import AuthModal from "@/components/auth/AuthModal";
 
 import ContextProvider from "@/context/ContextProvider";
@@ -34,7 +36,7 @@ export const metadata = {
   metadataBase: new URL(process.env.VERCEL ? "https://ches.su" : "http://localhost:3000")
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="overflow-x-hidden">
       <body className="overflow-x-hidden">
