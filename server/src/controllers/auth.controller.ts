@@ -252,8 +252,9 @@ export const updateUser = async (req: Request, res: Response) => {
         }
 
         const email = xss(req.body.email || req.session.user.email);
+        const compareEmail = email || name;
 
-        const duplicateUsers = await UserModel.findByNameEmail({ name, email });
+        const duplicateUsers = await UserModel.findByNameEmail({ name, email: compareEmail });
         if (
             duplicateUsers &&
             duplicateUsers.length &&
