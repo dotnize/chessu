@@ -5,6 +5,8 @@ import type { DisconnectReason, Socket } from "socket.io";
 import GameModel, { activeGames } from "../db/models/game.model.js";
 import { io } from "../server.js";
 
+// TODO: clean up
+
 export async function joinLobby(this: Socket, gameCode: string) {
     const game = activeGames.find((g) => g.code === gameCode);
     if (!game) return;
