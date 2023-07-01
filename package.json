@@ -1,7 +1,7 @@
 {
     "name": "chessu",
     "private": "true",
-    "author": "nizewn",
+    "author": "nizefoo",
     "license": "MIT",
     "workspaces": [
         "client",
@@ -16,8 +16,8 @@
     },
     "devDependencies": {
         "concurrently": "^8.2.0",
-        "eslint": "^8.43.0",
-        "eslint-config-next": "^13.4.6",
+        "eslint": "^8.44.0",
+        "eslint-config-next": "^13.4.7",
         "eslint-config-prettier": "^8.8.0",
         "prettier": "^2.8.8",
         "prettier-plugin-tailwindcss": "^0.3.0"
