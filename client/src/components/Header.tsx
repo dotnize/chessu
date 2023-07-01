@@ -34,7 +34,7 @@ export default function Header() {
               <p className="text-left text-xs">
                 This project is a work in progress. You can view the roadmap{" "}
                 <a
-                  href="https://github.com/users/nizewn/projects/2"
+                  href="https://github.com/users/nizefoo/projects/2"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="link"
