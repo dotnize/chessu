@@ -25,6 +25,30 @@
 
 Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
 
+## Development
+
+> Node.js 18 or newer is recommended.
+
+This project is structured as a monorepo using npm workspaces, separated into three packages:
+
+- `client` - Next.js application for the front-end, deployed to [ches.su](https://ches.su) via Vercel.
+- `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su) via Railway.
+- `types` - Shared type definitions required by the client and server.
+
+### Getting started
+
+1. Install the necessary dependencies by running `npm install` in the root directory of the project.
+2. In the `server` directory, create a `.env` file for your PostgreSQL database. You can try [ElephantSQL](https://www.elephantsql.com/) or [Aiven](https://aiven.io/postgresql) for a free hosted database.
+   ```env
+   PGHOST=db.example.com
+   PGUSER=exampleuser
+   PGPASSWORD=examplepassword
+   PGDATABASE=chessu
+   ```
+3. Run the development servers with `npm run dev`.
+   - To run the frontend and backend servers separately, use `npm run dev -w client` and `npm run dev -w server`, respectively.
+4. You can now access the frontend at http://localhost:3000 and the backend at http://localhost:3001.
+
 ## Contributing
 
 Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) and [Contributing Guidelines](./CONTRIBUTING.md) before starting a pull request.

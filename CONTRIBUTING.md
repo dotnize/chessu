@@ -6,38 +6,14 @@ We welcome contributions of any kind; however, for **feature changes or addition
 
 ## Getting Started
 
-To get started, [fork this repository](https://github.com/nizefoo/chessu/fork) to your GitHub account. You can then clone the repository to your local machine and create a new branch for your changes.
-
-```sh
-git clone https://github.com/[your-username]/chessu.git
-cd chessu
-git checkout -b my-feature-branch
-```
-
-## Development
-
-> Node.js 18 or newer is recommended.
-
-This project is structured as a monorepo using npm workspaces, separated into three packages:
-
-- `client` - Next.js application for the front-end, deployed to [ches.su](https://ches.su) via Vercel.
-- `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su) via Railway.
-- `types` - Shared type definitions required by the client and server.
-
-### Running the project
-
-1. Install the necessary dependencies by running `npm install` in the root directory of the project.
-2. In the `server` directory, create a `.env` file for your PostgreSQL database. You can try [ElephantSQL](https://www.elephantsql.com/) or [Aiven](https://aiven.io/postgresql) for a free hosted database.
-   ```env
-   PGHOST=db.example.com
-   PGUSER=exampleuser
-   PGPASSWORD=examplepassword
-   PGDATABASE=chessu
+1. [Fork this repository](https://github.com/nizefoo/chessu/fork) to your GitHub account. You can then clone the repository to your local machine and create a new branch for your changes.
+   ```sh
+   git clone https://github.com/[your-username]/chessu.git
+   cd chessu
+   git checkout -b my-feature-branch
    ```
-3. Run the development servers with `npm run dev`.
-   - To run the frontend and backend servers separately, use `npm run dev -w client` and `npm run dev -w server`, respectively.
-4. You can access the frontend at http://localhost:3000 and the backend at http://localhost:3001.
-5. You may now make your changes and commit them to your branch.
+2. Follow the [setup guide](./README.md#getting-started) from the README to install the necessary dependencies and run the development servers.
+3. You may now make your changes and commit them to your branch.
 
 When adding new dependencies or running other commands from the root directory, you can specify the workspace with the `-w` flag. For example, `npm run build -w client` or `npm install express -w server`.
 
