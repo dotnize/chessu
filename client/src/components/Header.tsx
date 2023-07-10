@@ -24,7 +24,7 @@ export default function Header() {
         </Link>
         <div className="dropdown dropdown-right hover:dropdown-open">
           <label tabIndex={0} className="badge badge-sm cursor-help">
-            alpha
+            pre-alpha
           </label>
           <div
             tabIndex={0}
