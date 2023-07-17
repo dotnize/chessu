@@ -5,9 +5,9 @@
     "license": "MIT",
     "scripts": {
         "dev": "concurrently \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
-        "lint": "eslint . --ignore-path .gitignore",
-        "lint-fix": "eslint --fix . --ignore-path .gitignore",
-        "format": "prettier --write . --ignore-path .gitignore"
+        "lint": "eslint . --ignore-pattern 'pnpm-lock.yaml' --ignore-path .gitignore",
+        "lint-fix": "eslint --fix . --ignore-pattern 'pnpm-lock.yaml' --ignore-path .gitignore",
+        "format": "prettier --write . '!pnpm-lock.yaml' --ignore-path .gitignore"
     },
     "devDependencies": {
         "concurrently": "^8.2.0",
