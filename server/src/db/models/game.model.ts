@@ -1,7 +1,7 @@
 import type { Game, User } from "@chessu/types";
 import { db } from "../index.js";
 
-export const activeGames: Array<Game> = [];
+export const activeGames: Game[] = [];
 
 export const save = async (game: Game) => {
     try {
