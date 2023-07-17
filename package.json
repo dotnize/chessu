@@ -3,20 +3,15 @@
     "private": "true",
     "author": "nizefoo",
     "license": "MIT",
-    "workspaces": [
-        "client",
-        "server",
-        "types"
-    ],
     "scripts": {
-        "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
+        "dev": "concurrently \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
         "lint": "eslint . --ignore-path .gitignore",
         "lint-fix": "eslint --fix . --ignore-path .gitignore",
         "format": "prettier --write . --ignore-path .gitignore"
     },
     "devDependencies": {
         "concurrently": "^8.2.0",
-        "eslint": "^8.44.0",
+        "eslint": "^8.45.0",
         "eslint-config-prettier": "^8.8.0",
         "prettier": "^2.8.8",
         "prettier-plugin-tailwindcss": "^0.3.0"
