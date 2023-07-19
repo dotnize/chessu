@@ -29,8 +29,8 @@
         "@types/express-session": "^1.17.7",
         "@types/node": "^18.16.19",
         "@types/pg": "^8.10.2",
-        "@typescript-eslint/eslint-plugin": "^6.0.0",
-        "@typescript-eslint/parser": "^6.0.0",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
         "tsc-watch": "^6.0.4",
         "typescript": "^5.1.6"
     },

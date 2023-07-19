@@ -9,11 +9,11 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@tabler/icons-react": "^2.25.0",
+        "@tabler/icons-react": "^2.26.0",
         "chess.js": "^1.0.0-beta.6",
         "next": "^13.4.10",
         "react": "^18.2.0",
-        "react-chessboard": "^3.2.0",
+        "react-chessboard": "^4.0.0",
         "react-dom": "^18.2.0",
         "socket.io-client": "^4.7.1"
     },
