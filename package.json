@@ -16,11 +16,11 @@
     },
     "devDependencies": {
         "concurrently": "^8.2.0",
-        "eslint": "^8.44.0",
-        "eslint-config-next": "^13.4.7",
+        "eslint": "^8.45.0",
+        "eslint-config-next": "^13.4.12",
         "eslint-config-prettier": "^8.8.0",
         "prettier": "^2.8.8",
-        "prettier-plugin-tailwindcss": "^0.3.0"
+        "prettier-plugin-tailwindcss": "^0.4.1"
     },
     "engines": {
         "node": ">=18"
