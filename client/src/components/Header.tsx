@@ -1,4 +1,4 @@
-import { IconUser } from "@tabler/icons-react";
+import { IconExternalLink, IconUser } from "@tabler/icons-react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 
@@ -22,30 +22,16 @@ export default function Header() {
           </svg>
           chessu
         </Link>
-        <div className="dropdown dropdown-right hover:dropdown-open">
-          <label tabIndex={0} className="badge badge-sm cursor-help">
-            pre-alpha
-          </label>
-          <div
-            tabIndex={0}
-            className="dropdown-content card card-compact bg-primary text-primary-content w-64 shadow"
-          >
-            <div className="card-body cursor-default">
-              <p className="text-left text-xs">
-                This project is a work in progress. You can view the roadmap{" "}
-                <a
-                  href="https://github.com/users/nizefoo/projects/2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link"
-                >
-                  here
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
+        <a
+          title="Project roadmap"
+          className="badge badge-sm badge-secondary gap-0.5"
+          href="https://github.com/users/nizefoo/projects/2"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          pre-alpha
+          <IconExternalLink size={12} />
+        </a>
       </div>
       <div className="flex-none">
         <ThemeToggle />
