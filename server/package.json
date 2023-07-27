@@ -4,6 +4,7 @@
     "main": "./dist/server.js",
     "type": "module",
     "scripts": {
+        "separate-install": "pnpm --ignore-workspace install",
         "start": "node ./dist/server.js",
         "build": "tsc",
         "dev": "tsc-watch --noClear --onSuccess \"node ./dist/server.js\""

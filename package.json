@@ -4,6 +4,8 @@
     "author": "nizefoo",
     "license": "MIT",
     "scripts": {
+        "separate-install:client": "pnpm --filter client separate-install",
+        "separate-install:server": "pnpm --filter server separate-install",
         "dev": "concurrently 'pnpm --filter client dev' 'pnpm --filter server dev'",
         "dev:client": "pnpm --filter client dev",
         "dev:server": "pnpm --filter server dev",
