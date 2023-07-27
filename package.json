@@ -3,16 +3,18 @@
     "private": "true",
     "author": "nizefoo",
     "license": "MIT",
-    "workspaces": [
-        "client",
-        "server",
-        "types"
-    ],
     "scripts": {
-        "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
-        "lint": "eslint . --ignore-path .gitignore",
-        "lint-fix": "eslint --fix . --ignore-path .gitignore",
-        "format": "prettier --write . --ignore-path .gitignore"
+        "dev": "concurrently 'pnpm --filter client dev' 'pnpm --filter server dev'",
+        "dev:client": "pnpm --filter client dev",
+        "dev:server": "pnpm --filter server dev",
+        "build:client": "pnpm --filter client build",
+        "build:server": "pnpm --filter server build",
+        "start": "concurrently 'pnpm --filter client start' 'pnpm --filter server start'",
+        "start:client": "pnpm --filter client start",
+        "start:server": "pnpm --filter server start",
+        "lint": "eslint . --ignore-pattern 'pnpm-lock.yaml' --ignore-path .gitignore",
+        "lint:fix": "eslint --fix . --ignore-pattern 'pnpm-lock.yaml' --ignore-path .gitignore",
+        "format": "prettier --write . '!pnpm-lock.yaml' --ignore-path .gitignore"
     },
     "devDependencies": {
         "concurrently": "^8.2.0",

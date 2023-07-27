@@ -15,11 +15,11 @@ We welcome contributions of any kind; however, for **feature changes or addition
 2. Follow the [setup guide](./README.md#getting-started) from the README to install the necessary dependencies and run the development servers.
 3. You may now make your changes and commit them to your branch.
 
-When adding new dependencies or running other commands from the root directory, you can specify the workspace with the `-w` flag. For example, `npm run build -w client` or `npm install express -w server`.
+When adding new dependencies or running other commands from the root directory, you can specify the workspace with the `--filter` flag before the command. For example, `pnpm --filter client lint` or `pnpm --filter server add express`.
 
 ### Formatting and linting
 
-We use ESLint and Prettier to enforce code style and formatting. Please make sure to run `npm run lint-fix` and `npm run format` before committing your changes.
+We use ESLint and Prettier to enforce code style and formatting. Please make sure to run `pnpm lint:fix` and `pnpm format` before committing your changes.
 
 ### Environment variables
 
@@ -56,5 +56,5 @@ PGDATABASE=chessu
 - Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - Make sure your changes are thoroughly tested.
 - Keep your commits atomic and descriptive.
-- Ensure that your code is formatted and linted using `npm run lint-fix` and `npm run format`.
+- Ensure that your code is formatted and linted using `pnpm lint:fix` and `pnpm format`.
 - Make your pull requests as descriptive as possible.
