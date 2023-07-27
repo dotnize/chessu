@@ -12,7 +12,7 @@ module.exports = {
             {
                 chessuLight: {
                     primary: "#047AFF",
-                    secondary: "#6370d6",
+                    secondary: "#818CF8",
                     accent: "#C148AC",
                     neutral: "#9ab3d9",
                     "base-100": "#FFFFFF",
