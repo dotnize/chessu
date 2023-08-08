@@ -46,14 +46,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       socket.io-client:
         specifier: ^4.7.2
-        version: 4.7.2(bufferutil@4.0.7)(utf-8-validate@5.0.10)
-    optionalDependencies:
-      bufferutil:
-        specifier: ^4.0.7
-        version: 4.0.7
-      utf-8-validate:
-        specifier: ^5.0.10
-        version: 5.0.10
+        version: 4.7.2
     devDependencies:
       '@chessu/types':
         specifier: '*'
@@ -1427,7 +1420,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /engine.io-client@6.5.2(bufferutil@4.0.7)(utf-8-validate@5.0.10):
+  /engine.io-client@6.5.2:
     resolution: {integrity: sha512-CQZqbrpEYnrpGqC07a9dJDz4gePZUgTPMU3NKJPSeQOyw27Tst4Pl3FemKoFGAlHzgZmKjoRmiJvbWfhCXUlIg==}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
@@ -3731,13 +3724,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /socket.io-client@4.7.2(bufferutil@4.0.7)(utf-8-validate@5.0.10):
+  /socket.io-client@4.7.2:
     resolution: {integrity: sha512-vtA0uD4ibrYD793SOIAwlo8cj6haOeMHrGvwPxJsxH7CeIksqJ+3Zc06RvWTIFgiSqx4A3sOnTXpfAEE2Zyz6w==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
       debug: 4.3.4
-      engine.io-client: 6.5.2(bufferutil@4.0.7)(utf-8-validate@5.0.10)
+      engine.io-client: 6.5.2
       socket.io-parser: 4.2.4
     transitivePeerDependencies:
       - bufferutil
