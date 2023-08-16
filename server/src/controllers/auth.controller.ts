@@ -107,7 +107,8 @@ export const registerUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const duplicateUsers = await UserModel.findByNameEmail({ name, email });
+        const compareEmail = email || name;
+        const duplicateUsers = await UserModel.findByNameEmail({ name, email: compareEmail });
         if (duplicateUsers && duplicateUsers.length) {
             const dupl = duplicateUsers[0].name === name ? "Username" : "Email";
             res.status(409).json({ message: `${dupl} is already in use.` });
