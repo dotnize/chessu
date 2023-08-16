@@ -6,17 +6,17 @@
     "scripts": {
         "separate-install:client": "pnpm --filter client --ignore-workspace install",
         "separate-install:server": "pnpm --filter server --ignore-workspace install",
-        "dev": "concurrently 'pnpm --filter client dev' 'pnpm --filter server dev'",
+        "dev": "concurrently \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
         "dev:client": "pnpm --filter client dev",
         "dev:server": "pnpm --filter server dev",
         "build:client": "pnpm --filter client build",
         "build:server": "pnpm --filter server build",
-        "start": "concurrently 'pnpm --filter client start' 'pnpm --filter server start'",
+        "start": "concurrently \"pnpm --filter client start\" \"pnpm --filter server start\"",
         "start:client": "pnpm --filter client start",
         "start:server": "pnpm --filter server start",
-        "lint": "eslint . --ignore-pattern 'pnpm-lock.yaml' --ignore-path .gitignore",
-        "lint:fix": "eslint --fix . --ignore-pattern 'pnpm-lock.yaml' --ignore-path .gitignore",
-        "format": "prettier --write . '!pnpm-lock.yaml' --ignore-path .gitignore"
+        "lint": "eslint . --ignore-pattern \"pnpm-lock.yaml\" --ignore-path .gitignore",
+        "lint:fix": "eslint --fix . --ignore-pattern \"pnpm-lock.yaml\" --ignore-path .gitignore",
+        "format": "prettier --write . \"!pnpm-lock.yaml\" --ignore-path .gitignore"
     },
     "devDependencies": {
         "concurrently": "^8.2.0",
