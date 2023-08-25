@@ -19,7 +19,7 @@
         "format": "prettier --write . \"!pnpm-lock.yaml\" --ignore-path .gitignore"
     },
     "devDependencies": {
-        "concurrently": "^8.2.0",
+        "concurrently": "^8.2.1",
         "eslint": "^8.47.0",
         "eslint-config-prettier": "^9.0.0",
         "prettier": "^3.0.2",
