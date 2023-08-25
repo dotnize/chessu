@@ -1,7 +1,7 @@
 {
     "name": "chessu",
     "private": "true",
-    "author": "nizefoo",
+    "author": "99nize",
     "license": "MIT",
     "scripts": {
         "separate-install:client": "pnpm --filter client --ignore-workspace install",

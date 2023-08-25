@@ -3,9 +3,9 @@
 </h1>
 <p align="center">
   <a href="https://ches.su">
-    <img src="https://img.shields.io/github/deployments/nizefoo/chessu/Production?label=deployment&style=for-the-badge&color=blue" alt="ches.su" />
+    <img src="https://img.shields.io/github/deployments/99nize/chessu/Production?label=deployment&style=for-the-badge&color=blue" alt="ches.su" />
   </a>
-  <img src="https://img.shields.io/github/last-commit/nizefoo/chessu?style=for-the-badge" alt="Last commit" />
+  <img src="https://img.shields.io/github/last-commit/99nize/chessu?style=for-the-badge" alt="Last commit" />
 </p>
 
 <p align="center">Yet another Chess web app. Live demo at <a href="https://ches.su">ches.su</a>.</p>
@@ -21,7 +21,7 @@
 - _optional_ user accounts for tracking stats and game history
 - ~~play solo against Stockfish~~ (wip)
 - mobile-friendly
-- ... and more ([view roadmap](https://github.com/users/nizefoo/projects/2))
+- ... and more ([view roadmap](https://github.com/users/99nize/projects/2))
 
 Built with Next.js 13, Tailwind CSS + daisyUI, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
 
