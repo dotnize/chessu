@@ -7,7 +7,7 @@ export default function Footer() {
         <p>
           &copy; 2023{" "}
           <a
-            href="https://nize.foo"
+            href="https://n9ze.com"
             target="_blank"
             rel="noopener noreferrer"
             className="link-hover"
@@ -18,7 +18,7 @@ export default function Footer() {
       </div>
       <div className="items-center">
         <a
-          href="https://github.com/nizefoo/chessu"
+          href="https://github.com/99nize/chessu"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ghost btn-sm gap-1 normal-case"

@@ -6,7 +6,7 @@ We welcome contributions of any kind; however, for **feature changes or addition
 
 ## Getting Started
 
-1. [Fork this repository](https://github.com/nizefoo/chessu/fork) to your GitHub account. You can then clone the repository to your local machine and create a new branch for your changes.
+1. [Fork this repository](https://github.com/99nize/chessu/fork) to your GitHub account. You can then clone the repository to your local machine and create a new branch for your changes.
    ```sh
    git clone https://github.com/[your-username]/chessu.git
    cd chessu
