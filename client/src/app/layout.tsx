@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
-import AuthModal from "~/components/auth/AuthModal";
 
 import ContextProvider from "~/context/ContextProvider";
 
@@ -38,16 +37,12 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="overflow-x-hidden">
-      <body className="overflow-x-hidden">
+    <html lang="en">
+      <body>
         <ContextProvider>
           <Header />
 
-          <main className="mx-1 flex min-h-[70vh] justify-center md:mx-16 lg:mx-40">
-            {children}
-          </main>
-
-          <AuthModal />
+          <main>{children}</main>
         </ContextProvider>
 
         <Footer />
