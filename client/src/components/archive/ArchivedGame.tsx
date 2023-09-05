@@ -1,6 +1,5 @@
 "use client";
 
-import type { CustomSquares } from "@/types";
 import { Game } from "@chessu/types";
 import {
   IconChevronLeft,
@@ -14,6 +13,7 @@ import type { Square } from "chess.js";
 import { Chess } from "chess.js";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { Chessboard } from "react-chessboard";
+import type { CustomSquares } from "~/types";
 
 export default function ArchivedGame({ game }: { game: Game }) {
   const [boardWidth, setBoardWidth] = useState(480);

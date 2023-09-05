@@ -1,10 +1,10 @@
 "use client";
 
-import { SessionContext } from "@/context/session";
-import { login, logout, register, setGuestSession } from "@/lib/auth";
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useContext, useEffect, useRef, useState } from "react";
+import { SessionContext } from "~/context/session";
+import { login, logout, register, setGuestSession } from "~/lib/auth";
 
 import { IconSettings2, IconUserCircle } from "@tabler/icons-react";
 import Guest from "./Guest";

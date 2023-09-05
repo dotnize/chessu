@@ -1,6 +1,6 @@
-import GameAuthWrapper from "@/components/game/GameAuthWrapper";
-import { fetchActiveGame } from "@/lib/game";
 import { notFound } from "next/navigation";
+import GameAuthWrapper from "~/components/game/GameAuthWrapper";
+import { fetchActiveGame } from "~/lib/game";
 
 export async function generateMetadata({ params }: { params: { code: string } }) {
   const game = await fetchActiveGame(params.code);

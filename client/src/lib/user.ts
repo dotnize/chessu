@@ -1,5 +1,5 @@
-import { API_URL } from "@/config";
 import type { Game, User } from "@chessu/types";
+import { API_URL } from "~/config";
 
 export const fetchProfileData = async (name: string) => {
     try {

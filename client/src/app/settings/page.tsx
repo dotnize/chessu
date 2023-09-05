@@ -1,10 +1,10 @@
 "use client";
 
-import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { SessionContext } from "@/context/session";
+import type { FormEvent } from "react";
 import { useContext, useState } from "react";
-import { updateUser } from "@/lib/auth";
+import { SessionContext } from "~/context/session";
+import { updateUser } from "~/lib/auth";
 
 export default function Settings() {
   const session = useContext(SessionContext);

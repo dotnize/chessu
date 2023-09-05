@@ -1,4 +1,4 @@
-import type { Action, CustomSquares, Lobby } from "@/types";
+import type { Action, CustomSquares, Lobby } from "~/types";
 
 export function lobbyReducer(lobby: Lobby, action: Action): Lobby {
     switch (action.type) {

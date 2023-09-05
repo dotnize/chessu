@@ -1,12 +1,12 @@
-import "@/styles/globals.css";
+import "~/styles/globals.css";
 
 import type { ReactNode } from "react";
 
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import AuthModal from "@/components/auth/AuthModal";
+import Footer from "~/components/Footer";
+import Header from "~/components/Header";
+import AuthModal from "~/components/auth/AuthModal";
 
-import ContextProvider from "@/context/ContextProvider";
+import ContextProvider from "~/context/ContextProvider";
 
 export const metadata = {
   title: "chessu",

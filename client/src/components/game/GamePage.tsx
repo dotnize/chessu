@@ -11,19 +11,19 @@ import {
 
 import type { FormEvent, KeyboardEvent } from "react";
 
-import { SessionContext } from "@/context/session";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
+import { SessionContext } from "~/context/session";
 
-import type { Message } from "@/types";
 import type { Game } from "@chessu/types";
+import type { Message } from "~/types";
 
 import type { Move, Square } from "chess.js";
 import { Chess } from "chess.js";
 import type { ClearPremoves } from "react-chessboard";
 import { Chessboard } from "react-chessboard";
 
-import { API_URL } from "@/config";
 import { io } from "socket.io-client";
+import { API_URL } from "~/config";
 
 import { lobbyReducer, squareReducer } from "./reducers";
 import { initSocket } from "./socketEvents";

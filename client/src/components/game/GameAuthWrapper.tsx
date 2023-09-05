@@ -1,8 +1,8 @@
 "use client";
 
-import { SessionContext } from "@/context/session";
 import type { Game } from "@chessu/types";
 import { useContext } from "react";
+import { SessionContext } from "~/context/session";
 
 import GamePage from "./GamePage";
 

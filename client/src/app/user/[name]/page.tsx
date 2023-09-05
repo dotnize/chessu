@@ -1,6 +1,6 @@
-import CopyLink from "@/components/user/CopyLink";
-import { fetchProfileData } from "@/lib/user";
 import { notFound } from "next/navigation";
+import CopyLink from "~/components/user/CopyLink";
+import { fetchProfileData } from "~/lib/user";
 
 export async function generateMetadata({ params }: { params: { name: string } }) {
   const data = await fetchProfileData(params.name);

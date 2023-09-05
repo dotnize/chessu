@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useContext, useState } from "react";
 
-import { SessionContext } from "@/context/session";
-import { fetchActiveGame } from "@/lib/game";
+import { SessionContext } from "~/context/session";
+import { fetchActiveGame } from "~/lib/game";
 
 export default function JoinGame() {
   const session = useContext(SessionContext);

@@ -1,6 +1,6 @@
-import CreateGame from "@/components/home/CreateGame";
-import JoinGame from "@/components/home/JoinGame";
-import PublicGames from "@/components/home/PublicGames/PublicGames";
+import CreateGame from "~/components/home/CreateGame";
+import JoinGame from "~/components/home/JoinGame";
+import PublicGames from "~/components/home/PublicGames/PublicGames";
 
 export const revalidate = 0;
 

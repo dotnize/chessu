@@ -1,4 +1,4 @@
-import { fetchPublicGames } from "@/lib/game";
+import { fetchPublicGames } from "~/lib/game";
 import JoinButton from "./JoinButton";
 import RefreshButton from "./RefreshButton";
 
