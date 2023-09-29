@@ -18,7 +18,7 @@ export default function Footer() {
       </div>
       <div className="items-center">
         <a
-          href="https://github.com/99nize/chessu"
+          href="https://github.com/ninetynize/chessu"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ghost btn-sm gap-1 normal-case"
