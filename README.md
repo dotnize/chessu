@@ -23,7 +23,7 @@
 - mobile-friendly
 - ... and more ([view roadmap](https://github.com/users/ninetynize/projects/2))
 
-Built with Next.js 13, Tailwind CSS (shadcn/ui), react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
+Built with Next.js 13, Tailwind CSS, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
 
 ## Development
 
