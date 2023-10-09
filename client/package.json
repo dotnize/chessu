@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
+        "isolated-install": "pnpm -w install:client",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
