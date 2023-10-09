@@ -4,8 +4,8 @@
     "author": "ninetynize",
     "license": "MIT",
     "scripts": {
-        "separate-install:client": "pnpm --filter client --ignore-workspace install",
-        "separate-install:server": "pnpm --filter server --ignore-workspace install",
+        "install:client": "pnpm install --filter client --config.dedupe-peer-dependents=false",
+        "install:server": "pnpm install --filter server --config.dedupe-peer-dependents=false",
         "dev": "concurrently \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
         "dev:client": "pnpm --filter client dev",
         "dev:server": "pnpm --filter server dev",
