@@ -4,7 +4,7 @@ import type { User } from "@chessu/types";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
-import { fetchSession } from "@/lib/auth";
+import { fetchSession } from "~/lib/auth";
 import { SessionContext } from "./session";
 
 export default function ContextProvider({ children }: { children: ReactNode }) {

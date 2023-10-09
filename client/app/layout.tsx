@@ -1,12 +1,11 @@
-import "@/styles/globals.css";
+import "./globals.css";
 
 import type { ReactNode } from "react";
 
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import AuthModal from "@/components/auth/AuthModal";
+// import Footer from "~/components/Footer";
+// import Header from "~/components/Header";
 
-import ContextProvider from "@/context/ContextProvider";
+import ContextProvider from "~/context/ContextProvider";
 
 export const metadata = {
   title: "chessu",
@@ -38,28 +37,24 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="overflow-x-hidden">
-      <body className="overflow-x-hidden">
+    <html lang="en">
+      <body>
         <ContextProvider>
-          <Header />
+          {/* <Header /> */}
 
-          <main className="mx-1 flex min-h-[70vh] justify-center md:mx-16 lg:mx-40">
-            {children}
-          </main>
-
-          <AuthModal />
+          <main>{children}</main>
         </ContextProvider>
 
-        <Footer />
+        {/* <Footer /> */}
 
         {/* next/script issue: https://github.com/vercel/next.js/issues/43402 */}
         <script
           id="load-theme"
           dangerouslySetInnerHTML={{
             __html: `if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-              document.documentElement.setAttribute("data-theme", "chessuDark");
+              document.documentElement.classList.add("dark");
           } else {
-              document.documentElement.setAttribute("data-theme", "chessuLight");
+              document.documentElement.classList.remove("dark");
           }`
           }}
         ></script>
