@@ -6,6 +6,7 @@
     "scripts": {
         "separate-install:client": "pnpm --filter client --ignore-workspace install",
         "separate-install:server": "pnpm --filter server --ignore-workspace install",
+        "separate-start:server": "pnpm --filter server --ignore-workspace start",
         "dev": "concurrently \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
         "dev:client": "pnpm --filter client dev",
         "dev:server": "pnpm --filter server dev",
