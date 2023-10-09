@@ -1,3 +1,8 @@
+Notes from the maintainer:
+> I started this project when I was still new to TS and full-stack development. Bad practices, confusing patterns, and messed up types are everywhere. Suggestions for improvements are very much welcome!
+
+> The client is currently being rewritten at the `frontend-refactor` branch ([#24](https://github.com/ninetynize/chessu/pull/24)). Contributions to `main` that involve the frontend may get overwritten, but I'll try to cherry-pick those that can be applied to the new branch.
+
 <h1 align="center">
   <img src="./assets/chessu.png" alt="chessu" height="128" />
 </h1>
@@ -14,7 +19,6 @@
   <img src="./assets/demo.jpg" alt="chessu" width="640" />
 </p>
 
-> This project is still in the early stages of development. Expect bugs and incomplete features.
 
 - play against other users in real-time
 - spectate and chat in ongoing games with other users
@@ -52,7 +56,7 @@ This project is structured as a monorepo using **pnpm** workspaces, separated in
 
 ## Contributing
 
-Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) and [Contributing Guidelines](./CONTRIBUTING.md) before starting a pull request.
+Please read our [Contributing Guidelines](./CONTRIBUTING.md) before starting a pull request.
 
 ## License
 
