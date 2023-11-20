@@ -12,13 +12,13 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="link-hover"
           >
-            nize
+            Nathaniel Tampus
           </a>
         </p>
       </div>
       <div className="items-center">
         <a
-          href="https://github.com/ninetynize/chessu"
+          href="https://github.com/ntampus/chessu"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ghost btn-sm gap-1 normal-case"
