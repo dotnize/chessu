@@ -19,11 +19,11 @@
         "format": "prettier --write . \"!pnpm-lock.yaml\" --ignore-path .gitignore"
     },
     "devDependencies": {
-        "concurrently": "^8.2.1",
-        "eslint": "^8.50.0",
+        "concurrently": "^8.2.2",
+        "eslint": "^8.54.0",
         "eslint-config-prettier": "^9.0.0",
-        "prettier": "^3.0.3",
-        "prettier-plugin-tailwindcss": "^0.5.5"
+        "prettier": "^3.1.0",
+        "prettier-plugin-tailwindcss": "^0.5.7"
     },
     "engines": {
         "node": ">=18"
