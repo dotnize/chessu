@@ -25,7 +25,7 @@ export default function Header() {
         <a
           title="Project roadmap"
           className="badge badge-sm badge-secondary gap-0.5"
-          href="https://github.com/users/ntampus/projects/2"
+          href="https://github.com/users/dotnize/projects/2"
           target="_blank"
           rel="noopener noreferrer"
         >

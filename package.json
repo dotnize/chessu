@@ -1,7 +1,7 @@
 {
     "name": "chessu",
     "private": "true",
-    "author": "ntampus",
+    "author": "dotnize",
     "license": "MIT",
     "scripts": {
         "install:client": "pnpm install --filter client --config.dedupe-peer-dependents=false",

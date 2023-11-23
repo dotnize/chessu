@@ -1,16 +1,17 @@
 Notes from the maintainer:
+
 > I started this project when I was still new to TS and full-stack development. Bad practices, confusing patterns, and messed up types are everywhere. Suggestions for improvements are very much welcome!
 
-> The client is currently being rewritten at the `frontend-refactor` branch ([#24](https://github.com/ntampus/chessu/pull/24)). Contributions to `main` that involve the frontend may get overwritten, but I'll try to cherry-pick those that can be applied to the new branch.
+> The client is currently being rewritten at the `frontend-refactor` branch ([#24](https://github.com/dotnize/chessu/pull/24)). Contributions to `main` that involve the frontend may get overwritten, but I'll try to cherry-pick those that can be applied to the new branch.
 
 <h1 align="center">
   <img src="./assets/chessu.png" alt="chessu" height="128" />
 </h1>
 <p align="center">
   <a href="https://ches.su">
-    <img src="https://img.shields.io/github/deployments/ntampus/chessu/Production?label=deployment&style=for-the-badge&color=blue" alt="ches.su" />
+    <img src="https://img.shields.io/github/deployments/dotnize/chessu/Production?label=deployment&style=for-the-badge&color=blue" alt="ches.su" />
   </a>
-  <img src="https://img.shields.io/github/last-commit/ntampus/chessu?style=for-the-badge" alt="Last commit" />
+  <img src="https://img.shields.io/github/last-commit/dotnize/chessu?style=for-the-badge" alt="Last commit" />
 </p>
 
 <p align="center">Yet another Chess web app. Live demo at <a href="https://ches.su">ches.su</a>.</p>
@@ -19,13 +20,12 @@ Notes from the maintainer:
   <img src="./assets/demo.jpg" alt="chessu" width="640" />
 </p>
 
-
 - play against other users in real-time
 - spectate and chat in ongoing games with other users
 - _optional_ user accounts for tracking stats and game history
 - ~~play solo against Stockfish~~ (wip)
 - mobile-friendly
-- ... and more ([view roadmap](https://github.com/users/ntampus/projects/2))
+- ... and more ([view roadmap](https://github.com/users/dotnize/projects/2))
 
 Built with Next.js 14, Tailwind CSS + daisyUI, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
 
