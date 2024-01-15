@@ -14,7 +14,7 @@ Notes from the maintainer:
   <img src="https://img.shields.io/github/last-commit/dotnize/chessu?style=for-the-badge" alt="Last commit" />
 </p>
 
-<p align="center">Yet another Chess web app. Live demo at <a href="https://ches.su">ches.su</a>.</p>
+<p align="center">Yet another Chess web app.
 
 <p align="center">
   <img src="./assets/demo.jpg" alt="chessu" width="640" />
@@ -35,8 +35,8 @@ Built with Next.js 14, Tailwind CSS + daisyUI, react-chessboard, chess.js, Expre
 
 This project is structured as a monorepo using **pnpm** workspaces, separated into three packages:
 
-- `client` - Next.js application for the front-end, deployed to [ches.su](https://ches.su) via Vercel.
-- `server` - Node/Express.js application for the back-end, deployed to [server.ches.su](https://server.ches.su) via Railway.
+- `client` - Next.js application for the front-end, ~~deployed to ches.su via Vercel~~.
+- `server` - Node/Express.js application for the back-end, ~~deployed to server.ches.su via Railway~~.
 - `types` - Shared type definitions required by the client and server.
 
 ### Getting started
