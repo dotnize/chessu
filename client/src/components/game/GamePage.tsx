@@ -657,8 +657,8 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
                       ? `The game ended in a draw due to abandonment.`
                       : `The game was won by ${lobby.winner} due to abandonment.`
                     : lobby.winner === "draw"
-                    ? "The game ended in a draw."
-                    : `The game was won by checkmate (${lobby.winner}).`}{" "}
+                      ? "The game ended in a draw."
+                      : `The game was won by checkmate (${lobby.winner}).`}{" "}
                   <br />
                   You can review the archived game at{" "}
                   <a

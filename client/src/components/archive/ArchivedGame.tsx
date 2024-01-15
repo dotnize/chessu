@@ -324,8 +324,8 @@ export default function ArchivedGame({ game }: { game: Game }) {
                 ? "The game ended in a draw due to abandonment."
                 : `The game was won by ${game.winner} due to abandonment.`
               : game.winner === "draw"
-              ? "The game ended in a draw."
-              : `The game was won by checkmate (${game.winner}).`}
+                ? "The game ended in a draw."
+                : `The game was won by checkmate (${game.winner}).`}
 
             <div className="mt-2 flex items-center justify-end">
               <button
