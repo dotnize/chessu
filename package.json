@@ -4,8 +4,8 @@
     "author": "dotnize",
     "license": "MIT",
     "scripts": {
-        "install:client": "pnpm install --filter client --config.dedupe-peer-dependents=false",
-        "install:server": "pnpm install --filter server --config.dedupe-peer-dependents=false",
+        "install:client": "pnpm install --filter client",
+        "install:server": "pnpm install --filter server",
         "dev": "concurrently \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
         "dev:client": "pnpm --filter client dev",
         "dev:server": "pnpm --filter server dev",
@@ -20,12 +20,12 @@
     },
     "devDependencies": {
         "concurrently": "^8.2.2",
-        "eslint": "^8.56.0",
+        "eslint": "^8.57.0",
         "eslint-config-prettier": "^9.1.0",
-        "prettier": "^3.2.2",
-        "prettier-plugin-tailwindcss": "^0.5.11"
+        "prettier": "^3.3.3",
+        "prettier-plugin-tailwindcss": "^0.6.5"
     },
     "engines": {
-        "node": ">=18"
+        "node": ">=20"
     }
 }

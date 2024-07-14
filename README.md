@@ -25,7 +25,7 @@ Built with Next.js 14, Tailwind CSS + daisyUI, react-chessboard, chess.js, Expre
 
 ## Development
 
-> Node.js 18 or newer is recommended.
+> Node.js 20 or newer is recommended.
 
 This project is structured as a monorepo using **pnpm** workspaces, separated into three packages:
 
