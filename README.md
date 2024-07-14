@@ -21,7 +21,7 @@
 - mobile-friendly
 - ... and more ([view roadmap](https://github.com/users/dotnize/projects/2))
 
-Built with Next.js 14, Tailwind CSS + daisyUI, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
+Built with Remix, Hono, Tailwind CSS, react-chessboard, chess.js, socket.io and PostgreSQL.
 
 ## Development
 

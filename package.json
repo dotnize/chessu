@@ -1,31 +1,37 @@
 {
-    "name": "chessu",
-    "private": "true",
-    "author": "dotnize",
-    "license": "MIT",
-    "scripts": {
-        "install:client": "pnpm install --filter client",
-        "install:server": "pnpm install --filter server",
-        "dev": "concurrently \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
-        "dev:client": "pnpm --filter client dev",
-        "dev:server": "pnpm --filter server dev",
-        "build:client": "pnpm --filter client build",
-        "build:server": "pnpm --filter server build",
-        "start": "concurrently \"pnpm --filter client start\" \"pnpm --filter server start\"",
-        "start:client": "pnpm --filter client start",
-        "start:server": "pnpm --filter server start",
-        "lint": "eslint . --ignore-pattern \"pnpm-lock.yaml\" --ignore-path .gitignore",
-        "lint:fix": "eslint --fix . --ignore-pattern \"pnpm-lock.yaml\" --ignore-path .gitignore",
-        "format": "prettier --write . \"!pnpm-lock.yaml\" --ignore-path .gitignore"
-    },
-    "devDependencies": {
-        "concurrently": "^8.2.2",
-        "eslint": "^8.57.0",
-        "eslint-config-prettier": "^9.1.0",
-        "prettier": "^3.3.3",
-        "prettier-plugin-tailwindcss": "^0.6.5"
-    },
-    "engines": {
-        "node": ">=20"
-    }
+	"name": "chessu",
+	"private": true,
+	"author": "dotnize",
+	"license": "MIT",
+	"sideEffects": false,
+	"type": "module",
+	"scripts": {
+		"build": "remix vite:build",
+		"dev": "vite",
+		"typecheck": "tsc"
+	},
+	"dependencies": {
+		"@remix-run/node": "^2.10.2",
+		"@remix-run/react": "^2.10.2",
+		"hono": "^4.4.13",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"remix-hono": "^0.0.16"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3",
+		"@hono/vite-dev-server": "^0.13.1",
+		"@remix-run/dev": "^2.10.2",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"autoprefixer": "^10.4.19",
+		"postcss": "^8.4.39",
+		"tailwindcss": "^3.4.4",
+		"typescript": "^5.5.3",
+		"vite": "^5.3.3",
+		"vite-tsconfig-paths": "^4.3.2"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	}
 }
