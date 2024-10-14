@@ -48,6 +48,32 @@ This project is structured as a monorepo using **pnpm** workspaces, separated in
    - To run the frontend and backend servers separately, use `pnpm dev:client` and `pnpm dev:server`, respectively.
 5. You can now access the frontend at http://localhost:3000 and the backend at http://localhost:3001.
 
+## Running chessu with Docker
+
+To build the project with Docker, you can use the provided `Dockerfile`.
+```sh
+docker build -t chessu .
+```
+
+This command will build the Docker image with the name `chessu`. You can then run the image with the following command:
+```sh
+docker run -p 3000:3000 -p 3001:3001 chessu
+```
+
+Once built, to start the project with POSTGRES, you can use the provided `docker-compose.yml` file.
+```sh
+docker-compose up
+```
+Please make sure to modify the values in the `server/.env` file to match the values in the `docker-compose.yml` file or vice versa.
+
+The entrypoint for the Docker image is set to run pnpm.
+The Dockerfile's `CMD` instruction is set to run the project in production mode. 
+If you want to run the project in development mode, you can override the `CMD` instruction by running the following command:
+```sh
+docker run -p 3000:3000 -p 3001:3001 chessu dev # runs both client and server in development mode
+docker run -p 3000:3000 -p 3001:3001 chessu dev:client # runs only the client in development mode
+docker run -p 3000:3000 -p 3001:3001 chessu dev:server # runs only the server in development mode
+```
 ## Contributing
 
 Please read our [Contributing Guidelines](./CONTRIBUTING.md) before starting a pull request.
