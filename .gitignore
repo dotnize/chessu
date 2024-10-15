@@ -11,6 +11,7 @@ yarn.lock
 
 node_modules
 .pnp
+.pnpm-store
 .pnp.js
 
 .next

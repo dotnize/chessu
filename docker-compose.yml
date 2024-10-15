@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  chessu:
+    image: chessu:latest # Replace with the correct image if needed
+    container_name: chessu_container
+    environment:
+      POSTGRES_DB: chessu
+      POSTGRES_USER: exampleuser
+      POSTGRES_PASSWORD: examplepassword
+      DATABASE_URL: postgres://chessu_user:chessu_pass@db:5432/chessu
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    depends_on:
+      - db
+    networks:
+      - chessu_network
+
+  db:
+    image: postgres:15
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: chessu
+      POSTGRES_USER: exampleuser
+      POSTGRES_PASSWORD: examplepassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - chessu_network
+
+volumes:
+  postgres_data:
+
+networks:
+  chessu_network:
+    driver: bridge
