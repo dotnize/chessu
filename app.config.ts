@@ -21,7 +21,7 @@ export default defineConfig({
 }).addRouter({
   name: "websocket",
   type: "http",
-  handler: "./app/ws.ts",
+  handler: "./app/server/ws.ts",
   target: "server",
   base: "/_ws",
   plugins: () => [tsConfigPaths()],

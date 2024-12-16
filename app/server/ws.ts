@@ -1,5 +1,5 @@
 import { defineEventHandler, defineWebSocket } from "vinxi/http";
-import { getWebSocketSession } from "./server/auth";
+import { getWebSocketSession } from "~/server/auth";
 
 export default defineEventHandler({
   handler() {},
@@ -18,6 +18,8 @@ export default defineEventHandler({
 
         return new Response(null, { status: 401 });
       }
+
+      console.log("proceeding with upgrade");
 
       /* 
 
