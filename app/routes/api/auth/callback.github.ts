@@ -7,9 +7,9 @@ import {
   generateSessionToken,
   github,
   setSessionTokenCookie,
-} from "~/server/auth";
-import { db } from "~/server/db";
-import { oauthAccount, user } from "~/server/db/schema";
+} from "~/lib/server/auth";
+import { db } from "~/lib/server/db";
+import { oauthAccount, user } from "~/lib/server/db/schema";
 
 interface GitHubUser {
   id: string;
@@ -90,6 +90,7 @@ export const APIRoute = createAPIFileRoute("/api/auth/callback/github")({
           .insert(user)
           .values({
             email: providerUser.email,
+            // username: providerUser.login, // just let user input this? so we can check if unique
             name: providerUser.name || providerUser.login,
             avatar_url: providerUser.avatar_url,
           })

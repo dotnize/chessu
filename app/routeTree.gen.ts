@@ -14,7 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SigninImport } from './routes/signin'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
-import { Route as WstestIndexImport } from './routes/wstest/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 
 // Create/Update Routes
@@ -34,12 +33,6 @@ const DashboardRoute = DashboardImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const WstestIndexRoute = WstestIndexImport.update({
-  id: '/wstest/',
-  path: '/wstest/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,13 +74,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof DashboardImport
     }
-    '/wstest/': {
-      id: '/wstest/'
-      path: '/wstest'
-      fullPath: '/wstest'
-      preLoaderRoute: typeof WstestIndexImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -110,14 +96,12 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/signin': typeof SigninRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/wstest': typeof WstestIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/signin': typeof SigninRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/wstest': typeof WstestIndexRoute
 }
 
 export interface FileRoutesById {
@@ -126,15 +110,14 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/signin': typeof SigninRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/wstest/': typeof WstestIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/signin' | '/dashboard/' | '/wstest'
+  fullPaths: '/' | '/dashboard' | '/signin' | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signin' | '/dashboard' | '/wstest'
-  id: '__root__' | '/' | '/dashboard' | '/signin' | '/dashboard/' | '/wstest/'
+  to: '/' | '/signin' | '/dashboard'
+  id: '__root__' | '/' | '/dashboard' | '/signin' | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
@@ -142,14 +125,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   SigninRoute: typeof SigninRoute
-  WstestIndexRoute: typeof WstestIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRouteWithChildren,
   SigninRoute: SigninRoute,
-  WstestIndexRoute: WstestIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -164,8 +145,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/dashboard",
-        "/signin",
-        "/wstest/"
+        "/signin"
       ]
     },
     "/": {
@@ -183,9 +163,6 @@ export const routeTree = rootRoute
     "/dashboard/": {
       "filePath": "dashboard/index.tsx",
       "parent": "/dashboard"
-    },
-    "/wstest/": {
-      "filePath": "wstest/index.tsx"
     }
   }
 }

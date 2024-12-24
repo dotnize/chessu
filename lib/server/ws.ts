@@ -1,5 +1,5 @@
 import { defineEventHandler, defineWebSocket } from "vinxi/http";
-import { getWebSocketSession } from "~/server/auth";
+import { getWebSocketSession } from "~/lib/server/auth";
 
 export default defineEventHandler({
   handler() {},

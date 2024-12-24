@@ -7,9 +7,9 @@ import {
   generateSessionToken,
   google,
   setSessionTokenCookie,
-} from "~/server/auth";
-import { db } from "~/server/db";
-import { oauthAccount, user } from "~/server/db/schema";
+} from "~/lib/server/auth";
+import { db } from "~/lib/server/db";
+import { oauthAccount, user } from "~/lib/server/db/schema";
 
 interface GoogleUser {
   sub: string;
@@ -93,6 +93,7 @@ export const APIRoute = createAPIFileRoute("/api/auth/callback/google")({
           .insert(user)
           .values({
             email: providerUser.email,
+            // username: providerUser.email.split("@")[0], // username: providerUser.login, // just let user input this? so we can check if unique
             name: providerUser.name,
             // first_name: providerUser.given_name,
             // last_name: providerUser.family_name,

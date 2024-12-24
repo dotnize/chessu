@@ -9,8 +9,8 @@ import {
 import { createServerFn, Meta, Scripts } from "@tanstack/start";
 import { lazy, Suspense } from "react";
 
-import { getAuthSession } from "~/server/auth";
-import appCss from "~/styles/app.css?url";
+import { getAuthSession } from "~/lib/server/auth";
+import appCss from "~/lib/styles/app.css?url";
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === "production"
@@ -42,7 +42,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStarter",
+        title: "chessu",
       },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
@@ -60,7 +60,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
   return (
-    <html>
+    <html suppressHydrationWarning>
       <head>
         <Meta />
       </head>

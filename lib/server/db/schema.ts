@@ -2,7 +2,7 @@ import { integer, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-co
 
 export const user = pgTable("user", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  username: text().unique().notNull(),
+  username: text().unique(),
   name: text(),
   // first_name: text(),
   // last_name: text(),

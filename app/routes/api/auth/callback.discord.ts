@@ -7,9 +7,9 @@ import {
   discord,
   generateSessionToken,
   setSessionTokenCookie,
-} from "~/server/auth";
-import { db } from "~/server/db";
-import { oauthAccount, user } from "~/server/db/schema";
+} from "~/lib/server/auth";
+import { db } from "~/lib/server/db";
+import { oauthAccount, user } from "~/lib/server/db/schema";
 
 interface DiscordUser {
   id: string;
@@ -90,6 +90,7 @@ export const APIRoute = createAPIFileRoute("/api/auth/callback/discord")({
           .insert(user)
           .values({
             email: providerUser.email,
+            // username: providerUser.username, // just let user input this? so we can check if unique
             name: providerUser.global_name || providerUser.username,
             avatar_url: providerUser.avatar
               ? `https://cdn.discordapp.com/avatars/${providerUser.id}/${providerUser.avatar}.png`
