@@ -16,7 +16,7 @@ export default defineConfig({
     },
 
     // https://tanstack.com/router/latest/docs/framework/react/start/hosting#deployment
-    // preset: "cloudflare-pages",
+    preset: "bun",
   },
 }).addRouter({
   name: "websocket",

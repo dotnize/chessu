@@ -10,9 +10,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "db": "drizzle-kit",
-    "ui": "pnpm dlx shadcn@latest"
+    "ui": "bunx --bun shadcn@latest"
   },
-  "packageManager": "pnpm@9.15.1",
   "dependencies": {
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
@@ -60,9 +59,7 @@
     "typescript-eslint": "^8.18.2",
     "vite-tsconfig-paths": "^5.1.4"
   },
-  "pnpm": {
-    "patchedDependencies": {
-      "vinxi": "patches/vinxi.patch"
-    }
+  "patchedDependencies": {
+    "vinxi@0.5.1": "patches/vinxi@0.5.1.patch"
   }
 }
