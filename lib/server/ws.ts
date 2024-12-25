@@ -1,23 +1,23 @@
 import { defineEventHandler, defineWebSocket } from "vinxi/http";
-import { getWebSocketSession } from "~/lib/server/auth";
 
 export default defineEventHandler({
   handler() {},
   websocket: defineWebSocket({
     async upgrade(req) {
-      console.log("upgrade!!");
+      console.log("upgrading");
+      // // TODO: remove, not ideal. see below for JWT solution
+      // const { user } = await getWebSocketSession(req);
 
-      // TODO: remove, not ideal. see below for JWT solution
-      const { user } = await getWebSocketSession(req);
+      // console.log(user)
 
-      // deny unauthorized connections
-      if (!user) {
-        console.log("cancelling");
-        // for some reason, adding a BodyInit causes an error on subsequent requests
-        // return new Response("Unauthorized", { status: 401 });
+      // // deny unauthorized connections
+      // if (!user) {
+      //   console.log("cancelling");
+      //   // for some reason, adding a BodyInit causes an error on subsequent requests
+      //   // return new Response("Unauthorized", { status: 401 });
 
-        return new Response(null, { status: 401 });
-      }
+      //   return new Response(null, { status: 401 });
+      // }
 
       console.log("proceeding with upgrade");
 

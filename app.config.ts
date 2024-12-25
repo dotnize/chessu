@@ -16,6 +16,7 @@ export default defineConfig({
     },
 
     // https://tanstack.com/router/latest/docs/framework/react/start/hosting#deployment
+    // potential websocket dev issue: https://github.com/nitrojs/nitro/issues/2721
     preset: "bun",
   },
 }).addRouter({
