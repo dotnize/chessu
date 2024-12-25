@@ -10,7 +10,7 @@ export async function encrypt(payload: Payload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1d") // 2h ideally? also match this to cookie maxAge in endpoint
+    .setExpirationTime("2h")
     .sign(encodedKey);
 }
 
