@@ -20,6 +20,7 @@ export default defineEventHandler({
       // }
 
       console.log("proceeding with upgrade");
+      console.log(req.url);
 
       /* 
 

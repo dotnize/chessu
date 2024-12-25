@@ -1,56 +1,64 @@
-import {
-  integer,
-  pgEnum,
-  pgTable,
-  primaryKey,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { boolean, integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
+// --- start better-auth schema ---
 export const user = pgTable("user", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  username: text().unique(),
-  name: text(),
-  // first_name: text(),
-  // last_name: text(),
-  avatar_url: text(),
-  email: text().unique().notNull(),
-
-  created_at: timestamp().defaultNow().notNull(),
-  updated_at: timestamp()
-    .defaultNow()
-    .$onUpdate(() => new Date()),
-  setup_at: timestamp(),
-  terms_accepted_at: timestamp(),
-
-  wins: integer().default(0).notNull(),
-  losses: integer().default(0).notNull(),
-  draws: integer().default(0).notNull(),
-  // rating/elo?
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  emailVerified: boolean("emailVerified").notNull(),
+  image: text("image"),
+  createdAt: timestamp("createdAt").notNull(),
+  updatedAt: timestamp("updatedAt").notNull(),
+  isAnonymous: boolean("isAnonymous"),
 });
-
-export const oauthAccount = pgTable(
-  "oauth_account",
-  {
-    provider_id: text().notNull(),
-    provider_user_id: text().notNull(),
-    user_id: integer()
-      .notNull()
-      .references(() => user.id),
-  },
-  (table) => [primaryKey({ columns: [table.provider_id, table.provider_user_id] })],
-);
 
 export const session = pgTable("session", {
-  id: text().primaryKey(),
-  user_id: integer()
+  id: text("id").primaryKey(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  token: text("token").notNull().unique(),
+  createdAt: timestamp("createdAt").notNull(),
+  updatedAt: timestamp("updatedAt").notNull(),
+  ipAddress: text("ipAddress"),
+  userAgent: text("userAgent"),
+  userId: text("userId")
     .notNull()
     .references(() => user.id),
-  expires_at: timestamp({
-    withTimezone: true,
-    mode: "date",
-  }).notNull(),
 });
+
+export const account = pgTable("account", {
+  id: text("id").primaryKey(),
+  accountId: text("accountId").notNull(),
+  providerId: text("providerId").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id),
+  accessToken: text("accessToken"),
+  refreshToken: text("refreshToken"),
+  idToken: text("idToken"),
+  accessTokenExpiresAt: timestamp("accessTokenExpiresAt"),
+  refreshTokenExpiresAt: timestamp("refreshTokenExpiresAt"),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: timestamp("createdAt").notNull(),
+  updatedAt: timestamp("updatedAt").notNull(),
+});
+
+export const verification = pgTable("verification", {
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  createdAt: timestamp("createdAt"),
+  updatedAt: timestamp("updatedAt"),
+});
+
+export const jwks = pgTable("jwks", {
+  id: text("id").primaryKey(),
+  publicKey: text("publicKey").notNull(),
+  privateKey: text("privateKey").notNull(),
+  createdAt: timestamp("createdAt").notNull(),
+});
+// --- end better-auth schema ---
 
 export const endReasonEnum = pgEnum("end_reason", [
   "checkmate",
@@ -59,6 +67,7 @@ export const endReasonEnum = pgEnum("end_reason", [
   "draw",
   "abandoned",
 ]);
+export const winnerEnum = pgEnum("winner", ["white", "black"]);
 
 // a finished chess game. ongoing games will be stored in redis
 export const game = pgTable("game", {
@@ -68,9 +77,10 @@ export const game = pgTable("game", {
   end_reason: endReasonEnum().notNull(),
   pgn: text().notNull(),
 
-  winner_id: integer().references(() => user.id),
-  white_id: integer().references(() => user.id),
-  black_id: integer().references(() => user.id),
+  winner: winnerEnum(),
+  winner_id: text().references(() => user.id),
+  white_id: text().references(() => user.id),
+  black_id: text().references(() => user.id),
 
   // in case user is a guest
   winner_name: text(),

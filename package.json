@@ -10,11 +10,10 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "db": "drizzle-kit",
-    "ui": "bunx --bun shadcn@latest"
+    "ui": "bunx --bun shadcn@latest",
+    "auth": "bunx @better-auth/cli@latest"
   },
   "dependencies": {
-    "@oslojs/crypto": "^1.0.1",
-    "@oslojs/encoding": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.1",
     "@tanstack/react-query": "^5.62.10",
     "@tanstack/react-query-devtools": "^5.62.10",
@@ -23,11 +22,10 @@
     "@tanstack/router-devtools": "^1.92.3",
     "@tanstack/start": "^1.92.4",
     "@vitejs/plugin-react": "^4.3.4",
-    "arctic": "^2.3.3",
+    "better-auth": "^1.1.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.38.2",
-    "jose": "^5.9.6",
     "lucide-react": "^0.469.0",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
