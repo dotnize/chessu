@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { anonymous, jwt } from "better-auth/plugins";
+import { anonymous } from "better-auth/plugins";
 
 import { db } from "./db";
 
@@ -25,6 +25,6 @@ export const auth = betterAuth({
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
     },
   },
-  plugins: [anonymous({ emailDomainName: "ches.su" }), jwt()],
+  plugins: [anonymous({ emailDomainName: "ches.su" })],
   baseURL: process.env.VITE_BASE_URL,
 });

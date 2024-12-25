@@ -51,13 +51,6 @@ export const verification = pgTable("verification", {
   createdAt: timestamp("createdAt"),
   updatedAt: timestamp("updatedAt"),
 });
-
-export const jwks = pgTable("jwks", {
-  id: text("id").primaryKey(),
-  publicKey: text("publicKey").notNull(),
-  privateKey: text("privateKey").notNull(),
-  createdAt: timestamp("createdAt").notNull(),
-});
 // --- end better-auth schema ---
 
 export const endReasonEnum = pgEnum("end_reason", [

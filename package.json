@@ -26,6 +26,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.38.2",
+    "jose": "^5.9.6",
     "lucide-react": "^0.469.0",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
