@@ -1,6 +1,6 @@
 import { json } from "@tanstack/start";
 import { createAPIFileRoute } from "@tanstack/start/api";
-import { setCookie } from "vinxi/http";
+import { setCookie } from "@tanstack/start/server";
 
 import { auth } from "~/lib/server/auth";
 import { encrypt } from "~/lib/server/jwt";

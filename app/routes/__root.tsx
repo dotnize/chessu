@@ -9,7 +9,7 @@ import {
 import { createServerFn, Meta, Scripts } from "@tanstack/start";
 import { lazy, Suspense } from "react";
 
-import { getWebRequest } from "vinxi/http";
+import { getWebRequest } from "@tanstack/start/server";
 import { auth } from "~/lib/server/auth";
 
 import appCss from "~/lib/styles/app.css?url";
@@ -25,7 +25,7 @@ const TanStackRouterDevtools =
       );
 
 const getUser = createServerFn({ method: "GET" }).handler(async () => {
-  const { headers } = getWebRequest();
+  const { headers } = getWebRequest()!;
 
   const session = await auth.api.getSession({ headers });
 

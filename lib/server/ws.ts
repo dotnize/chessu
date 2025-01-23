@@ -1,4 +1,4 @@
-import { defineEventHandler, defineWebSocket } from "vinxi/http";
+import { defineEventHandler, defineWebSocket } from "@tanstack/start/server";
 import { parseJWT } from "./jwt";
 
 export default defineEventHandler({
