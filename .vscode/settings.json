@@ -6,17 +6,20 @@
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true,
     "pnpm-lock.yaml": true,
-    "bun.lockb": true
+    "bun.lockb": true,
+    "bun.lock": true
   },
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true,
     "pnpm-lock.yaml": true,
-    "bun.lockb": true
+    "bun.lockb": true,
+    "bun.lock": true
   },
   "search.exclude": {
     "**/routeTree.gen.ts": true,
     "pnpm-lock.yaml": true,
-    "bun.lockb": true
+    "bun.lockb": true,
+    "bun.lock": true
   },
 
   // always choose typescript from node_modules
