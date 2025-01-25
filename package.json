@@ -10,16 +10,17 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "db": "drizzle-kit",
-    "ui": "bunx --bun shadcn@latest",
-    "auth": "bunx @better-auth/cli@latest"
+    "ui": "pnpm dlx shadcn@latest",
+    "auth": "pnpm dlx @better-auth/cli@latest",
+    "auth:generate": "pnpm dlx @better-auth/cli@latest generate --y --output ./lib/server/schema/auth.schema.ts && prettier --write ./lib/server/schema/auth.schema.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.64.2",
     "@tanstack/react-query-devtools": "^5.64.2",
-    "@tanstack/react-router": "^1.97.14",
-    "@tanstack/react-router-with-query": "^1.97.14",
-    "@tanstack/router-devtools": "^1.97.14",
-    "@tanstack/start": "^1.97.15",
+    "@tanstack/react-router": "^1.97.17",
+    "@tanstack/react-router-with-query": "^1.97.17",
+    "@tanstack/router-devtools": "^1.97.17",
+    "@tanstack/start": "^1.97.17",
     "@vitejs/plugin-react": "^4.3.4",
     "better-auth": "^1.1.14",
     "drizzle-orm": "^0.38.4",
@@ -32,8 +33,8 @@
   },
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^1.24.1",
-    "@eslint/js": "^9.18.0",
-    "@tailwindcss/vite": "^4.0.0",
+    "@eslint/js": "^9.19.0",
+    "@tailwindcss/postcss": "^4.0.0",
     "@tanstack/eslint-plugin-query": "^5.64.2",
     "@tanstack/eslint-plugin-router": "^1.97.8",
     "@types/eslint__js": "^8.42.3",
@@ -41,11 +42,12 @@
     "@types/react-dom": "^19.0.3",
     "daisyui": "^5.0.0-beta.2",
     "drizzle-kit": "^0.30.2",
-    "eslint": "^9.18.0",
+    "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-react-hooks": "^5.1.0",
     "globals": "^15.14.0",
     "husky": "^9.1.7",
+    "postcss": "^8.5.1",
     "prettier": "^3.4.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
@@ -54,7 +56,9 @@
     "typescript-eslint": "^8.21.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
-  "patchedDependencies": {
-    "vinxi@0.5.1": "patches/vinxi@0.5.1.patch"
+  "pnpm": {
+    "patchedDependencies": {
+      "vinxi": "patches/vinxi.patch"
+    }
   }
 }

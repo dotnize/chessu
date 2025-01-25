@@ -1,4 +1,4 @@
-import tailwindcss from "@tailwindcss/vite";
+// import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "@tanstack/start/config";
 import tsConfigPaths from "vite-tsconfig-paths";
 
@@ -8,7 +8,7 @@ export default defineConfig({
       tsConfigPaths({
         projects: ["./tsconfig.json"],
       }),
-      tailwindcss(),
+      // tailwindcss(),
     ],
   },
 
@@ -19,7 +19,7 @@ export default defineConfig({
 
     // https://tanstack.com/router/latest/docs/framework/react/start/hosting#deployment
     // potential websocket dev issue: https://github.com/nitrojs/nitro/issues/2721
-    preset: "bun",
+    preset: "node-server",
   },
 }).addRouter({
   name: "websocket",
