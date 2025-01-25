@@ -1,14 +1,15 @@
 import { defineEventHandler, defineWebSocket } from "@tanstack/start/server";
-import { parseJWT } from "./jwt";
+import { auth } from "./auth";
 
 export default defineEventHandler({
   handler() {},
   websocket: defineWebSocket({
     async upgrade(req) {
       console.log("attempting upgrade...");
-      const payload = await parseJWT(req.headers);
 
-      if (!payload) {
+      const session = await auth.api.getSession({ headers: req.headers });
+
+      if (!session) {
         console.log("upgrade unauthorized.");
         // for some reason, adding a BodyInit causes an error on subsequent requests
         // return new Response("Unauthorized", { status: 401 });
@@ -16,28 +17,32 @@ export default defineEventHandler({
       }
 
       console.log("proceeding with upgrade.");
+      console.log(typeof req.context);
+
+      req.context.user = {
+        id: session.user.id,
+        email: session.user.email,
+        username: session.user.username,
+        name: session.user.name,
+      };
     },
     async open(peer) {
       peer.publish("test", `User ${peer} has connected!`);
 
-      const payload = await parseJWT(peer.request?.headers);
-      if (!payload) {
-        return peer.close();
-      }
-
-      console.log(payload);
+      console.log("-------- context");
+      console.log(typeof peer.context);
+      console.log(peer.context);
 
       peer.send("You have connected successfully!");
       peer.subscribe("test");
     },
     async message(peer, msg) {
-      const payload = await parseJWT(peer.request?.headers);
-      if (!payload) {
-        return peer.close();
-      }
+      console.log("-------- context");
+      console.log(typeof peer.context);
+      console.log(peer.context);
 
       const message = msg.text();
-      console.log(`msg from userid '${payload.userId}': `, message);
+      console.log(`msg from userid '${peer.context.userId}': `, message);
       peer.publish("test", message);
       peer.send("Hello to you!");
     },
