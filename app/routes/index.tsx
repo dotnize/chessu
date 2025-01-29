@@ -3,15 +3,20 @@ import authClient from "~/lib/utils/auth-client";
 
 export const Route = createFileRoute("/")({
   component: Home,
+  loader: ({ context }) => {
+    return {
+      user: context.user,
+    };
+  },
 });
 
 function Home() {
-  const { user } = Route.useRouteContext();
+  const { user } = Route.useLoaderData();
   const router = useRouter();
 
   return (
     <div className="flex flex-col gap-4 p-6">
-      <h1 className="text-4xl font-bold">TanStarter</h1>
+      <h1 className="text-4xl font-bold bg-green-500">TanStarter</h1>
       <div className="flex items-center gap-2">
         This is an unprotected page:
         <pre className="bg-base-200 border-base-300 rounded-md border p-1">
