@@ -1,12 +1,17 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { type ComponentProps } from "react";
+import { Button } from "~/lib/components/ui/button";
+import { cn } from "~/lib/utils";
 import authClient from "~/lib/utils/auth-client";
+
+const REDIRECT_URL = "/dashboard";
 
 export const Route = createFileRoute("/signin")({
   component: AuthPage,
   beforeLoad: async ({ context }) => {
     if (context.user) {
       throw redirect({
-        to: "/dashboard",
+        to: REDIRECT_URL,
       });
     }
   },
@@ -15,38 +20,51 @@ export const Route = createFileRoute("/signin")({
 function AuthPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="bg-base-200 flex flex-col items-center gap-8 rounded-xl p-10">
+      <div className="flex flex-col items-center gap-8 rounded-xl border bg-card p-10">
         Logo here
         <div className="flex flex-col gap-2">
-          <button
-            onClick={() => {
-              authClient.signIn.social({ provider: "discord" });
-            }}
-            type="button"
-            className="btn btn-lg btn-soft w-fit"
-          >
-            Sign in with Discord
-          </button>
-          <button
-            onClick={() => {
-              authClient.signIn.social({ provider: "github" });
-            }}
-            type="button"
-            className="btn btn-lg btn-soft w-fit"
-          >
-            Sign in with GitHub
-          </button>
-          <button
-            onClick={() => {
-              authClient.signIn.social({ provider: "google" });
-            }}
-            type="button"
-            className="btn btn-lg btn-soft w-fit"
-          >
-            Sign in with Google
-          </button>
+          <SignInButton
+            provider="discord"
+            label="Discord"
+            className="bg-[#5865F2] hover:bg-[#5865F2]/80"
+          />
+          <SignInButton
+            provider="github"
+            label="GitHub"
+            className="bg-neutral-700 hover:bg-neutral-700/80"
+          />
+          <SignInButton
+            provider="google"
+            label="Google"
+            className="bg-[#DB4437] hover:bg-[#DB4437]/80"
+          />
         </div>
       </div>
     </div>
+  );
+}
+
+interface SignInButtonProps extends ComponentProps<typeof Button> {
+  provider: "discord" | "google" | "github";
+  label: string;
+}
+
+function SignInButton({ provider, label, className, ...props }: SignInButtonProps) {
+  return (
+    <Button
+      onClick={() =>
+        authClient.signIn.social({
+          provider,
+          callbackURL: REDIRECT_URL,
+        })
+      }
+      type="button"
+      variant="outline"
+      size="lg"
+      className={cn("text-white hover:text-white", className)}
+      {...props}
+    >
+      Sign in with {label}
+    </Button>
   );
 }

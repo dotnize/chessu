@@ -1,4 +1,5 @@
 import { Link, Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { Button } from "~/lib/components/ui/button";
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardLayout,
@@ -6,6 +7,10 @@ export const Route = createFileRoute("/dashboard")({
     if (!context.user) {
       throw redirect({ to: "/signin" });
     }
+
+    // `context.queryClient` is also available in our loaders
+    // https://tanstack.com/start/latest/docs/framework/react/examples/start-basic-react-query
+    // https://tanstack.com/router/latest/docs/framework/react/guide/external-data-loading
   },
 });
 
@@ -15,14 +20,14 @@ function DashboardLayout() {
       <h1 className="text-4xl font-bold">Dashboard Layout</h1>
       <div className="flex items-center gap-2">
         This is a protected layout:
-        <pre className="bg-base-200 border-base-300 rounded-md border p-1">
-          routes/dashboard.tsx
+        <pre className="rounded-md border bg-card p-1 text-card-foreground">
+          routes/dashboard/route.tsx
         </pre>
       </div>
 
-      <Link to="/" className="btn btn-lg w-fit">
-        Back to Home
-      </Link>
+      <Button type="button" asChild className="w-fit" size="lg">
+        <Link to="/">Back to Home</Link>
+      </Button>
 
       <Outlet />
     </div>
