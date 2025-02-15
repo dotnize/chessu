@@ -2,7 +2,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "@tanstack/start/config";
 import tsConfigPaths from "vite-tsconfig-paths";
 
-export default defineConfig({
+const config = await defineConfig({
   vite: {
     plugins: [
       tsConfigPaths({
@@ -21,7 +21,9 @@ export default defineConfig({
     // potential websocket dev issue: https://github.com/nitrojs/nitro/issues/2721
     preset: "node-server",
   },
-}).addRouter({
+});
+
+config.addRouter({
   name: "websocket",
   type: "http",
   handler: "./lib/server/ws.ts",
@@ -29,3 +31,5 @@ export default defineConfig({
   base: "/_ws",
   plugins: () => [tsConfigPaths()],
 });
+
+export default config;

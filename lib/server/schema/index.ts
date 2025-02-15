@@ -2,7 +2,6 @@ import { integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { user } from "./auth.schema";
 
 export * from "./auth.schema";
-// export your other schemas here
 
 export const endReasonEnum = pgEnum("end_reason", [
   "checkmate",
@@ -11,9 +10,8 @@ export const endReasonEnum = pgEnum("end_reason", [
   "draw",
   "abandoned",
 ]);
-export const winnerEnum = pgEnum("winner", ["white", "black"]);
 
-// a finished chess game. ongoing games will be stored in redis
+// a finished chess game. ongoing games will be stored in redis or other kv store
 export const game = pgTable("game", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   started_at: timestamp().notNull(),
@@ -21,15 +19,9 @@ export const game = pgTable("game", {
   end_reason: endReasonEnum().notNull(),
   pgn: text().notNull(),
 
-  winner: winnerEnum(),
   winner_id: text().references(() => user.id),
   white_id: text().references(() => user.id),
   black_id: text().references(() => user.id),
-
-  // in case user is a guest
-  winner_name: text(),
-  white_name: text(),
-  black_name: text(),
 });
 
 export type User = typeof user.$inferSelect;
