@@ -1,0 +1,6 @@
+routeTree.gen.ts
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+bun.lock
+.drizzle/
