@@ -1,4 +1,4 @@
-import { defineEventHandler, defineWebSocket } from "@tanstack/start/server";
+import { defineEventHandler, defineWebSocket } from "@tanstack/react-start/server";
 import { auth } from "./auth";
 
 export default defineEventHandler({
