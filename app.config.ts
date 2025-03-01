@@ -12,6 +12,20 @@ const config = await defineConfig({
     ],
   },
 
+  // https://react.dev/learn/react-compiler
+  react: {
+    babel: {
+      plugins: [
+        [
+          "babel-plugin-react-compiler",
+          {
+            target: "19",
+          },
+        ],
+      ],
+    },
+  },
+
   server: {
     experimental: {
       websocket: true,
