@@ -1,5 +1,4 @@
 import type { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   createRootRouteWithContext,
   HeadContent,
@@ -8,34 +7,30 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { lazy, Suspense } from "react";
-
 import { getWebRequest } from "@tanstack/react-start/server";
+
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
 import { auth } from "~/lib/server/auth";
-
 import appCss from "~/lib/styles/app.css?url";
-
-const TanStackRouterDevtools =
-  process.env.NODE_ENV === "production"
-    ? () => null // Render nothing in production
-    : lazy(() =>
-        // Lazy load in development
-        import("@tanstack/router-devtools").then((res) => ({
-          default: res.TanStackRouterDevtools,
-        })),
-      );
 
 const getUser = createServerFn({ method: "GET" }).handler(async () => {
   const { headers } = getWebRequest()!;
-
   const session = await auth.api.getSession({ headers });
 
   return session?.user || null;
 });
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  beforeLoad: async () => {
-    const user = await getUser();
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+  user: Awaited<ReturnType<typeof getUser>>;
+}>()({
+  beforeLoad: async ({ context }) => {
+    const user = await context.queryClient.fetchQuery({
+      queryKey: ["user"],
+      queryFn: ({ signal }) => getUser({ signal }),
+    }); // we're using react-query for caching, see router.tsx
     return { user };
   },
   head: () => ({
@@ -66,6 +61,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
   return (
+    // suppress since we're updating the "dark" class in a custom script below
     <html suppressHydrationWarning>
       <head>
         <HeadContent />
@@ -79,10 +75,9 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
         </ScriptOnce>
 
         {children}
+
         <ReactQueryDevtools buttonPosition="bottom-left" />
-        <Suspense>
-          <TanStackRouterDevtools position="bottom-right" />
-        </Suspense>
+        <TanStackRouterDevtools position="bottom-right" />
 
         <Scripts />
       </body>

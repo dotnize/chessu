@@ -26,6 +26,11 @@ const config = await defineConfig({
     },
   },
 
+  tsr: {
+    // https://github.com/TanStack/router/discussions/2863#discussioncomment-12458714
+    appDirectory: "./src",
+  },
+
   server: {
     experimental: {
       websocket: true,
@@ -40,7 +45,7 @@ const config = await defineConfig({
 config.addRouter({
   name: "websocket",
   type: "http",
-  handler: "./lib/server/ws.ts",
+  handler: "./src/lib/server/ws.ts",
   target: "server",
   base: "/_ws",
   plugins: () => [tsConfigPaths()],
