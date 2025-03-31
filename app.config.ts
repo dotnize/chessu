@@ -40,15 +40,15 @@ const config = await defineConfig({
     // potential websocket dev issue: https://github.com/nitrojs/nitro/issues/2721
     preset: "node-server",
   },
-});
-
-config.addRouter({
-  name: "websocket",
-  type: "http",
-  handler: "./src/lib/server/ws.ts",
-  target: "server",
-  base: "/_ws",
-  plugins: () => [tsConfigPaths()],
-});
+}).then((config) =>
+  config.addRouter({
+    name: "websocket",
+    type: "http",
+    handler: "./src/lib/server/ws.ts",
+    target: "server",
+    base: "/_ws",
+    plugins: () => [tsConfigPaths()],
+  }),
+);
 
 export default config;

@@ -14,14 +14,14 @@ export const endReasonEnum = pgEnum("end_reason", [
 // a finished chess game. ongoing games will be stored in redis or other kv store
 export const game = pgTable("game", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  started_at: timestamp().notNull(),
-  ended_at: timestamp().notNull().defaultNow(),
-  end_reason: endReasonEnum().notNull(),
+  startedAt: timestamp().notNull(),
+  endedAt: timestamp().notNull().defaultNow(),
+  endReason: endReasonEnum().notNull(),
   pgn: text().notNull(),
 
-  winner_id: text().references(() => user.id),
-  white_id: text().references(() => user.id),
-  black_id: text().references(() => user.id),
+  winnerId: text().references(() => user.id),
+  whiteId: text().references(() => user.id),
+  blackId: text().references(() => user.id),
 });
 
 export type User = typeof user.$inferSelect;
