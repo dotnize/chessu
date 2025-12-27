@@ -19,7 +19,6 @@
   "devDependencies": {
     "@chessu/eslint-config": "workspace:*",
     "@chessu/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
     "drizzle-kit": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"

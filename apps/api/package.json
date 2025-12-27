@@ -1,0 +1,17 @@
+{
+  "name": "@chessu/api",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "elysia": "catalog:"
+  },
+  "devDependencies": {
+    "@chessu/eslint-config": "workspace:*",
+    "@chessu/tsconfig": "workspace:*",
+    "bun-types": "catalog:",
+    "eslint": "catalog:"
+  },
+  "module": "src/index.js"
+}
