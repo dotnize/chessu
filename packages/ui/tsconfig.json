@@ -1,0 +1,10 @@
+{
+  "extends": "@chessu/tsconfig/base.json",
+  "compilerOptions": {
+    "paths": {
+      "@chessu/ui/*": ["./*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

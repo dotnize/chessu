@@ -1,0 +1,13 @@
+{
+  "extends": "@chessu/tsconfig/base.json",
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["./src/*"],
+
+      // for shadcn CLI
+      "@chessu/ui/*": ["../../packages/ui/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

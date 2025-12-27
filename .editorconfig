@@ -3,9 +3,8 @@ root = true
 [*]
 end_of_line = lf
 insert_final_newline = true
-
-[*.{js,ts,json}]
-indent_size = 4
-
-[*.{jsx,tsx,html}]
+indent_style = space
 indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = true
+max_line_length = 90
