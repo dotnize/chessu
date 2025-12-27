@@ -21,32 +21,33 @@
 - mobile-friendly
 - ... and more ([view roadmap](https://github.com/users/dotnize/projects/2))
 
-Built with Next.js 14, Tailwind CSS + daisyUI, react-chessboard, chess.js, Express.js, socket.io and PostgreSQL.
+Built with TanStack Start, Elysia, Tailwind CSS + shadcn/ui, react-chessboard, and chess.js.
 
 ## Development
 
-> Node.js 20 or newer is recommended.
+This project is structured as a monorepo using Turborepo and Bun.
 
-This project is structured as a monorepo using **pnpm** workspaces, separated into three packages:
-
-- `client` - Next.js application for the front-end, ~~deployed to ches.su via Vercel~~.
-- `server` - Node/Express.js application for the back-end, ~~deployed to server.ches.su via Railway~~.
-- `types` - Shared type definitions required by the client and server.
+```sh
+├── apps
+│   ├── api               # Elysia backend server
+│   └── web               # TanStack Start web app
+├── packages
+│   ├── auth              # Better Auth
+│   ├── db                # Drizzle ORM
+│   └── ui                # shadcn/ui components
+└── tooling
+    ├── eslint-config     # Shared ESLint config
+    └── tsconfig          # Shared TypeScript config
+```
 
 ### Getting started
 
-1. Install [pnpm](https://pnpm.io/installation).
-2. Install the necessary dependencies by running `pnpm install` in the root directory of the project.
-3. In the `server` directory, create a `.env` file for your PostgreSQL database. You can try [ElephantSQL](https://www.elephantsql.com/) or [Aiven](https://aiven.io/postgresql) for a free hosted database.
-   ```env
-   PGHOST=db.example.com
-   PGUSER=exampleuser
-   PGPASSWORD=examplepassword
-   PGDATABASE=chessu
-   ```
-4. Run the development servers with `pnpm dev`.
-   - To run the frontend and backend servers separately, use `pnpm dev:client` and `pnpm dev:server`, respectively.
-5. You can now access the frontend at http://localhost:3000 and the backend at http://localhost:3001.
+1. Install [bun](http://bun.com/docs/installation).
+2. Install the necessary dependencies by running `bun install` in the root directory of the project.
+3. Run the development servers with `bun dev`.
+   - To run the web app and API servers separately, use `bun dev:web` and `bun dev:api`, respectively.
+   - You may also use `./dev.sh` to start both servers with a local PostgreSQL database using Docker Compose.
+4. You can now access the web app at http://localhost:3000 and the API at http://localhost:3001.
 
 ## Running chessu with Docker
 
